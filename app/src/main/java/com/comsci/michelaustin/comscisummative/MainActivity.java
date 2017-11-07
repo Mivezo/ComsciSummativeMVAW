@@ -1,5 +1,6 @@
 package com.comsci.michelaustin.comscisummative;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +15,9 @@ public class MainActivity extends AppCompatActivity {
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
 
         if (prefs.getBoolean("firstrun", true)) {
-          setContentView(R.layout.activity_firstopening);
-          prefs.edit().putBoolean("firstrun", false).commit();
+          Intent startMenu = new Intent(this, firstopening.class);
+          startActivity(startMenu);
+          prefs.edit().putBoolean("firstrun", false).apply();
         }
         else{
             setContentView(R.layout.activity_main);
