@@ -5,6 +5,7 @@ package com.comsci.michelaustin.comscisummative;
  */
 
 public class QuestionLibrary {
+    //string array of questions
     private String mQuestions[] = {
             "What is the medical meaning of shock?",
             "Can shock be lethal?",
@@ -13,39 +14,42 @@ public class QuestionLibrary {
             "What is not an appropriate way to treat shock"
     };;
 
+    //string array of answers for each specific question
     private String mAnswers[][]={
             {"Vital organs lack oxygen rich blood","Cut off circulation to the limbs", "Fright caused by a certain situation", "Excessive shaking"},
-            {"Yes", "No"},
+            {"Yes", "No", "", ""},
             {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection", "Contusion to the brain"},
             {"Excessive thirst", "Rapid breathing", "Pale skin", "Eyes roll to back of head"},
             {"Warming up the victim", "Having the victim lay down in a comfortable position", "Performing cpr on the victim", "Monitor airway and breathing"}
     };
 
+    //string array of correct answers
     private String mCorrectAnswers[][] = {
-            { "Vital organs lack oxygen rich blood"},
-            {"Yes"},
-            {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection"},
-            {"Eyes roll to back of head"},
-            {"Performing cpr on the victim"}
+            { "Vital organs lack oxygen rich blood", "1"},
+            {"Yes", "1"},
+            {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection", "3"},
+            {"Eyes roll to back of head","1"},
+            {"Performing cpr on the victim","1"}
     };
 
+    //Returns the specific question in the array
     public String getQuestion(int i){
         String question = mQuestions[i];
         return question;
     }
 
-    public String getChoice1(int i){
-        if(mAnswers[i][0]!=null){
-            String choice= mAnswers[i][0];
+    public String getChoice(int i,int q){
+        if(mAnswers[i][q]!=""){
+            String choice= mAnswers[i][q];
             return choice;
         }
         else{
-            return "test";
+            return "";
         }
     }
 
-    public String getChoice2(int i){
-        if(mAnswers[i][1]!=null){
+    /*public String getChoice2(int i){
+        if(mAnswers[i][1]!=""){
             String choice= mAnswers[i][1];
             return choice;
         }
@@ -66,17 +70,25 @@ public class QuestionLibrary {
             return choice;
         }
         else return "test";
-    }
+    }*/
 
+    //returns the correct answer based on the question
     public String getCorrectAnswer(int i){
 
+        int numCorrect = mCorrectAnswers[i].length;
+        int numCorrectString = Integer.parseInt(mCorrectAnswers[i][numCorrect-1]);
 
-        if(mCorrectAnswers[i].length==1){
+
+        if(numCorrectString==1){
             return mCorrectAnswers[i][0];
         }
         else{
             return "Test";
         }
+    }
+
+    private void testComplete(int q){
+
     }
 
 

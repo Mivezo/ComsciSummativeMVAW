@@ -2,6 +2,7 @@ package com.comsci.michelaustin.comscisummative;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     private String mAnswer;
     private int questionNumber=0;
+
 
     private QuestionLibrary mQuestionLibrary = new QuestionLibrary();
 
@@ -35,13 +37,27 @@ public class QuizMenuActivity extends AppCompatActivity {
 
         //
         displayQuestions(); //displaying the questions on the option buttons
-        mAnswer = mQuestionLibrary.getCorrectAnswer(questionNumber);
 
+
+        // Sets onclick listener for each button to test whether the user clicked the right one
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(option1.getText()== mAnswer){
                     option1.setBackgroundColor(Color.GREEN);
+                    questionNumber+=1;
+
+                    //Adding delay to the button to make green visible
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 1.5s = 1500ms
+                            displayQuestions();
+
+                        }
+                    }, 1500);
+
                 }
                 else option1.setBackgroundColor(Color.RED);
             }
@@ -51,6 +67,8 @@ public class QuizMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(option2.getText()== mAnswer){
                     option2.setBackgroundColor(Color.GREEN);
+                    questionNumber++;
+                    displayQuestions();
                 }
                 else option2.setBackgroundColor(Color.RED);
             }
@@ -60,6 +78,8 @@ public class QuizMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(option3.getText()== mAnswer){
                     option3.setBackgroundColor(Color.GREEN);
+                    questionNumber++;
+                    displayQuestions();
                 }
                 else option3.setBackgroundColor(Color.RED);
             }
@@ -69,6 +89,8 @@ public class QuizMenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(option4.getText()== mAnswer){
                     option4.setBackgroundColor(Color.GREEN);
+                    questionNumber++;
+                    displayQuestions();
                 }
                 else option4.setBackgroundColor(Color.RED);
             }
@@ -76,12 +98,50 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     }
 
+    //Displays the questions on the screen as well as fetches the correct answer
     private void displayQuestions(){
         questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
-        option1.setText(mQuestionLibrary.getChoice1(questionNumber));
-        option2.setText(mQuestionLibrary.getChoice2(questionNumber));
-        option3.setText(mQuestionLibrary.getChoice3(questionNumber));
-        option4.setText(mQuestionLibrary.getChoice4(questionNumber));
+        option1.setText(getQuestion(questionNumber,0));
+        option1.setBackgroundColor(Color.WHITE);
+        option2.setText(getQuestion(questionNumber,1));
+        option2.setBackgroundColor(Color.WHITE);
 
+
+        option3.setBackgroundColor(Color.WHITE);
+        if (testWhetherBlank(2) == true) {
+            option3.setVisibility(View.GONE);
+        }
+        else{
+            option3.setVisibility(View.VISIBLE);
+            option3.setText(getQuestion(questionNumber,2));
+        }
+
+        if (testWhetherBlank(3) == true) {
+            option4.setVisibility(View.GONE);
+        }
+        else{
+            option4.setVisibility(View.VISIBLE);
+            option4.setText(getQuestion(questionNumber,3));
+        }
+
+        option4.setBackgroundColor(Color.WHITE);
+        mAnswer = mQuestionLibrary.getCorrectAnswer(questionNumber);
+
+    }
+
+    public boolean testWhetherBlank(int q){
+        if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+
+    private String getQuestion(int q, int n){
+        String result = mQuestionLibrary.getChoice(q,n);
+        return result;
     }
 }
