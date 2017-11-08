@@ -7,19 +7,27 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 public class firstopening extends AppCompatActivity {
-    ImageButton buoyButton;
+    ImageButton buoyButton, infoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstopening);
 
-        buoyButton = (ImageButton) findViewById(R.id.imageButton2);
+        buoyButton = findViewById(R.id.lgbuoy);
+        infoButton = findViewById(R.id.info);
 
         buoyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getBaseContext(), "Your answer is correct!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "lgbuoy", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(), "info", Toast.LENGTH_SHORT).show();
             }
         });
     }
