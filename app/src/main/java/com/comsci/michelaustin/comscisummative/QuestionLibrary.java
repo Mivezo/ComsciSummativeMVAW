@@ -1,5 +1,7 @@
 package com.comsci.michelaustin.comscisummative;
 
+import java.util.ArrayList;
+
 /**
  * Created by Austin on 2017-11-06.
  */
@@ -25,12 +27,14 @@ public class QuestionLibrary {
 
     //string array of correct answers
     private String mCorrectAnswers[][] = {
-            { "Vital organs lack oxygen rich blood", "1"},
-            {"Yes", "1"},
-            {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection", "3"},
-            {"Eyes roll to back of head","1"},
-            {"Performing cpr on the victim","1"}
+            { "Vital organs lack oxygen rich blood"},
+            {"Yes"},
+            {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection"},
+            {"Eyes roll to back of head"},
+            {"Performing cpr on the victim"}
     };
+
+    ArrayList currentCorrectAnswerArray = new ArrayList();
 
     //Returns the specific question in the array
     public String getQuestion(int i){
@@ -73,22 +77,34 @@ public class QuestionLibrary {
     }*/
 
     //returns the correct answer based on the question
-    public String getCorrectAnswer(int i){
+    public ArrayList getCorrectAnswer(int i){
 
-        int numCorrect = mCorrectAnswers[i].length;
-        int numCorrectString = Integer.parseInt(mCorrectAnswers[i][numCorrect-1]);
+        /*int correctAnswerLength = mCorrectAnswers[i].length;
+        int numCorrect = Integer.parseInt(mCorrectAnswers[i][correctAnswerLength-1]);
 
 
-        if(numCorrectString==1){
+        if(numCorrect==1){
             return mCorrectAnswers[i][0];
         }
         else{
             return "Test";
+        }*/
+
+
+        currentCorrectAnswerArray.clear();
+        for(int j = 0; j<mCorrectAnswers[i].length; j++){
+           currentCorrectAnswerArray.add(mCorrectAnswers[i][j]);
         }
+
+        return currentCorrectAnswerArray;
+
+
     }
 
-    private void testComplete(int q){
 
+
+    public int getNumCorrect(int c){
+       return mCorrectAnswers[c].length;
     }
 
 

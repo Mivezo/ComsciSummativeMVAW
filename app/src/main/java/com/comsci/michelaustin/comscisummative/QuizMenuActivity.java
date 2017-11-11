@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class QuizMenuActivity extends AppCompatActivity {
 
     private TextView questionLabel;
@@ -15,9 +17,12 @@ public class QuizMenuActivity extends AppCompatActivity {
     private Button option2;
     private Button option3;
     private Button option4;
-
-    private String mAnswer;
+    /*private String mAnswer;*/
     private int questionNumber=0;
+    private int amountCorrect;//integer needed if there are multiple answers
+    private int amountCorrectComparison=0;//integer to compare
+
+    ArrayList answerArray = new ArrayList();
 
 
     private QuestionLibrary mQuestionLibrary = new QuestionLibrary();
@@ -43,62 +48,93 @@ public class QuizMenuActivity extends AppCompatActivity {
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(option1.getText()== mAnswer){
-                    option1.setBackgroundColor(Color.GREEN);
-                    questionNumber+=1;
+                /*boolean correct = false;
+                for (int i = 0; i<answerArray.size(); i++){
 
-                    //Adding delay to the button to make green visible
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Do something after 1.5s = 1500ms
-                            displayQuestions();
+                    if(option1.getText()== answerArray.get(i)){
+                        option1.setBackgroundColor(Color.GREEN);
+                        amountCorrectComparison++;
+                        correct=true;
 
+                        if(testComplete()){
+                            questionNumber+=1;
+                            switchQuestion();
                         }
-                    }, 1500);
+
+                    }
 
                 }
-                else option1.setBackgroundColor(Color.RED);
+                if(correct=false){
+                    option1.setBackgroundColor(Color.RED);
+                }*/
+
+                checkAnswer(option1);
+
+
+
+
+
             }
         });
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(option2.getText()== mAnswer){
-                    option2.setBackgroundColor(Color.GREEN);
-                    questionNumber++;
-                    displayQuestions();
-                }
-                else option2.setBackgroundColor(Color.RED);
+                /*for (int i = 0; i<answerArray.size(); i++){
+                    if(option2.getText()== answerArray.get(i)){
+                        option2.setBackgroundColor(Color.GREEN);
+                        amountCorrectComparison++;
+
+                        if(testComplete()){
+                            questionNumber+=1;
+                            switchQuestion();
+                        }
+                    }
+                    else option2.setBackgroundColor(Color.RED);
+                }*/
+                checkAnswer(option2);
             }
         });
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(option3.getText()== mAnswer){
-                    option3.setBackgroundColor(Color.GREEN);
-                    questionNumber++;
-                    displayQuestions();
-                }
-                else option3.setBackgroundColor(Color.RED);
+                /*for (int i = 0; i<answerArray.size(); i++){
+                    if(option3.getText()== answerArray.get(i)){
+                        option3.setBackgroundColor(Color.GREEN);
+                        amountCorrectComparison++;
+
+                        if(testComplete()){
+                            questionNumber+=1;
+                            switchQuestion();
+                        }
+                    }
+                    else option3.setBackgroundColor(Color.RED);
+                }*/
+                checkAnswer(option3);
             }
         });
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(option4.getText()== mAnswer){
-                    option4.setBackgroundColor(Color.GREEN);
-                    questionNumber++;
-                    displayQuestions();
-                }
-                else option4.setBackgroundColor(Color.RED);
+                /*for (int i = 0; i<answerArray.size(); i++){
+                    if(option4.getText()== answerArray.get(i)){
+                        option4.setBackgroundColor(Color.GREEN);
+                        amountCorrectComparison++;
+
+                        if(testComplete()){
+                            questionNumber+=1;
+                            switchQuestion();
+                        }
+                    }
+                    else option4.setBackgroundColor(Color.RED);
+                }*/
+                checkAnswer(option4);
             }
         });
 
     }
 
     //Displays the questions on the screen as well as fetches the correct answer
+    //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
         questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
         option1.setText(getQuestion(questionNumber,0));
@@ -125,10 +161,16 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
 
         option4.setBackgroundColor(Color.WHITE);
-        mAnswer = mQuestionLibrary.getCorrectAnswer(questionNumber);
+        /*mAnswer = mQuestionLibrary.getCorrectAnswer(questionNumber);*/
+        answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
+
+
+        amountCorrect=mQuestionLibrary.getNumCorrect(questionNumber);
+
 
     }
 
+    //allows the UI to test and remove buttons if the options are blank
     public boolean testWhetherBlank(int q){
         if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
             return true;
@@ -140,8 +182,57 @@ public class QuizMenuActivity extends AppCompatActivity {
     }
 
 
+    //fetches the correct question from the QuestionLibrary class
     private String getQuestion(int q, int n){
         String result = mQuestionLibrary.getChoice(q,n);
         return result;
+    }
+
+    //Testing whether the user chose all possible answers
+    private boolean testComplete(){
+        if(amountCorrectComparison == amountCorrect){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    //checks whether the button pressed is a correct answer or not
+    private void checkAnswer(Button b){
+        boolean correct = false;
+        for (int i = 0; i<answerArray.size(); i++){
+
+            if(b.getText()== answerArray.get(i)){
+                b.setBackgroundColor(Color.GREEN);
+                amountCorrectComparison++;
+                correct=true;
+
+                if(testComplete()){
+                    questionNumber+=1;
+                    switchQuestion();
+                }
+
+            }
+
+        }
+        if(!correct){
+            b.setBackgroundColor(Color.RED);
+        }
+
+    }
+
+    //Adding delay to the button to make green visible
+    private void switchQuestion(){
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 1.5s = 1500ms
+                displayQuestions();
+
+            }
+        }, 1500);
+        amountCorrectComparison=0;
     }
 }
