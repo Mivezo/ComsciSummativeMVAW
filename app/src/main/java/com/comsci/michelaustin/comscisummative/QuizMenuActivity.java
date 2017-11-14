@@ -22,10 +22,13 @@ public class QuizMenuActivity extends AppCompatActivity {
     private int amountCorrect;//integer needed if there are multiple answers
     private int amountCorrectComparison=0;//integer to compare
 
+
+
     ArrayList answerArray = new ArrayList();
 
 
     private QuestionLibrary mQuestionLibrary = new QuestionLibrary();
+
 
 
 
