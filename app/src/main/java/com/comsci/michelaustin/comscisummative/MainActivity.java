@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void showPopup(View v) {
+    /*public void showPopup(View v) {
         Log.d("Test", "test");
         TextView nextButton;
         TextView explanationLabel;
@@ -57,5 +55,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         dialog.show();
-    }
+    }*/
 }

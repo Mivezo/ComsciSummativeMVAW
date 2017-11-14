@@ -19,7 +19,7 @@
         android:textColor="@android:color/background_dark"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintHorizontal_bias="0.871"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,11 +37,11 @@
 
     <TextView
         android:id="@+id/explanationText"
-        android:layout_width="340dp"
+        android:layout_width="311dp"
         android:layout_height="338dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
         android:text=""
         android:textColor="@color/colorWhite"

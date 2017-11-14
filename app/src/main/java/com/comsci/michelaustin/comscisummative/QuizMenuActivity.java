@@ -1,5 +1,6 @@
 package com.comsci.michelaustin.comscisummative;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,9 @@ public class QuizMenuActivity extends AppCompatActivity {
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
     private int amountCorrectComparison=0;//integer to compare
+    private String explanation="";
 
+    private Dialog dialog;
 
 
     ArrayList answerArray = new ArrayList();
@@ -43,93 +46,33 @@ public class QuizMenuActivity extends AppCompatActivity {
         option4 = (Button) findViewById(R.id.option4);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
 
-        //
-        displayQuestions(); //displaying the questions on the option buttons
+        displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
 
+        //creating a dialog for the popup window
+        dialog = new Dialog(this);
 
         // Sets onclick listener for each button to test whether the user clicked the right one
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*boolean correct = false;
-                for (int i = 0; i<answerArray.size(); i++){
-
-                    if(option1.getText()== answerArray.get(i)){
-                        option1.setBackgroundColor(Color.GREEN);
-                        amountCorrectComparison++;
-                        correct=true;
-
-                        if(testComplete()){
-                            questionNumber+=1;
-                            switchQuestion();
-                        }
-
-                    }
-
-                }
-                if(correct=false){
-                    option1.setBackgroundColor(Color.RED);
-                }*/
-
                 checkAnswer(option1);
-
-
-
-
-
             }
         });
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*for (int i = 0; i<answerArray.size(); i++){
-                    if(option2.getText()== answerArray.get(i)){
-                        option2.setBackgroundColor(Color.GREEN);
-                        amountCorrectComparison++;
-
-                        if(testComplete()){
-                            questionNumber+=1;
-                            switchQuestion();
-                        }
-                    }
-                    else option2.setBackgroundColor(Color.RED);
-                }*/
                 checkAnswer(option2);
             }
         });
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*for (int i = 0; i<answerArray.size(); i++){
-                    if(option3.getText()== answerArray.get(i)){
-                        option3.setBackgroundColor(Color.GREEN);
-                        amountCorrectComparison++;
-
-                        if(testComplete()){
-                            questionNumber+=1;
-                            switchQuestion();
-                        }
-                    }
-                    else option3.setBackgroundColor(Color.RED);
-                }*/
                 checkAnswer(option3);
             }
         });
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*for (int i = 0; i<answerArray.size(); i++){
-                    if(option4.getText()== answerArray.get(i)){
-                        option4.setBackgroundColor(Color.GREEN);
-                        amountCorrectComparison++;
-
-                        if(testComplete()){
-                            questionNumber+=1;
-                            switchQuestion();
-                        }
-                    }
-                    else option4.setBackgroundColor(Color.RED);
-                }*/
                 checkAnswer(option4);
             }
         });
@@ -140,14 +83,15 @@ public class QuizMenuActivity extends AppCompatActivity {
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
         questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
+
         option1.setText(getQuestion(questionNumber,0));
         option1.setBackgroundColor(Color.WHITE);
         option2.setText(getQuestion(questionNumber,1));
         option2.setBackgroundColor(Color.WHITE);
-
-
         option3.setBackgroundColor(Color.WHITE);
-        if (testWhetherBlank(2) == true) {
+        option4.setBackgroundColor(Color.WHITE);
+        //to test specifically for true and false questions and to remove visibility of the last two buttons
+        if (testWhetherBlank(2)) {
             option3.setVisibility(View.GONE);
         }
         else{
@@ -155,7 +99,7 @@ public class QuizMenuActivity extends AppCompatActivity {
             option3.setText(getQuestion(questionNumber,2));
         }
 
-        if (testWhetherBlank(3) == true) {
+        if (testWhetherBlank(3)) {
             option4.setVisibility(View.GONE);
         }
         else{
@@ -163,10 +107,10 @@ public class QuizMenuActivity extends AppCompatActivity {
             option4.setText(getQuestion(questionNumber,3));
         }
 
-        option4.setBackgroundColor(Color.WHITE);
-        /*mAnswer = mQuestionLibrary.getCorrectAnswer(questionNumber);*/
+        //
         answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
 
+        explanation=mQuestionLibrary.getExplanation(questionNumber);
 
         amountCorrect=mQuestionLibrary.getNumCorrect(questionNumber);
 
@@ -203,21 +147,21 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     //checks whether the button pressed is a correct answer or not
     private void checkAnswer(Button b){
-        boolean correct = false;
-        for (int i = 0; i<answerArray.size(); i++){
 
+        boolean correct = false;
+
+        for (int i = 0; i<answerArray.size(); i++){
+            //compares the text on the button with the arraylist
             if(b.getText()== answerArray.get(i)){
-                b.setBackgroundColor(Color.GREEN);
-                amountCorrectComparison++;
+                b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
+                amountCorrectComparison++; //increment integer to compare with set number of correct answers
                 correct=true;
 
                 if(testComplete()){
                     questionNumber+=1;
-                    switchQuestion();
+                    showPopup(this.findViewById(android.R.id.content));
                 }
-
             }
-
         }
         if(!correct){
             b.setBackgroundColor(Color.RED);
@@ -237,5 +181,27 @@ public class QuizMenuActivity extends AppCompatActivity {
             }
         }, 1500);
         amountCorrectComparison=0;
+    }
+
+    public void showPopup(View v) {
+        TextView nextButton;
+        TextView explanationLabel;
+        TextView explanationText;
+        dialog.setContentView(R.layout.custompopup);
+
+        explanationLabel = (TextView) dialog.findViewById(R.id.explanationLabel);
+        nextButton = (TextView) dialog.findViewById(R.id.nextText);
+        explanationText = (TextView) dialog.findViewById(R.id.explanationText);
+        explanationText.setText(explanation);
+
+        //Switches the question when the next button is pressed
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                switchQuestion();
+            }
+        });
+        dialog.show();
     }
 }

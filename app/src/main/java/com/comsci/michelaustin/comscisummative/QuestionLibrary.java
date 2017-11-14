@@ -34,6 +34,14 @@ public class QuestionLibrary {
             {"Performing cpr on the victim"}
     };
 
+    private String explanations[]={
+            "Explanation1",
+            "Explanation2",
+            "Explanation3",
+            "Explanation4",
+            "Explanation5"
+    };
+
     ArrayList currentCorrectAnswerArray = new ArrayList();
 
     //Returns the specific question in the array
@@ -50,6 +58,11 @@ public class QuestionLibrary {
         else{
             return "";
         }
+    }
+
+    public String getExplanation(int i){
+        String explanation = explanations[i];
+        return explanation;
     }
 
     /*public String getChoice2(int i){
