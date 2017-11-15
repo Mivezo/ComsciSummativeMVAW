@@ -1,6 +1,7 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -145,6 +146,13 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
     }
 
+    private boolean testFullyComplete(){
+        if(questionNumber == mQuestionLibrary.getQuestionAmount()){
+            return true;
+        }
+        else return false;
+    }
+
     //checks whether the button pressed is a correct answer or not
     private void checkAnswer(Button b){
 
@@ -169,6 +177,8 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     }
 
+
+
     //Adding delay to the button to make green visible
     private void switchQuestion(){
         final Handler handler = new Handler();
@@ -176,8 +186,10 @@ public class QuizMenuActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Do something after 1.5s = 1500ms
-                displayQuestions();
-
+                if(!testFullyComplete()){
+                    displayQuestions();
+                }
+                else displayCompletionScreen();
             }
         }, 1500);
         amountCorrectComparison=0;
@@ -203,5 +215,10 @@ public class QuizMenuActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+
+    public void displayCompletionScreen(){
+        Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
+        startActivity(startIntent);
     }
 }

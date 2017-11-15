@@ -14,7 +14,7 @@ public class QuestionLibrary {
             "Tap possible causes of shock",
             "What is not a symptom of shock?",
             "What is not an appropriate way to treat shock"
-    };;
+    };
 
     //string array of answers for each specific question
     private String mAnswers[][]={
@@ -41,6 +41,8 @@ public class QuestionLibrary {
             "Explanation4",
             "Explanation5"
     };
+
+    private int questionAmount = mQuestions.length;
 
     ArrayList currentCorrectAnswerArray = new ArrayList();
 
@@ -115,10 +117,13 @@ public class QuestionLibrary {
     }
 
 
-
+    //Returns the number of possible correct answers
     public int getNumCorrect(int c){
        return mCorrectAnswers[c].length;
     }
 
+    public int getQuestionAmount(){
+        return questionAmount;
+    }
 
 }
