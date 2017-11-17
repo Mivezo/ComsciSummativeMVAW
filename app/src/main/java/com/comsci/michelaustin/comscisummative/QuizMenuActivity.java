@@ -25,14 +25,15 @@ public class QuizMenuActivity extends AppCompatActivity {
     private int amountCorrectComparison=0;//integer to compare
     private String explanation="";
 
-    private Dialog dialog;
+    private int moduleNumber;
+
+    private Dialog dialog;//dialog for popup
 
 
     ArrayList answerArray = new ArrayList();
 
 
-    private QuestionLibrary mQuestionLibrary = new QuestionLibrary();
-
+    private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
 
 
 
@@ -40,12 +41,16 @@ public class QuizMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
+        moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
 
+        //initializing the buttons as well as the question labels
         option1 = (Button) findViewById(R.id.option1);
         option2 = (Button) findViewById(R.id.option2);
         option3 = (Button) findViewById(R.id.option3);
         option4 = (Button) findViewById(R.id.option4);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
+
+        mQuestionLibrary = new QuestionLibrary(moduleNumber);
 
         displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
 
@@ -195,6 +200,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         amountCorrectComparison=0;
     }
 
+    //shows the explanation popup
     public void showPopup(View v) {
         TextView nextButton;
         TextView explanationLabel;

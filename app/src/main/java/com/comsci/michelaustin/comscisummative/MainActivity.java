@@ -26,34 +26,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //switching to QuizMenuActivity class
                 Intent startIntent = new Intent(getApplicationContext(), QuizMenuActivity.class);
+                startIntent.putExtra("MODULE_ID",1);
                 startActivity(startIntent);
 
             }
         });
 
-        dialog = new Dialog(this);
+        Button testButton2 = (Button) findViewById(R.id.testButton2);
+        testButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent = new Intent(getApplicationContext(), QuizMenuActivity.class);
+                startIntent.putExtra("MODULE_ID",2);
+                startActivity(startIntent);
+            }
+        });
 
 
     }
 
-
-    /*public void showPopup(View v) {
-        Log.d("Test", "test");
-        TextView nextButton;
-        TextView explanationLabel;
-        TextView explanationText;
-        dialog.setContentView(R.layout.custompopup);
-
-        explanationLabel = (TextView) dialog.findViewById(R.id.explanationLabel);
-        nextButton = (TextView) dialog.findViewById(R.id.nextText);
-        explanationText = (TextView) dialog.findViewById(R.id.explanationText);
-
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }*/
 }
