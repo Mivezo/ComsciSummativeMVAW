@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
     SharedPreferences prefs = null;
+    public static String userName;
+    Intent startMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,14 +16,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
 
-        if (prefs.getBoolean("firstrun", true)) {
-          Intent startMenu = new Intent(this, firstopening.class);
-          startActivity(startMenu);
-          prefs.edit().putBoolean("firstrun", false).apply();
+        userName = fileIo.readFromFile(this);
+
+        if (prefs.getBoolean("firstrun", true) || userName == null) {
+            prefs.edit().putBoolean("firstrun", false).apply();
+            startMenu = new Intent(this, firstopening.class);
+            startActivity(startMenu);
         }
         else{
-            setContentView(R.layout.activity_main);
+            startMenu = new Intent(this, menuopening.class);
+            startActivity(startMenu);
         }
-
     }
 }

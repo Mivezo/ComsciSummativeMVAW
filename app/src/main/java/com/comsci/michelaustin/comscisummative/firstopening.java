@@ -37,8 +37,7 @@ public class firstopening extends AppCompatActivity {
                 // set prompts.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
 
-                final EditText userInput = (EditText) promptsView
-                        .findViewById(R.id.editTextDialogUserInput);
+                final EditText userInput = (EditText) promptsView.findViewById(R.id.nameedit);
 
                 // set dialog message
                 alertDialogBuilder
@@ -46,8 +45,11 @@ public class firstopening extends AppCompatActivity {
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
+                                        MainActivity.userName = userInput.getText().toString();
                                         // get user input and set it to result
                                         // edit text
+                                        mainMenu(menuopening.class);
+
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -64,10 +66,17 @@ public class firstopening extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+
     }
 
     public void changelayout(View view){
         Intent infoPage = new Intent (this, info.class);
         startActivity(infoPage);
+    }
+
+    public void mainMenu (Class c){
+        Intent mainMenu = new Intent (this, c);
+        startActivity(mainMenu);
     }
 }
