@@ -23,7 +23,9 @@
             android:name=".firstopening"
             android:screenOrientation="portrait" />
         <activity android:name=".info" />
-        <activity android:name=".menuopening"></activity>
+        <activity android:name=".menuopening" />
+        <activity android:name=".QuizCompletionActivity" />
+        <activity android:name=".QuizMenuActivity"></activity>
     </application>
 
 </manifest>
