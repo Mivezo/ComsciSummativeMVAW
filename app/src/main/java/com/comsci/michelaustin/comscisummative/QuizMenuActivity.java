@@ -91,11 +91,11 @@ public class QuizMenuActivity extends AppCompatActivity {
         questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
 
         option1.setText(getQuestion(questionNumber,0));
-        option1.setBackgroundColor(Color.WHITE);
+        option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
         option2.setText(getQuestion(questionNumber,1));
-        option2.setBackgroundColor(Color.WHITE);
-        option3.setBackgroundColor(Color.WHITE);
-        option4.setBackgroundColor(Color.WHITE);
+        option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+        option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+        option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
         //to test specifically for true and false questions and to remove visibility of the last two buttons
         if (testWhetherBlank(2)) {
             option3.setVisibility(View.GONE);
@@ -167,11 +167,12 @@ public class QuizMenuActivity extends AppCompatActivity {
             //compares the text on the button with the arraylist
             if(b.getText()== answerArray.get(i)){
                 b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
+                b.setEnabled(false);
                 amountCorrectComparison++; //increment integer to compare with set number of correct answers
                 correct=true;
 
                 if(testComplete()){
-                    questionNumber+=1;
+                    questionNumber+=1;//increases questionNumber to switch question
                     showPopup(this.findViewById(android.R.id.content));
                 }
             }
