@@ -91,8 +91,14 @@ public class QuizMenuActivity extends AppCompatActivity {
         questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
 
         option1.setText(getQuestion(questionNumber,0));
-        option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
         option2.setText(getQuestion(questionNumber,1));
+
+        option1.setEnabled(true);
+        option2.setEnabled(true);
+        option3.setEnabled(true);
+        option4.setEnabled(true);
+
+        option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
         option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
         option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
         option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
