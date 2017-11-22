@@ -19,9 +19,9 @@ public class menuopening extends AppCompatActivity {
         fileIo.writeFile(name,this);
 
         TextView nameshow = (TextView) findViewById(R.id.menuname);
-        nameshow.setText(name);
+        nameshow.setText("Welcome " + name+ "!"+"\nPlease pick a Module:");
 
-        menuBuoyButton = findViewById(R.id.menuBuoy);
+        menuBuoyButton = findViewById(R.id.module1);
 
         menuBuoyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,5 +32,10 @@ public class menuopening extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

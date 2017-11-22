@@ -49,6 +49,7 @@ public class firstopening extends AppCompatActivity {
                                         // get user input and set it to result
                                         // edit text
                                         mainMenu(menuopening.class);
+                                        finish();
 
                                     }
                                 })
