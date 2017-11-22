@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ComsciSummative.iml" filepath="$PROJECT_DIR$/ComsciSummative.iml" />
+      <module fileurl="file://C:\Private Data\Family\Austin\Java\Gr 12 Summative Android Studio\Project\ComsciSummativeMVAW\ComsciSummative.iml" filepath="C:\Private Data\Family\Austin\Java\Gr 12 Summative Android Studio\Project\ComsciSummativeMVAW\ComsciSummative.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ComsciSummativeMVAW.iml" filepath="$PROJECT_DIR$/ComsciSummativeMVAW.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
