@@ -4,10 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.comsci.michelaustin.comscisummative.firstopening"
     android:background="@drawable/beach"
-    >
-
+    tools:context="com.comsci.michelaustin.comscisummative.mainMenu">
 
     <TextView
         android:id="@+id/textView2"
@@ -47,7 +45,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/lgbuoy"
+        android:id="@+id/playbuoy"
         android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,13 +68,13 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/infopic"
-        android:onClick="changelayout"
+        android:onClick="changelayoutinfo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/playtext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -84,9 +82,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:fontFamily="cursive"
-        android:text="Enter\nName"
+        android:text="Play"
+        android:textAllCaps="true"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="24sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
