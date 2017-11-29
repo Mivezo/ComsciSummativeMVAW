@@ -62,13 +62,13 @@
 
     <ImageButton
         android:id="@+id/info"
-        android:background="@null"
-        android:layout_width="65dp"
-        android:layout_height="63dp"
+        android:layout_width="54dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/infopic"
+        android:background="@null"
         android:onClick="changelayoutinfo"
+        android:src="@drawable/infopage"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />
@@ -94,14 +94,13 @@
 
     <ImageButton
         android:id="@+id/resetButton"
-        android:layout_width="61dp"
-        android:layout_height="62dp"
+        android:layout_width="54dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="48dp"
         android:layout_marginStart="8dp"
+        android:background="@null"
+        android:src="@drawable/settingpage"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
         app:layout_constraintStart_toEndOf="@+id/info"
         app:srcCompat="@mipmap/ic_launcher" />
 

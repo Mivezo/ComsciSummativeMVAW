@@ -51,5 +51,11 @@ public class mainMenu extends AppCompatActivity {
         Intent mainMenu = new Intent (this, c);
         startActivity(mainMenu);
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
 }
 

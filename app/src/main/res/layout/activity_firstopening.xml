@@ -69,7 +69,7 @@
         android:layout_height="63dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:src="@drawable/infopic"
+        android:src="@drawable/infopage"
         android:onClick="changelayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
