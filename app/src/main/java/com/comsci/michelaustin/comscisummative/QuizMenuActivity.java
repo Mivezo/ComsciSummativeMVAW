@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class QuizMenuActivity extends AppCompatActivity {
     private Button option2;
     private Button option3;
     private Button option4;
+    private ImageButton nextArrowButton;
     /*private String mAnswer;*/
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
@@ -48,6 +50,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         option2 = (Button) findViewById(R.id.option2);
         option3 = (Button) findViewById(R.id.option3);
         option4 = (Button) findViewById(R.id.option4);
+        nextArrowButton = (ImageButton) findViewById(R.id.nextArrowButton);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
 
         mQuestionLibrary = new QuestionLibrary(moduleNumber);
@@ -82,6 +85,7 @@ public class QuizMenuActivity extends AppCompatActivity {
                 checkAnswer(option4);
             }
         });
+
 
     }
 
@@ -126,6 +130,7 @@ public class QuizMenuActivity extends AppCompatActivity {
 
         amountCorrect=mQuestionLibrary.getNumCorrect(questionNumber);
 
+        nextArrowButton.setVisibility(View.GONE);
 
     }
 
@@ -218,6 +223,16 @@ public class QuizMenuActivity extends AppCompatActivity {
         nextButton = (TextView) dialog.findViewById(R.id.nextText);
         explanationText = (TextView) dialog.findViewById(R.id.explanationText);
         explanationText.setText(explanation);
+
+        nextArrowButton.setVisibility(View.VISIBLE);
+
+
+        nextArrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchQuestion();
+            }
+        });
 
         //Switches the question when the next button is pressed
         nextButton.setOnClickListener(new View.OnClickListener() {
