@@ -8,13 +8,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class firstopening extends AppCompatActivity {
     ImageButton buoyButton;
     final Context context = this;
-    private EditText result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,9 @@ public class firstopening extends AppCompatActivity {
         setContentView(R.layout.activity_firstopening);
 
         buoyButton = findViewById(R.id.lgbuoy);
+
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        buoyButton.startAnimation(shake);
 
         buoyButton.setOnClickListener(new View.OnClickListener() {
 
@@ -48,9 +52,11 @@ public class firstopening extends AppCompatActivity {
                                         MainActivity.userName = userInput.getText().toString();
                                         // get user input and set it to result
                                         // edit text
-                                        mainMenu(menuopening.class);
-                                        finish();
 
+                                        if (!MainActivity.userName.isEmpty()){
+                                            mainMenu(menuopening.class);
+                                            finish();
+                                        }
                                     }
                                 })
                         .setNegativeButton("Cancel",
