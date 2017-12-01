@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
 
-        userName = fileIo.readFromFile(this);
+        userName = fileIo.readFromFile(this, "lifeguardname.txt");
 
         if (prefs.getBoolean("firstrun", true) || userName == null) {
             prefs.edit().putBoolean("firstrun", false).apply();

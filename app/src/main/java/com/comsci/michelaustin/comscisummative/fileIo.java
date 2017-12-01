@@ -28,12 +28,12 @@ public class fileIo {
         }
     }
 
-    public static String readFromFile(Context context) {
+    public static String readFromFile(Context context, String name) {
 
         String ret = "";
 
         try {
-            InputStream inputStream = context.openFileInput("lifeguardname.txt");
+            InputStream inputStream = context.openFileInput(name);
 
             if ( inputStream != null ) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
