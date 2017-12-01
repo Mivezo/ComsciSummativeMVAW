@@ -4,26 +4,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class menuopening extends AppCompatActivity {
 
     String name = MainActivity.userName;
-    ImageButton menuBuoyButton;
+    ImageButton module1Button, module2Button, module3Button, module4Button, module5Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuopening);
         fileIo.writeFile(name,this);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
         TextView nameshow = (TextView) findViewById(R.id.menuname);
-        nameshow.setText("Welcome " + name+ "!"+"\nPlease pick a Module:");
+        nameshow.setText("Welcome " + name+ "!");
 
-        menuBuoyButton = findViewById(R.id.module1);
+        TextView welcome = (TextView) findViewById(R.id.welcome);
+        welcome.setText("Please pick a\nModule:");
 
-        menuBuoyButton.setOnClickListener(new View.OnClickListener() {
+        (module1Button = findViewById(R.id.module1)).startAnimation(shake);
+        (module2Button = findViewById(R.id.module2)).startAnimation(shake);
+        (module3Button = findViewById(R.id.module3)).startAnimation(shake);
+        (module4Button = findViewById(R.id.module4)).startAnimation(shake);
+        (module5Button = findViewById(R.id.module5)).startAnimation(shake);
+
+        module1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
@@ -38,4 +48,6 @@ public class menuopening extends AppCompatActivity {
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
 }
+

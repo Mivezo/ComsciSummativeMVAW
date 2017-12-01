@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(startMenu);
         }
         else{
-            startMenu = new Intent(this, menuopening.class);
+            startMenu = new Intent(this, mainMenu.class);
             startActivity(startMenu);
         }
     }
