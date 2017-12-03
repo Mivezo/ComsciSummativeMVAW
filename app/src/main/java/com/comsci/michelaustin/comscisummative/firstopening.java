@@ -3,6 +3,7 @@ package com.comsci.michelaustin.comscisummative;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 public class firstopening extends AppCompatActivity {
     ImageButton buoyButton;
     final Context context = this;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,9 @@ public class firstopening extends AppCompatActivity {
 
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         buoyButton.startAnimation(shake);
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
+        mediaPlayer.start();
 
         buoyButton.setOnClickListener(new View.OnClickListener() {
 
@@ -85,5 +90,13 @@ public class firstopening extends AppCompatActivity {
     public void mainMenu (Class c){
         Intent mainMenu = new Intent (this, c);
         startActivity(mainMenu);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
+        mediaPlayer.release();
+
     }
 }

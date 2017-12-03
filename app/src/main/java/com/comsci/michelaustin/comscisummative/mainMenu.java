@@ -1,6 +1,7 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,17 +12,22 @@ import android.widget.ImageButton;
 public class mainMenu extends AppCompatActivity {
 
     ImageButton playBuoy, resetButton;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+
         playBuoy = findViewById(R.id.playbuoy);
         resetButton = findViewById(R.id.resetButton);
 
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         playBuoy.startAnimation(shake);
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
+        mediaPlayer.start();
 
         playBuoy.setOnClickListener(new View.OnClickListener() {
 
@@ -55,6 +61,14 @@ public class mainMenu extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
+        mediaPlayer.release();
+
     }
 
 }
