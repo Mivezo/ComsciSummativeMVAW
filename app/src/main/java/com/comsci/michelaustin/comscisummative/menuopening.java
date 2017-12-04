@@ -19,7 +19,7 @@ public class menuopening extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuopening);
         fileIo.writeFile(name,this);
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
 
         TextView nameshow = (TextView) findViewById(R.id.menuname);
         nameshow.setText("Welcome " + name+ "!");

@@ -23,10 +23,11 @@ public class mainMenu extends AppCompatActivity {
         playBuoy = findViewById(R.id.playbuoy);
         resetButton = findViewById(R.id.resetButton);
 
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
         playBuoy.startAnimation(shake);
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         playBuoy.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +35,7 @@ public class mainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startClass(menuopening.class);
+                mediaPlayer.stop();
             }
         });
 
@@ -61,14 +63,6 @@ public class mainMenu extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mediaPlayer.stop();
-        mediaPlayer.release();
-
     }
 
 }

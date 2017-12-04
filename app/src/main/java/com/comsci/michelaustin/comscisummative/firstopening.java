@@ -26,7 +26,7 @@ public class firstopening extends AppCompatActivity {
 
         buoyButton = findViewById(R.id.lgbuoy);
 
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
         buoyButton.startAnimation(shake);
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
