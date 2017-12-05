@@ -46,7 +46,8 @@ public class menuopening extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        moveTaskToBack(true);
+        Intent switchpanel = new Intent(getApplicationContext(), mainMenu.class);
+        startActivity(switchpanel);
     }
 
 }
