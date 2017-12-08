@@ -29,5 +29,6 @@
         <activity android:name=".mainMenu" />
         <activity android:name=".settingsPage"></activity>
     </application>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
 </manifest>

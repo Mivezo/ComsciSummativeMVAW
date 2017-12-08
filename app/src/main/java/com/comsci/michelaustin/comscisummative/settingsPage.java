@@ -1,5 +1,7 @@
 package com.comsci.michelaustin.comscisummative;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class settingsPage extends AppCompatActivity {
 
@@ -70,5 +75,20 @@ public class settingsPage extends AppCompatActivity {
 
     private void writenew (String name){
         fileIo.writeFile(name,this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Context context = getApplicationContext();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                mainMenu.mediaPlayer.stop();
+                Toast.makeText(settingsPage.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
