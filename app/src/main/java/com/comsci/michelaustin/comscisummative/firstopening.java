@@ -1,5 +1,7 @@
 package com.comsci.michelaustin.comscisummative;
 
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +15,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class firstopening extends AppCompatActivity {
     ImageButton buoyButton;
     final Context context = this;
-    MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +99,25 @@ public class firstopening extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
-        mediaPlayer.stop();
-        mediaPlayer.release();
+        if (this.isFinishing()){ //basically BACK was pressed from this activity
+            mediaPlayer.stop();
+            Toast.makeText(firstopening.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
+        }
 
+        Context context = getApplicationContext();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                mediaPlayer.stop();
+                Toast.makeText(firstopening.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(firstopening.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onPause();
     }
 }

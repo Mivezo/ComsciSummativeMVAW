@@ -18,7 +18,7 @@ import java.util.List;
 public class mainMenu extends AppCompatActivity {
 
     ImageButton playBuoy, resetButton;
-    public static MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayerMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,16 +32,16 @@ public class mainMenu extends AppCompatActivity {
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
         playBuoy.startAnimation(shake);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        mediaPlayerMain = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
+        mediaPlayerMain.setLooping(true);
+        mediaPlayerMain.start();
 
         playBuoy.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 startClass(menuopening.class);
-                mediaPlayer.stop();
+                mediaPlayerMain.stop();
             }
         });
 
@@ -74,7 +74,7 @@ public class mainMenu extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (this.isFinishing()){ //basically BACK was pressed from this activity
-            mediaPlayer.stop();
+            mediaPlayerMain.stop();
             Toast.makeText(mainMenu.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
         }
 
@@ -85,7 +85,7 @@ public class mainMenu extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                mediaPlayer.stop();
+                mediaPlayerMain.stop();
                 Toast.makeText(mainMenu.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
             else {

@@ -26,7 +26,16 @@ public class info extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                mainMenu.mediaPlayer.stop();
+                if (mainMenu.mediaPlayerMain!=null){
+                    if (mainMenu.mediaPlayerMain.isPlaying()) {
+                        mainMenu.mediaPlayerMain.stop();
+                    }
+                }
+                if (firstopening.mediaPlayer!=null){
+                    if (firstopening.mediaPlayer.isPlaying()) {
+                        firstopening.mediaPlayer.stop();
+                    }
+                }
                 Toast.makeText(info.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }

@@ -86,7 +86,7 @@ public class settingsPage extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                mainMenu.mediaPlayer.stop();
+                mainMenu.mediaPlayerMain.stop();
                 Toast.makeText(settingsPage.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
