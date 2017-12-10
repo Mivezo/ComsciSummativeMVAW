@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class QuizMenuActivity extends AppCompatActivity {
+public class QuizMenuActivity extends AppCompatActivity{
 
     private TextView questionLabel;
     private Button option1;
@@ -35,8 +36,8 @@ public class QuizMenuActivity extends AppCompatActivity {
     ArrayList answerArray = new ArrayList();
 
 
-    private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
-
+    //private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
+    private QuestionLibraryTest mQuestionLibraryTest;
 
 
     @Override
@@ -53,7 +54,10 @@ public class QuizMenuActivity extends AppCompatActivity {
         nextArrowButton = (ImageButton) findViewById(R.id.nextArrowButton);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
 
-        mQuestionLibrary = new QuestionLibrary(moduleNumber);
+       // mQuestionLibrary = new QuestionLibrary(moduleNumber);
+
+        mQuestionLibraryTest = new QuestionLibraryTest(moduleNumber, getApplicationContext());
+
 
         displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
 
@@ -92,10 +96,12 @@ public class QuizMenuActivity extends AppCompatActivity {
     //Displays the questions on the screen as well as fetches the correct answer
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
-        questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
+        //questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
+        questionLabel.setText(mQuestionLibraryTest.getQuestion(questionNumber));
 
-        option1.setText(getQuestion(questionNumber,0));
-        option2.setText(getQuestion(questionNumber,1));
+        option1.setText(getChoice(questionNumber,0));
+        option2.setText(getChoice(questionNumber,1));
+
 
         option1.setEnabled(true);
         option2.setEnabled(true);
@@ -112,7 +118,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
         else{
             option3.setVisibility(View.VISIBLE);
-            option3.setText(getQuestion(questionNumber,2));
+            option3.setText(getChoice(questionNumber,2));
         }
 
         if (testWhetherBlank(3)) {
@@ -120,15 +126,18 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
         else{
             option4.setVisibility(View.VISIBLE);
-            option4.setText(getQuestion(questionNumber,3));
+            option4.setText(getChoice(questionNumber,3));
         }
 
         //
-        answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
+        //answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
+        answerArray = (ArrayList<String>) mQuestionLibraryTest.getCorrectAnswer(questionNumber).clone();
+        //Collections.copy(mQuestionLibraryTest.getCorrectAnswer(questionNumber), answerArray);
 
-        explanation=mQuestionLibrary.getExplanation(questionNumber);
+        //explanation=mQuestionLibrary.getExplanation(questionNumber);
+        explanation = mQuestionLibraryTest.getExplanation(questionNumber);
+        amountCorrect=mQuestionLibraryTest.getAnswerAmount(questionNumber);
 
-        amountCorrect=mQuestionLibrary.getNumCorrect(questionNumber);
 
         nextArrowButton.setVisibility(View.GONE);
 
@@ -136,7 +145,10 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     //allows the UI to test and remove buttons if the options are blank
     public boolean testWhetherBlank(int q){
-        if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
+        /*if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
+            return true;
+        }*/
+        if(mQuestionLibraryTest.getChoice(questionNumber,q).equals("")){
             return true;
         }
         else{
@@ -147,8 +159,9 @@ public class QuizMenuActivity extends AppCompatActivity {
 
 
     //fetches the correct question from the QuestionLibrary class
-    private String getQuestion(int q, int n){
-        String result = mQuestionLibrary.getChoice(q,n);
+    private String getChoice(int q, int n){
+        //String result = mQuestionLibrary.getChoice(q,n);
+        String result = mQuestionLibraryTest.getChoice(q,n);
         return result;
     }
 
@@ -163,7 +176,10 @@ public class QuizMenuActivity extends AppCompatActivity {
     }
 
     private boolean testFullyComplete(){
-        if(questionNumber == mQuestionLibrary.getQuestionAmount()){
+        /*if(questionNumber == mQuestionLibrary.getQuestionAmount()){
+            return true;
+        }*/
+        if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
             return true;
         }
         else return false;
@@ -175,8 +191,8 @@ public class QuizMenuActivity extends AppCompatActivity {
         boolean correct = false;
 
         for (int i = 0; i<answerArray.size(); i++){
-            //compares the text on the button with the arraylist
-            if(b.getText()== answerArray.get(i)){
+            //compares the text on the button with the arrayList
+            if(b.getText().equals(answerArray.get(i))){
                 b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
                 b.setEnabled(false);
                 amountCorrectComparison++; //increment integer to compare with set number of correct answers
@@ -248,5 +264,13 @@ public class QuizMenuActivity extends AppCompatActivity {
     public void displayCompletionScreen(){
         Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
         startActivity(startIntent);
+    }
+
+    public void test(){
+        Log.d("MyTag", answerArray.size()+"");
+
+        for (int i = 0; i<answerArray.size(); i++){
+            Log.d("MyTag", ""+answerArray.get(i));
+        }
     }
 }

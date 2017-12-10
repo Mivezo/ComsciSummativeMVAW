@@ -14,6 +14,8 @@ public class QuestionLibrary {
         moduleNumber=m;
     }
 
+    private ArrayList<String> questions;
+
     //string array of questions
     private String questions1[] = {
             "What is the medical meaning of shock?",
@@ -194,6 +196,10 @@ public class QuestionLibrary {
             case 2: return correctAnswers2[c].length;
             default: return 0;
         }
+
+    }
+
+    private void createArray(ArrayList a, String file){
 
     }
 

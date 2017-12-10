@@ -16,14 +16,13 @@ import java.io.OutputStreamWriter;
 
 public class fileIo {
 
-    public static void writeFile (String data, Context context){
+    public static void writeFile(String data, Context context) {
 
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("lifeguardname.txt", Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
@@ -35,21 +34,20 @@ public class fileIo {
         try {
             InputStream inputStream = context.openFileInput(name);
 
-            if ( inputStream != null ) {
+            if (inputStream != null) {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receiveString = "";
                 StringBuilder stringBuilder = new StringBuilder();
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                while ((receiveString = bufferedReader.readLine()) != null) {
                     stringBuilder.append(receiveString);
                 }
 
                 inputStream.close();
                 ret = stringBuilder.toString();
             }
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             Log.e("login activity", "File not found: " + e.toString());
             return null;
         } catch (IOException e) {
@@ -59,4 +57,23 @@ public class fileIo {
 
         return ret;
     }
+
+   /* public static String readQuestions(Context context, String name) {
+
+        BufferedReader reader;
+
+        try {
+            final InputStream file = context.getAssets().open(name);
+            reader = new BufferedReader(new InputStreamReader(file));
+            String line = reader.readLine();
+            while (line != null) {
+                //Log.d("StackOverflow", line);
+                line = reader.readLine();
+            }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }*/
+
+
 }
