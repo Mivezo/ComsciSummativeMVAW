@@ -41,6 +41,14 @@ public class menuopening extends AppCompatActivity {
                 startActivity(startQuiz);
             }
         });
+        module2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
+                startQuiz.putExtra("MODULE_ID",2);
+                startActivity(startQuiz);
+            }
+        });
 
     }
 
