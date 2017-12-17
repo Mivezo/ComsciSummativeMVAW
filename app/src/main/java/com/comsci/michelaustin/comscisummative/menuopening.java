@@ -18,7 +18,7 @@ public class menuopening extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuopening);
-        fileIo.writeFile(name,this);
+        fileIo.writeFile(name,"lifeguardname.txt",this);
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
         TextView nameshow = (TextView) findViewById(R.id.menuname);

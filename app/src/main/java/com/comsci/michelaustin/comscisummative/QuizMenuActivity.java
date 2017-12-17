@@ -1,7 +1,9 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class QuizMenuActivity extends AppCompatActivity{
@@ -27,7 +30,12 @@ public class QuizMenuActivity extends AppCompatActivity{
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
     private int amountCorrectComparison=0;//integer to compare
+    private int amountGetCorrect;//Integer to store how many questions the user has gotten right
+
     private String explanation="";
+    private String resumeModule;
+    private String getCorrectString;
+
 
     private int moduleNumber;
 
@@ -36,15 +44,19 @@ public class QuizMenuActivity extends AppCompatActivity{
 
     ArrayList answerArray = new ArrayList();
 
+    SharedPreferences prefs = null;
+
+
 
     //private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
-    private QuestionLibraryTest mQuestionLibraryTest;
+    private QuestionLibrary mQuestionLibraryTest;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
+        prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
 
         //initializing the buttons as well as the question labels
@@ -57,10 +69,19 @@ public class QuizMenuActivity extends AppCompatActivity{
 
        // mQuestionLibrary = new QuestionLibrary(moduleNumber);
 
-        mQuestionLibraryTest = new QuestionLibraryTest(moduleNumber, getApplicationContext());
+        mQuestionLibraryTest = new QuestionLibrary(moduleNumber, getApplicationContext());
 
+
+        resumeModule="resumeModule"+moduleNumber+".txt";
+        getCorrectString="resumeCorrectAnswers"+moduleNumber+".txt";
+
+
+        resumeModule();
+        amountGetCorrect=mQuestionLibraryTest.getQuestionAmount();
 
         displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
+
+
 
         //creating a dialog for the popup window
         dialog = new Dialog(this);
@@ -90,6 +111,8 @@ public class QuizMenuActivity extends AppCompatActivity{
                 checkAnswer(option4);
             }
         });
+
+
 
 
     }
@@ -142,6 +165,7 @@ public class QuizMenuActivity extends AppCompatActivity{
 
         nextArrowButton.setVisibility(View.GONE);
 
+        writeResume();
     }
 
     //allows the UI to test and remove buttons if the options are blank
@@ -207,6 +231,7 @@ public class QuizMenuActivity extends AppCompatActivity{
         }
         if(!correct){
             b.setBackgroundColor(Color.RED);
+            amountGetCorrect--;
         }
 
     }
@@ -265,8 +290,35 @@ public class QuizMenuActivity extends AppCompatActivity{
 
     public void displayCompletionScreen(){
         Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
+        startIntent.putExtra("AMOUNT_CORRECT", amountGetCorrect);
+        startIntent.putExtra("TOTAL_CORRECT" +
+                "", mQuestionLibraryTest.getQuestionAmount());
         startActivity(startIntent);
     }
+
+    /**
+     * Gets called everytime the questions are displayed to store the question number in their respected resume module txts
+     */
+    private void writeResume(){
+
+        fileIo.writeFile(questionNumber+"", resumeModule, this);
+        fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
+        //Log.d("MyTag", fileIo.readFromFile(this, resumeModule));
+    }
+
+    /**
+     * Grabs the question number from the respected resume module and sets that as the question number
+     */
+    private void resumeModule(){
+
+        String line = fileIo.readFromFile(getApplicationContext(), resumeModule);
+        String line2= fileIo.readFromFile(getApplicationContext(), getCorrectString);
+
+        questionNumber=Integer.parseInt(line);
+        amountGetCorrect=Integer.parseInt(line2);
+
+    }
+
 
     public void test(){
         Log.d("MyTag", answerArray.size()+"");
@@ -274,5 +326,13 @@ public class QuizMenuActivity extends AppCompatActivity{
         for (int i = 0; i<answerArray.size(); i++){
             Log.d("MyTag", ""+answerArray.get(i));
         }
+    }
+
+    public boolean fileExists(Context context, String filename) {
+        File file = context.getFileStreamPath(filename);
+        if(file == null || !file.exists()) {
+            return false;
+        }
+        return true;
     }
 }

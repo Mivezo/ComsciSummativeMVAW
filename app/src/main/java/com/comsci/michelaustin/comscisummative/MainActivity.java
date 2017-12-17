@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         if (prefs.getBoolean("firstrun", true) || userName == null) {
             prefs.edit().putBoolean("firstrun", false).apply();
             startMenu = new Intent(this, firstopening.class);
+            createResumeFiles();
             startActivity(startMenu);
         }
         else{
@@ -29,5 +30,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+
+
+    }
+
+    private void createResumeFiles(){
+        for(int i=0; i<=5; i++){
+            fileIo.writeFile("0", "resumeModule"+i+".txt", getApplicationContext());
+            fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
+        }
     }
 }
