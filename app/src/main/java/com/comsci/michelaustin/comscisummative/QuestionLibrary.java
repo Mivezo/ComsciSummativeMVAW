@@ -59,6 +59,8 @@ public class QuestionLibrary {
         correctAnswers.add(new ArrayList<String>());
         correctAnswers.get(0).add("1");
 
+        //Log.d("Test", answerFileName);
+
         createArray(questions, questionFileName);
         createAnswerArray(answerFileName);
         createArray(explanations, explanationsFileName);
@@ -89,6 +91,7 @@ public class QuestionLibrary {
 
                 int comma1 = line.indexOf(";");
                 int comma2 = line.indexOf(";", comma1+1);
+                Log.d("Test", comma1+"");
                 int comma3 = line.indexOf(";", comma2+1);
                 int comma4 = line.indexOf(";", comma3+1);
 
@@ -240,7 +243,7 @@ public class QuestionLibrary {
         }
     }
 
-   
+
 
     private void test(){
         Log.d("MyTag", answers.size()+"");

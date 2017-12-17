@@ -40,4 +40,11 @@ public class MainActivity extends AppCompatActivity {
             fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
         }
     }
+
+    private void createResumeFiles(){
+        for(int i=0; i<=5; i++){
+            fileIo.writeFile("0", "resumeModule"+i+".txt", getApplicationContext());
+            fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
+        }
+    }
 }
