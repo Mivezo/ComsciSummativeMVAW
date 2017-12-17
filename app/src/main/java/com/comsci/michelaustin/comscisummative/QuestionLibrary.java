@@ -1,183 +1,210 @@
 package com.comsci.michelaustin.comscisummative;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Created by Austin on 2017-11-06.
+ * Created by Austin on 2017-12-04.
  */
 
 public class QuestionLibrary {
 
-    private int moduleNumber;
+    private final Context context;
 
-    public QuestionLibrary(int m){
-        moduleNumber=m;
+    String questionFileName;
+    String answerFileName;
+    String explanationsFileName;
+    String correctAnswersFileName;
+
+
+
+    private ArrayList <String> questions= new ArrayList<String>();
+    private List<List<String>> answers = new ArrayList<List<String>>();
+    ArrayList<ArrayList<String>> correctAnswers = new ArrayList<ArrayList<String>>();
+    private ArrayList <String> explanations= new ArrayList<String>();
+
+
+
+    int moduleID;
+    int answerAmount;
+
+    public QuestionLibrary(int mID, Context c){
+        moduleID=mID;
+        context=c;
+
+        questionFileName="questions"+moduleID+".txt";
+        answerFileName="answers"+moduleID+".txt";
+        explanationsFileName="explanations"+moduleID+".txt";
+        correctAnswersFileName="correctanswers"+moduleID+".txt";
+
+
+        buildArrays();
     }
 
-    //string array of questions
-    private String questions1[] = {
-            "What is the medical meaning of shock?",
-            "Can shock be lethal?",
-            "Tap possible causes of shock",
-            "What is not a symptom of shock?",
-            "What is not an appropriate way to treat shock"
-    };
+    /**
+     * Creates all arrays
+     */
+    private void buildArrays(){
+        questions.add("!");
+        answers.add(Arrays.asList("1"));
+        explanations.add("!");
+        correctAnswers.add(new ArrayList<String>());
+        correctAnswers.get(0).add("1");
 
-    private String questions2[] = {
-            "What is the least prominent symptom of a fully obscured airway?",
-            "How big must a toy be to be considered a choking hazard for toddlers?",
-            "When performing back blows, where must the hits be directed?",
-            "Which of these should be performed first?",
-            "When a person becomes unconscious and/or unresponsive, what must you begin after calling 911?"
-    };
-    private String questions3[] = {
-            "What is the medical meaning of shock?",
-            "Can shock be lethal?",
-            "Tap possible causes of shock",
-            "What is not a symptom of shock?",
-            "What is not an appropriate way to treat shock"
-    };
-    private String questions4[] = {
-            "What is the medical meaning of shock?",
-            "Can shock be lethal?",
-            "Tap possible causes of shock",
-            "What is not a symptom of shock?",
-            "What is not an appropriate way to treat shock"
-    };
-    private String questions5[] = {
-            "What is the medical meaning of shock?",
-            "Can shock be lethal?",
-            "Tap possible causes of shock",
-            "What is not a symptom of shock?",
-            "What is not an appropriate way to treat shock"
-    };
+        createArray(questions, questionFileName);
+        createAnswerArray(answerFileName);
+        createArray(explanations, explanationsFileName);
+        createCorrectAnswerArray(correctAnswersFileName);
+    }
 
-    //string array of answers for each specific question
-    private String answers1[][]={
-            {"Vital organs lack oxygen rich blood","Cut off circulation to the limbs", "Fright caused by a certain situation", "Excessive shaking"},
-            {"Yes", "No", "", ""},
-            {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection", "Contusion to the brain"},
-            {"Excessive thirst", "Rapid breathing", "Pale skin", "Eyes roll to back of head"},
-            {"Warming up the victim", "Having the victim lay down in a comfortable position", "Performing cpr on the victim", "Monitor airway and breathing"}
-    };
+    /**
+     * Clears the arraylist then rebuilds it with correct data
+     * @param a arraylist
+     * @param fn filename string
+     */
+    private void createArray(ArrayList a, String fn){
+        a.clear();
+        readFile(context, fn, a);
 
-    private String answers2[][]={
-            {"Excessive arm movements","No sound coming out of the victim", "Red flushed face", "One or both hands clutching the throat"},
-            {"1 inch ", "4 cm", "2 cm", "1.5 cm"},
-            {"Base of the neck", "Between the shoulder blades", "Middle of the back", "Back of the head"},
-            {"Back Blows", "Abdominal Thrusts", "", ""},
-            {"Continue back blows and chest compressions", "Perform CPR","Attempt to the dislodge the object by pulling it out", "Nothing, wait for 911"}
-    };
+    }
 
-    //string array of correct answers
-    private String correctAnswers1[][] = {
-            { "Vital organs lack oxygen rich blood"},
-            {"Yes"},
-            {"Vomiting and diarrhoea", "Significant blood loss", "Severe infection"},
-            {"Eyes roll to back of head"},
-            {"Performing cpr on the victim"}
-    };
+    private void createAnswerArray(String fn){
 
-    private String correctAnswers2[][] = {
-            {"Excessive arm movements"},
-            {"4 cm"},
-            {"Between the shoulder blades"},
-            {"Back Blows"},
-            {"Perform CPR"}
-    };
+        answers.clear();
+        BufferedReader reader;
+
+        try{
+            final InputStream file = context.getAssets().open(fn);
+            reader = new BufferedReader(new InputStreamReader(file));
+            String line = reader.readLine();
+            while(line != null){
+
+                int comma1 = line.indexOf(";");
+                int comma2 = line.indexOf(";", comma1+1);
+                int comma3 = line.indexOf(";", comma2+1);
+                int comma4 = line.indexOf(";", comma3+1);
+
+                String answer1 = line.substring(0,comma1) ;
+                String answer2 = line.substring(comma1+1,comma2) ;
+                String answer3 = line.substring(comma2+1,comma3) ;
+                String answer4 = line.substring(comma3+1,comma4) ;
 
 
-    private String explanations1[]={
-            "Explanation1",
-            "Explanation2",
-            "Explanation3",
-            "Explanation4",
-            "Explanation5"
-    };
+                answers.add(Arrays.asList(answer1,answer2,answer3,answer4));
+                //answers.add(new ArrayList<String>());
 
-    private String explanations2[]={
-            "Explanationa",
-            "Explanationb",
-            "Explanationc",
-            "Explanationd",
-            "Explanatione"
-    };
+                line=reader.readLine();
 
-    private int questionAmount = 5;
-
-    ArrayList currentCorrectAnswerArray = new ArrayList();
-
-    //Returns the specific question in the array
-    public String getQuestion(int i){
-        switch (moduleNumber) {
-            case 1:
-                return questions1[i];
-            case 2:
-                return questions2[i];
-            case 3:
-                return questions3[i];
-            case 4:
-                return questions4[i];
-            case 5:
-                return questions5[i];
-            default:return "0";
-
+            }
+        } catch(IOException ioe){
+            ioe.printStackTrace();
         }
 
     }
 
+    private void createCorrectAnswerArray(String fn){
+
+        correctAnswers.clear();
+        BufferedReader reader;
+
+        correctAnswers.add(new ArrayList<String>());
+
+
+        int linecount=0;
+
+        try{
+            final InputStream file = context.getAssets().open(fn);
+            reader = new BufferedReader(new InputStreamReader(file));
+            String line = reader.readLine();
+            while(line != null){
+
+                int count = line.length() - line.replace(";", "").length();//counts occurences of semicolons in line
+
+                if(count==1){
+                    int colon1 = line.indexOf(";");
+                    String answer1 = line.substring(0,colon1) ;
+                    correctAnswers.get(linecount).add(answer1);
+                }
+                else if(count ==2){
+                    int colon1 = line.indexOf(";");
+                    int colon2 = line.indexOf(";", colon1+1);
+                    String answer1 = line.substring(0,colon1) ;
+                    String answer2 = line.substring(colon1+1,colon2) ;
+                    correctAnswers.get(linecount).add(answer1);
+                    correctAnswers.get(linecount).add(answer2);
+                }
+                else if(count ==3){
+                    int colon1 = line.indexOf(";");
+                    int colon2 = line.indexOf(";", colon1+1);
+                    int colon3 = line.indexOf(";", colon2+1);
+
+
+                    String answer1 = line.substring(0,colon1) ;
+                    String answer2 = line.substring(colon1+1,colon2) ;
+                    String answer3 = line.substring(colon2+1,colon3) ;
+
+                    correctAnswers.get(linecount).add(answer1);
+                    correctAnswers.get(linecount).add(answer2);
+                    correctAnswers.get(linecount).add(answer3);
+                }
+
+                linecount++;
+
+                correctAnswers.add(new ArrayList<String>());
+
+                line=reader.readLine();
+
+            }
+        } catch(IOException ioe){
+            ioe.printStackTrace();
+        }
+
+    }
+
+    //returns the answer choices for the buttons
     public String getChoice(int i,int q){
-
-        switch (moduleNumber){
-            case 1:
-                return isAnswerBlank(answers1, i, q);
-            case 2:
-                return isAnswerBlank(answers2, i, q);
-            default: return "0";
-
-        }
-
+        return isAnswerBlank(i,q);
     }
 
     public String getExplanation(int i){
-
-        switch (moduleNumber){
-            case 1:
-                return explanations1[i];
-            case 2:
-                return explanations2[i];
-            default: return "0";
-        }
-
+        return explanations.get(i);
     }
 
+    public String getQuestion(int i){
+        return questions.get(i);
+    }
 
-    //returns the correct answer based on the question
     public ArrayList getCorrectAnswer(int i){
-
-        currentCorrectAnswerArray.clear();
-
-        switch (moduleNumber){
-            case 1:
-                addCorrectAnswerToArray(correctAnswers1, i);
-            case 2:
-                addCorrectAnswerToArray(correctAnswers2, i);
-        }
-
-        return currentCorrectAnswerArray;
+        return correctAnswers.get(i);
     }
 
-    //for getCorrectAnswer method, adds correct answers to arraylist
-    private void addCorrectAnswerToArray(String[][] array, int i){
-        for(int j = 0; j<array[i].length; j++){
-            currentCorrectAnswerArray.add(array[i][j]);
-        }
+    //returns the amount of questions
+    public int getAnswerAmount(int i){
+        answerAmount=correctAnswers.get(i).size();
+        return answerAmount;
     }
 
-    //for the getchoice method, returns a string
-    public String isAnswerBlank(String[][] array, int i, int q){
-        if(array[i][q]!=""){
-            String choice= array[i][q];
+    public int getQuestionAmount(){
+        return questions.size();
+    }
+
+    /**
+     * Tests whether the answer is blank or not to delete the button
+     * @param i int row
+     * @param q int column
+     * @return
+     */
+    public String isAnswerBlank(int i, int q){
+        if(!answers.get(i).get(q).equals(" ")){
+            String choice= answers.get(i).get(q);
             return choice;
         }
         else{
@@ -186,20 +213,45 @@ public class QuestionLibrary {
     }
 
 
-    //Returns the number of possible correct answers
-    public int getNumCorrect(int c){
 
-        switch (moduleNumber){
-            case 1: return correctAnswers1[c].length;
-            case 2: return correctAnswers2[c].length;
-            default: return 0;
+
+    /**
+     * Uses fileio to read existing txt files to fetch appropriate questions, answers, explanations, and correct answers
+     * @param context application context
+     * @param name filename
+     * @param a arraylist
+     */
+    private void readFile(Context context, String name, ArrayList a){
+        BufferedReader reader;
+
+        try{
+            final InputStream file = context.getAssets().open(name);
+            reader = new BufferedReader(new InputStreamReader(file));
+            String line = reader.readLine();
+            while(line != null){
+
+
+                a.add(line);
+                line=reader.readLine();
+
+            }
+        } catch(IOException ioe){
+            ioe.printStackTrace();
         }
-
     }
 
-    //returns the amount of questions
-    public int getQuestionAmount(){
-        return questionAmount;
+   
+
+    private void test(){
+        Log.d("MyTag", answers.size()+"");
+
+        for (int i=0; i<answers.size(); i++){
+            for(int j=0; j<answers.get(i).size(); j++){
+                Log.d("MyTag", "answers.get"+i+" "+j);
+                Log.d("MyTag", answers.get(i).get(j));
+            }
+        }
     }
+
 
 }

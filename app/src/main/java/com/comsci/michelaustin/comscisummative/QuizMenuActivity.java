@@ -1,21 +1,24 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
-public class QuizMenuActivity extends AppCompatActivity {
+public class QuizMenuActivity extends AppCompatActivity{
 
     private TextView questionLabel;
     private Button option1;
@@ -27,7 +30,12 @@ public class QuizMenuActivity extends AppCompatActivity {
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
     private int amountCorrectComparison=0;//integer to compare
+    private int amountGetCorrect;//Integer to store how many questions the user has gotten right
+
     private String explanation="";
+    private String resumeModule;
+    private String getCorrectString;
+
 
     private int moduleNumber;
 
@@ -36,15 +44,19 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     ArrayList answerArray = new ArrayList();
 
+    SharedPreferences prefs = null;
 
-    private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
 
+
+    //private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
+    private QuestionLibrary mQuestionLibraryTest;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
+        prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
 
         //initializing the buttons as well as the question labels
@@ -55,9 +67,21 @@ public class QuizMenuActivity extends AppCompatActivity {
         nextArrowButton = (ImageButton) findViewById(R.id.nextArrowButton);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
 
-        mQuestionLibrary = new QuestionLibrary(moduleNumber);
+       // mQuestionLibrary = new QuestionLibrary(moduleNumber);
+
+        mQuestionLibraryTest = new QuestionLibrary(moduleNumber, getApplicationContext());
+
+
+        resumeModule="resumeModule"+moduleNumber+".txt";
+        getCorrectString="resumeCorrectAnswers"+moduleNumber+".txt";
+
+
+        resumeModule();
+        amountGetCorrect=mQuestionLibraryTest.getQuestionAmount();
 
         displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
+
+
 
         //creating a dialog for the popup window
         dialog = new Dialog(this);
@@ -89,15 +113,19 @@ public class QuizMenuActivity extends AppCompatActivity {
         });
 
 
+
+
     }
 
     //Displays the questions on the screen as well as fetches the correct answer
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
-        questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
+        //questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
+        questionLabel.setText(mQuestionLibraryTest.getQuestion(questionNumber));
 
-        option1.setText(getQuestion(questionNumber,0));
-        option2.setText(getQuestion(questionNumber,1));
+        option1.setText(getChoice(questionNumber,0));
+        option2.setText(getChoice(questionNumber,1));
+
 
         option1.setEnabled(true);
         option2.setEnabled(true);
@@ -114,7 +142,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
         else{
             option3.setVisibility(View.VISIBLE);
-            option3.setText(getQuestion(questionNumber,2));
+            option3.setText(getChoice(questionNumber,2));
         }
 
         if (testWhetherBlank(3)) {
@@ -122,23 +150,30 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
         else{
             option4.setVisibility(View.VISIBLE);
-            option4.setText(getQuestion(questionNumber,3));
+            option4.setText(getChoice(questionNumber,3));
         }
 
         //
-        answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
+        //answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
+        answerArray = (ArrayList<String>) mQuestionLibraryTest.getCorrectAnswer(questionNumber).clone();
+        //Collections.copy(mQuestionLibraryTest.getCorrectAnswer(questionNumber), answerArray);
 
-        explanation=mQuestionLibrary.getExplanation(questionNumber);
+        //explanation=mQuestionLibrary.getExplanation(questionNumber);
+        explanation = mQuestionLibraryTest.getExplanation(questionNumber);
+        amountCorrect=mQuestionLibraryTest.getAnswerAmount(questionNumber);
 
-        amountCorrect=mQuestionLibrary.getNumCorrect(questionNumber);
 
         nextArrowButton.setVisibility(View.GONE);
 
+        writeResume();
     }
 
     //allows the UI to test and remove buttons if the options are blank
     public boolean testWhetherBlank(int q){
-        if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
+        /*if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
+            return true;
+        }*/
+        if(mQuestionLibraryTest.getChoice(questionNumber,q).equals("")){
             return true;
         }
         else{
@@ -149,8 +184,9 @@ public class QuizMenuActivity extends AppCompatActivity {
 
 
     //fetches the correct question from the QuestionLibrary class
-    private String getQuestion(int q, int n){
-        String result = mQuestionLibrary.getChoice(q,n);
+    private String getChoice(int q, int n){
+        //String result = mQuestionLibrary.getChoice(q,n);
+        String result = mQuestionLibraryTest.getChoice(q,n);
         return result;
     }
 
@@ -165,7 +201,10 @@ public class QuizMenuActivity extends AppCompatActivity {
     }
 
     private boolean testFullyComplete(){
-        if(questionNumber == mQuestionLibrary.getQuestionAmount()){
+        /*if(questionNumber == mQuestionLibrary.getQuestionAmount()){
+            return true;
+        }*/
+        if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
             return true;
         }
         else return false;
@@ -177,8 +216,8 @@ public class QuizMenuActivity extends AppCompatActivity {
         boolean correct = false;
 
         for (int i = 0; i<answerArray.size(); i++){
-            //compares the text on the button with the arraylist
-            if(b.getText()== answerArray.get(i)){
+            //compares the text on the button with the arrayList
+            if(b.getText().equals(answerArray.get(i))){
                 b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
                 b.setEnabled(false);
                 amountCorrectComparison++; //increment integer to compare with set number of correct answers
@@ -192,8 +231,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         }
         if(!correct){
             b.setBackgroundColor(Color.RED);
-            Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
-            b.startAnimation(shake);
+            amountGetCorrect--;
         }
 
     }
@@ -227,6 +265,7 @@ public class QuizMenuActivity extends AppCompatActivity {
         nextButton = (TextView) dialog.findViewById(R.id.nextText);
         explanationText = (TextView) dialog.findViewById(R.id.explanationText);
         explanationText.setText(explanation);
+        explanationText.setMovementMethod(new ScrollingMovementMethod());
 
         nextArrowButton.setVisibility(View.VISIBLE);
 
@@ -251,6 +290,49 @@ public class QuizMenuActivity extends AppCompatActivity {
 
     public void displayCompletionScreen(){
         Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
+        startIntent.putExtra("AMOUNT_CORRECT", amountGetCorrect);
+        startIntent.putExtra("TOTAL_CORRECT" +
+                "", mQuestionLibraryTest.getQuestionAmount());
         startActivity(startIntent);
+    }
+
+    /**
+     * Gets called everytime the questions are displayed to store the question number in their respected resume module txts
+     */
+    private void writeResume(){
+
+        fileIo.writeFile(questionNumber+"", resumeModule, this);
+        fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
+        //Log.d("MyTag", fileIo.readFromFile(this, resumeModule));
+    }
+
+    /**
+     * Grabs the question number from the respected resume module and sets that as the question number
+     */
+    private void resumeModule(){
+
+        String line = fileIo.readFromFile(getApplicationContext(), resumeModule);
+        String line2= fileIo.readFromFile(getApplicationContext(), getCorrectString);
+
+        questionNumber=Integer.parseInt(line);
+        amountGetCorrect=Integer.parseInt(line2);
+
+    }
+
+
+    public void test(){
+        Log.d("MyTag", answerArray.size()+"");
+
+        for (int i = 0; i<answerArray.size(); i++){
+            Log.d("MyTag", ""+answerArray.get(i));
+        }
+    }
+
+    public boolean fileExists(Context context, String filename) {
+        File file = context.getFileStreamPath(filename);
+        if(file == null || !file.exists()) {
+            return false;
+        }
+        return true;
     }
 }
