@@ -1,0 +1,11 @@
+Vital organs lack oxygen rich blood;Cut off circulation to the limbs;Fright caused by a certain situation;Excessive shaking;
+Yes;No; ; ;
+Vomiting and diarrhoea;Significant blood loss;Severe infection;Contusion to the brain;
+Excessive thirst;Rapid breathing;Pale skin;Eyes roll to back of head;
+Yes;No, the victim will recover on their own in time; ; ;
+Warming up the victim;Having the victim lay down in a comfortable position;Performing cpr on the victim;Monitor airway and breathing;
+Body temperature is cooling faster than it can re-heat;Being exposed to major frostbite;Body temperature is heating faster than it can re-cool (perspiration);A person is breathing air that freezes their internal lung lining tissue;
+Soaking the victim in hot water to bring their temperature up;Warming up the victim and bringing them indoors;Have the victim run or do some exercise to warm themselves up;Just monitor airway and breathing, let the victim naturally re-heat;
+A victim is in cold environment, in need of increasing their body temperature;The victim has been exposed to too much of the sun's ultraviolet rays;The body’s cooling system is completely overwhelmed and stops working;The victim receives a stroke while feeling heated;
+Soaking the victim in cold water to bring their temperature down;Monitor airway and breathing, cool victim with ice if possible;Have the victim laydown and wait until ambulance arrives;Give the victim water to drink, keep victim in a cool environment (laying down);
+Yes;No; ; ;
