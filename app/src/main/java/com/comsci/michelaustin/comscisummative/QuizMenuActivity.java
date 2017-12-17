@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -14,9 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class QuizMenuActivity extends AppCompatActivity{
 
@@ -36,6 +39,8 @@ public class QuizMenuActivity extends AppCompatActivity{
     private String resumeModule;
     private String getCorrectString;
 
+    TextToSpeech talker;
+    int result;
 
     private int moduleNumber;
 
@@ -58,6 +63,19 @@ public class QuizMenuActivity extends AppCompatActivity{
         setContentView(R.layout.activity_quiz_menu);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
+
+        talker = new TextToSpeech(QuizMenuActivity.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS){
+                    result = talker.setLanguage(Locale.UK);
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Talking feature not supported on this device", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         //initializing the buttons as well as the question labels
         option1 = (Button) findViewById(R.id.option1);
@@ -111,17 +129,14 @@ public class QuizMenuActivity extends AppCompatActivity{
                 checkAnswer(option4);
             }
         });
-
-
-
-
     }
 
     //Displays the questions on the screen as well as fetches the correct answer
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
-        //questionLabel.setText(mQuestionLibrary.getQuestion(questionNumber));
-        questionLabel.setText(mQuestionLibraryTest.getQuestion(questionNumber));
+        String ques = mQuestionLibraryTest.getQuestion(questionNumber);
+        questionLabel.setText(ques);
+        talker.speak(ques,TextToSpeech.QUEUE_FLUSH,null);
 
         option1.setText(getChoice(questionNumber,0));
         option2.setText(getChoice(questionNumber,1));
@@ -334,5 +349,15 @@ public class QuizMenuActivity extends AppCompatActivity{
             return false;
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        if (talker!=null)
+        {
+            talker.stop();
+            talker.shutdown();
+        }
     }
 }
