@@ -74,7 +74,7 @@ public class settingsPage extends AppCompatActivity {
     }
 
     private void writenew (String name){
-        fileIo.writeFile(name,this);
+        fileIo.writeFile(name,"lifeguardname.txt",this);
     }
 
     @Override

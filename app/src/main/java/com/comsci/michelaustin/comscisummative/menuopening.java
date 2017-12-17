@@ -18,7 +18,7 @@ public class menuopening extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuopening);
-        fileIo.writeFile(name,this);
+        fileIo.writeFile(name,"lifeguardname.txt",this);
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
 
         TextView nameshow = (TextView) findViewById(R.id.menuname);
@@ -38,6 +38,15 @@ public class menuopening extends AppCompatActivity {
             public void onClick(View v) {
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
                 startQuiz.putExtra("MODULE_ID",1);
+                startActivity(startQuiz);
+            }
+        });
+
+        module2Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
+                startQuiz.putExtra("MODULE_ID",2);
                 startActivity(startQuiz);
             }
         });
