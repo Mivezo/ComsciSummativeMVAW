@@ -10,3 +10,6 @@ Sudden trouble seeing in one or both eyes;Sudden confusion, trouble speaking, or
 Lay the victim on the side that is not numb (most comfortable);Treat victim for Shock;Give victim nitroglycerin;Call 911;
 True;False; ; ;
 Clean the wound with water;Bandage the wound;Call 911;If it is a child, inform his/her parent or guardian;
+True;False; ; ;
+Immediately call 911;Bandage and put pressure on the wound;Have the victim lay down;Apply a tourniquet (strap tightened to stop blood flow);
+Remove the previous bandage and replace with a fresh one;Place the new bandage on top of the previous bandage; ; ;
