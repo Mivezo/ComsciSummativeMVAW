@@ -3,7 +3,7 @@
     package="com.comsci.michelaustin.comscisummative">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/lgbuoy"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
