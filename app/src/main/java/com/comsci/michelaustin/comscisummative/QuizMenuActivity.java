@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class QuizMenuActivity extends AppCompatActivity{
+public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
 
     private TextView questionLabel;
     private Button option1;
@@ -58,6 +58,17 @@ public class QuizMenuActivity extends AppCompatActivity{
     //private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
     private QuestionLibrary mQuestionLibraryTest;
 
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS){
+            result = talker.setLanguage(Locale.UK);
+            displayQuestions();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Talking feature not supported on this device", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +78,7 @@ public class QuizMenuActivity extends AppCompatActivity{
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
 
-        talker = new TextToSpeech(QuizMenuActivity.this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS){
-                    result = talker.setLanguage(Locale.UK);
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Talking feature not supported on this device", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        talker = new TextToSpeech(QuizMenuActivity.this, this);
 
         //initializing the buttons as well as the question labels
         option1 = (Button) findViewById(R.id.option1);
@@ -100,7 +100,7 @@ public class QuizMenuActivity extends AppCompatActivity{
         resumeModule();
         amountGetCorrect=mQuestionLibraryTest.getQuestionAmount();
 
-        displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
+        //displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
 
 
 
