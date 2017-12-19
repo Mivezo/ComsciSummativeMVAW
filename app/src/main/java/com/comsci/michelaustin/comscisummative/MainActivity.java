@@ -2,6 +2,7 @@ package com.comsci.michelaustin.comscisummative;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
 
         userName = fileIo.readFromFile(this, "lifeguardname.txt");

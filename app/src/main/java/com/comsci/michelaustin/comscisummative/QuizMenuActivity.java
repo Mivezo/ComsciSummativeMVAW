@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -39,7 +41,7 @@ public class QuizMenuActivity extends AppCompatActivity{
     private String resumeModule;
     private String getCorrectString;
 
-    TextToSpeech talker;
+    private TextToSpeech talker;
     int result;
 
     private int moduleNumber;
@@ -61,6 +63,7 @@ public class QuizMenuActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
 
@@ -136,7 +139,12 @@ public class QuizMenuActivity extends AppCompatActivity{
     private void displayQuestions(){
         String ques = mQuestionLibraryTest.getQuestion(questionNumber);
         questionLabel.setText(ques);
-        talker.speak(ques,TextToSpeech.QUEUE_FLUSH,null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            talker.speak(ques,TextToSpeech.QUEUE_FLUSH,null,null);
+        } else {
+            talker.speak(ques, TextToSpeech.QUEUE_FLUSH, null);
+        }
 
         option1.setText(getChoice(questionNumber,0));
         option2.setText(getChoice(questionNumber,1));
