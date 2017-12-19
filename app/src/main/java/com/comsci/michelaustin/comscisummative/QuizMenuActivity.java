@@ -303,11 +303,12 @@ public class QuizMenuActivity extends AppCompatActivity{
         dialog.show();
     }
 
+    //Displays the completion screen
     public void displayCompletionScreen(){
         Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
         startIntent.putExtra("AMOUNT_CORRECT", amountGetCorrect);
-        startIntent.putExtra("TOTAL_CORRECT" +
-                "", mQuestionLibraryTest.getQuestionAmount());
+        startIntent.putExtra("TOTAL_CORRECT", mQuestionLibraryTest.getQuestionAmount());
+        startIntent.putExtra("MODULEID", moduleNumber);
         startActivity(startIntent);
     }
 

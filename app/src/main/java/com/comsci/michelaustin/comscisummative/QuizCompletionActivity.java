@@ -13,6 +13,7 @@ public class QuizCompletionActivity extends AppCompatActivity {
     private TextView correctAnswerTextView;
     private int amountCorrect;
     private int totalAmount;
+    private int moduleID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,8 @@ public class QuizCompletionActivity extends AppCompatActivity {
 
         amountCorrect = getIntent().getIntExtra("AMOUNT_CORRECT",0);
         totalAmount = getIntent().getIntExtra("TOTAL_AMOUNT", 0);
-
-        correctAnswerTextView.setText("You got "+amountCorrect+" correct out of "+totalAmount+".");
+        moduleID = getIntent().getIntExtra("MODULEID", 0);
+        //correctAnswerTextView.setText("You got "+amountCorrect+" correct out of "+totalAmount+".");
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +35,8 @@ public class QuizCompletionActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
+
+        fileIo.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
 
 
     }
