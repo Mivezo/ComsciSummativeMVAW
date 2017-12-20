@@ -1,11 +1,14 @@
 package com.comsci.michelaustin.comscisummative;
 
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
@@ -40,6 +44,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private String explanation="";
     private String resumeModule;
     private String getCorrectString;
+    private MediaPlayer mp;
 
     private TextToSpeech talker;
     int result;
@@ -77,6 +82,29 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
+        int musicchoice = 0;
+
+        if (moduleNumber == 1){
+            musicchoice = R.raw.song1;
+        }
+        else if (moduleNumber == 2){
+            musicchoice = R.raw.song2;
+        }
+        else if (moduleNumber == 3){
+            musicchoice = R.raw.song3;
+        }
+        else if (moduleNumber == 4){
+            musicchoice = R.raw.song4;
+        }
+        else if (moduleNumber == 5){
+            musicchoice = R.raw.song5;
+        }
+
+        if (musicchoice != 0){
+            mp = MediaPlayer.create(getApplicationContext(), musicchoice);
+            mp.setLooping(true);
+            mp.start();
+        }
 
         talker = new TextToSpeech(QuizMenuActivity.this, this);
 
@@ -228,9 +256,20 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             return true;
         }*/
         if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
+            mp.stop();
+            mp.release();
             return true;
         }
         else return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        talker.stop();
+        mp.stop();
+        mp.release();
+        Intent change = new Intent(getApplicationContext(), menuopening.class);
+        startActivity(change);
     }
 
     //checks whether the button pressed is a correct answer or not
@@ -367,5 +406,29 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             talker.stop();
             talker.shutdown();
         }
+    }
+
+    protected void onPause() {
+        if (this.isFinishing()){ //basically BACK was pressed from this activity
+            mp.stop();
+            Toast.makeText(QuizMenuActivity.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
+        }
+
+        Context context = getApplicationContext();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                mp.stop();
+                talker.stop();
+                Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(QuizMenuActivity.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onPause();
     }
 }
