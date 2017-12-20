@@ -38,6 +38,10 @@ public class menuopening extends AppCompatActivity {
         module1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                module2Button.setEnabled(false);
+                module3Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module5Button.setEnabled(false);
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
                 startQuiz.putExtra("MODULE_ID",1);
                 startActivity(startQuiz);
@@ -47,8 +51,25 @@ public class menuopening extends AppCompatActivity {
         module2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                module1Button.setEnabled(false);
+                module3Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module5Button.setEnabled(false);
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
                 startQuiz.putExtra("MODULE_ID",2);
+                startActivity(startQuiz);
+            }
+        });
+
+        module3Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                module1Button.setEnabled(false);
+                module2Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module5Button.setEnabled(false);
+                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
+                startQuiz.putExtra("MODULE_ID",3);
                 startActivity(startQuiz);
             }
         });
