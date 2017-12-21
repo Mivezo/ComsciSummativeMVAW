@@ -532,27 +532,30 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     protected void onPause() {
 
-        if (moduleNumber!=6) {
-            if (this.isFinishing()) { //basically BACK was pressed from this activity
+        if (this.isFinishing()) { //basically BACK was pressed from this activity
+            if (moduleNumber!= 6) {
                 mp.stop();
-                Toast.makeText(QuizMenuActivity.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
             }
-
-            Context context = getApplicationContext();
-            ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-            List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
-
-            if (!taskInfo.isEmpty()) {
-                ComponentName topActivity = taskInfo.get(0).topActivity;
-                if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                    mp.stop();
-                    talker.stop();
-                    Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(QuizMenuActivity.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
-                }
-            }
-            super.onPause();
+            Toast.makeText(QuizMenuActivity.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
         }
+
+        Context context = getApplicationContext();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+
+        if (!taskInfo.isEmpty()) {
+            ComponentName topActivity = taskInfo.get(0).topActivity;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) {
+                if(moduleNumber!=6){
+                    mp.stop();
+                }
+                talker.stop();
+                Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(QuizMenuActivity.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+            }
+        }
+        super.onPause();
+
     }
 }
