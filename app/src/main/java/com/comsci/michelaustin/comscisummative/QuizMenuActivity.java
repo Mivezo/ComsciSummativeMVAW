@@ -374,7 +374,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             }
             else{
                 questionNumber+=1;//increases questionNumber to switch question
-                b.setBackgroundColor(Color.WHITE);
+                b.setBackgroundColor(Color.BLUE);
                 nextArrowButton.setVisibility(View.VISIBLE);
                 nextArrowButton.setOnClickListener(new View.OnClickListener() {
                     @Override
