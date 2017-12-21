@@ -1,7 +1,6 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,20 +13,20 @@ public class QuizCompletionActivity extends AppCompatActivity {
     private TextView correctAnswerTextView;
     private int amountCorrect;
     private int totalAmount;
+    private int moduleID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_completion);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         menuButton = (Button) findViewById(R.id.menuButton);
         correctAnswerTextView = (TextView) findViewById(R.id.correctAnswerTextView);
 
         amountCorrect = getIntent().getIntExtra("AMOUNT_CORRECT",0);
         totalAmount = getIntent().getIntExtra("TOTAL_AMOUNT", 0);
-
-        correctAnswerTextView.setText("You got "+amountCorrect+" correct out of "+totalAmount+".");
+        moduleID = getIntent().getIntExtra("MODULEID", 0);
+        //correctAnswerTextView.setText("You got "+amountCorrect+" correct out of "+totalAmount+".");
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,6 +36,6 @@ public class QuizCompletionActivity extends AppCompatActivity {
             }
         });
 
-
+        fileIo.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
     }
 }
