@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class menuopening extends AppCompatActivity {
 
     String name = MainActivity.userName;
-    ImageButton module1Button, module2Button, module3Button, module4Button, module5Button;
+    ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class menuopening extends AppCompatActivity {
         (module3Button = findViewById(R.id.module3)).startAnimation(shake);
         (module4Button = findViewById(R.id.module4)).startAnimation(shake);
         (module5Button = findViewById(R.id.module5)).startAnimation(shake);
+        (module6Button = findViewById(R.id.module6)).startAnimation(shake);
 
         module1Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,14 @@ public class menuopening extends AppCompatActivity {
             public void onClick(View view) {
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
                 startQuiz.putExtra("MODULE_ID",2);
+                startActivity(startQuiz);
+            }
+        });
+        module6Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
+                startQuiz.putExtra("MODULE_ID",6);
                 startActivity(startQuiz);
             }
         });

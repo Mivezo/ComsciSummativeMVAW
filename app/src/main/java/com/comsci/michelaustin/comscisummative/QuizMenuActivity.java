@@ -44,10 +44,17 @@ public class QuizMenuActivity extends AppCompatActivity{
 
     private int moduleNumber;
 
+    private String grabbedAnswer; //for the test, this string holds the value the user has grabbed and will be stored in the
+
     private Dialog dialog;//dialog for popup
 
 
     ArrayList answerArray = new ArrayList();
+
+
+    ArrayList<String> testCorrectAnswerArray = new ArrayList<String>();
+    ArrayList<String> testQuestionArray = new ArrayList<String>();
+    ArrayList<String> testResult = new ArrayList<String>();
 
     SharedPreferences prefs = null;
 
@@ -109,26 +116,72 @@ public class QuizMenuActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 checkAnswer(option1);
+                if(moduleNumber==6){
+                    option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+
+                    grabbedAnswer=(String) option1.getText();
+                }
+
             }
         });
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkAnswer(option2);
+                if(moduleNumber==6){
+                    option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+
+                    grabbedAnswer=(String) option2.getText();
+                }
+
             }
         });
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkAnswer(option3);
+                if(moduleNumber==6){
+                    option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+
+                    grabbedAnswer=(String) option3.getText();
+                }
+
             }
         });
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkAnswer(option4);
+                if(moduleNumber==6){
+                    option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+                    option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
+
+                    grabbedAnswer=(String) option4.getText();
+                }
+
             }
         });
+
+        if(moduleNumber==6){
+            buildTestArrays();
+        }
+
+
+        /*if(moduleNumber==6){
+            test();
+        }*/
+
+        testResult.add("Arbitrary Value");
+        testResult.clear();
+
+        //fileIo.writeFile("", "testResult.txt", this);
     }
 
     //Displays the questions on the screen as well as fetches the correct answer
@@ -168,15 +221,15 @@ public class QuizMenuActivity extends AppCompatActivity{
             option4.setText(getChoice(questionNumber,3));
         }
 
-        //
-        //answerArray=(ArrayList<Object>)mQuestionLibrary.getCorrectAnswer(questionNumber).clone();
-        answerArray = (ArrayList<String>) mQuestionLibraryTest.getCorrectAnswer(questionNumber).clone();
-        //Collections.copy(mQuestionLibraryTest.getCorrectAnswer(questionNumber), answerArray);
+        if(moduleNumber!=6){
+            answerArray = (ArrayList<String>) mQuestionLibraryTest.getCorrectAnswer(questionNumber).clone();
+        }
+        else{
+            answerArray.add(mQuestionLibraryTest.getTestCorrectAnswer(questionNumber));
+        }
 
-        //explanation=mQuestionLibrary.getExplanation(questionNumber);
         explanation = mQuestionLibraryTest.getExplanation(questionNumber);
         amountCorrect=mQuestionLibraryTest.getAnswerAmount(questionNumber);
-
 
         nextArrowButton.setVisibility(View.GONE);
 
@@ -185,9 +238,6 @@ public class QuizMenuActivity extends AppCompatActivity{
 
     //allows the UI to test and remove buttons if the options are blank
     public boolean testWhetherBlank(int q){
-        /*if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
-            return true;
-        }*/
         if(mQuestionLibraryTest.getChoice(questionNumber,q).equals("")){
             return true;
         }
@@ -215,10 +265,8 @@ public class QuizMenuActivity extends AppCompatActivity{
         }
     }
 
+    //Checks whether the module is fully complete
     private boolean testFullyComplete(){
-        /*if(questionNumber == mQuestionLibrary.getQuestionAmount()){
-            return true;
-        }*/
         if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
             return true;
         }
@@ -233,19 +281,50 @@ public class QuizMenuActivity extends AppCompatActivity{
         for (int i = 0; i<answerArray.size(); i++){
             //compares the text on the button with the arrayList
             if(b.getText().equals(answerArray.get(i))){
-                b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
-                b.setEnabled(false);
+                if(moduleNumber!=6){
+                    b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
+                    b.setEnabled(false);
+                }
+                else{
+                    b.setBackgroundColor(Color.WHITE);
+                }
+
                 amountCorrectComparison++; //increment integer to compare with set number of correct answers
                 correct=true;
 
                 if(testComplete()){
                     questionNumber+=1;//increases questionNumber to switch question
-                    showPopup(this.findViewById(android.R.id.content));
+                    if(moduleNumber!=6){
+                        showPopup(this.findViewById(android.R.id.content));
+                    }
+                    else{
+                        nextArrowButton.setVisibility(View.VISIBLE);
+                        nextArrowButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                switchQuestion();
+                            }
+                        });
+                    }
+
                 }
             }
         }
         if(!correct){
-            b.setBackgroundColor(Color.RED);
+            if(moduleNumber!=6){
+                b.setBackgroundColor(Color.RED);
+            }
+            else{
+                questionNumber+=1;//increases questionNumber to switch question
+                b.setBackgroundColor(Color.WHITE);
+                nextArrowButton.setVisibility(View.VISIBLE);
+                nextArrowButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switchQuestion();
+                    }
+                });
+            }
             amountGetCorrect--;
         }
 
@@ -261,9 +340,20 @@ public class QuizMenuActivity extends AppCompatActivity{
             public void run() {
                 // Do something after 1.5s = 1500ms
                 if(!testFullyComplete()){
+                    if(moduleNumber==6){
+                        testResult.add(grabbedAnswer);
+                    }
                     displayQuestions();
                 }
-                else displayCompletionScreen();
+                else {
+                    if(moduleNumber!=6){
+                        displayCompletionScreen();
+                    }
+                    else{
+                        testResult.add(grabbedAnswer);
+                        displayTestCompletionScreen();
+                    }
+                }
             }
         }, 1000);
         amountCorrectComparison=0;
@@ -312,6 +402,15 @@ public class QuizMenuActivity extends AppCompatActivity{
         startActivity(startIntent);
     }
 
+    public void displayTestCompletionScreen(){
+        Intent startIntent= new Intent(getApplicationContext(), TestCompletionScreen.class);
+        startIntent.putStringArrayListExtra("TEST_QUESTION_ARRAY", testQuestionArray);//passing the test arrays to the test completion activity
+        startIntent.putStringArrayListExtra("TEST_CORRECT_ANSWER_ARRAY", testCorrectAnswerArray);
+        startIntent.putStringArrayListExtra("TEST_RESULT_ARRAY", testResult);
+
+        startActivity(startIntent);
+    }
+
     /**
      * Gets called everytime the questions are displayed to store the question number in their respected resume module txts
      */
@@ -319,7 +418,6 @@ public class QuizMenuActivity extends AppCompatActivity{
 
         fileIo.writeFile(questionNumber+"", resumeModule, this);
         fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
-        //Log.d("MyTag", fileIo.readFromFile(this, resumeModule));
     }
 
     /**
@@ -335,13 +433,28 @@ public class QuizMenuActivity extends AppCompatActivity{
 
     }
 
+    private void buildTestArrays(){
+        testCorrectAnswerArray.add("fsdf");//arbitrary values to get cleared as cannot clear a null txt file
+        testQuestionArray.add("ggd");
+
+        testQuestionArray.clear();
+        testCorrectAnswerArray.clear();
+
+
+        for(int i=0; i<20; i++){
+            testCorrectAnswerArray.add(mQuestionLibraryTest.getTestCorrectAnswer(i));
+            testQuestionArray.add(mQuestionLibraryTest.getQuestion(i));
+        }
+
+    }
+
 
     public void test(){
-        Log.d("MyTag", answerArray.size()+"");
-
-        for (int i = 0; i<answerArray.size(); i++){
-            Log.d("MyTag", ""+answerArray.get(i));
+        for(int i=0; i<testQuestionArray.size(); i++){
+            Log.d("Test1", testQuestionArray.get(i)+"");
+            Log.d("Test2", testCorrectAnswerArray.get(i)+"");
         }
+
     }
 
     public boolean fileExists(Context context, String filename) {

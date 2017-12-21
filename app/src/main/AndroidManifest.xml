@@ -30,6 +30,7 @@
         <activity android:name=".QuizMenuActivity" />
         <activity android:name=".mainMenu" />
         <activity android:name=".settingsPage" />
+        <activity android:name=".TestCompletionScreen"></activity>
     </application>
 
 </manifest>

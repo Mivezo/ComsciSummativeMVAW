@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 /**
  * Created by Evelina Vezarov on 2017-11-14.
@@ -57,6 +58,18 @@ public class fileIo {
         }
 
         return ret;
+    }
+
+    public static void appendLineFile(String data, String fileName,Context context) {
+
+        try {
+            PrintWriter writer = new PrintWriter( new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE)));
+            writer.println();
+            writer.append(data);
+            writer.close();
+        } catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
     }
 
 

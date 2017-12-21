@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Austin on 2017-12-04.
@@ -25,23 +26,29 @@ public class QuestionLibrary {
     String explanationsFileName;
     String correctAnswersFileName;
 
-    ArrayList<Integer> randomInt = new ArrayList<Integer>();
+    private ArrayList<Integer> randomInt = new ArrayList<Integer>();
 
-
+    private long seed = System.nanoTime();
 
     private ArrayList <String> questions= new ArrayList<String>();
     private List<List<String>> answers = new ArrayList<List<String>>();
     ArrayList<ArrayList<String>> correctAnswers = new ArrayList<ArrayList<String>>();
     private ArrayList <String> explanations= new ArrayList<String>();
 
-    private ArrayList <String> testQuestions= new ArrayList<String>();
-    private List<List<String>> testAnswers = new ArrayList<List<String>>();
-    ArrayList<ArrayList<String>> testCorrectAnswers = new ArrayList<ArrayList<String>>();
+    public ArrayList <String> testQuestions= new ArrayList<String>();
+    public List<List<String>> testAnswers = new ArrayList<List<String>>();
+    public ArrayList<String> testCorrectAnswers = new ArrayList<String>();
 
+    public ArrayList <String> tempCorrectAnswers= new ArrayList<String>();
 
 
     int moduleID;
     int answerAmount;
+
+
+    public QuestionLibrary(Context c){
+        context=c;
+    }
 
     public QuestionLibrary(int mID, Context c){
         moduleID=mID;
@@ -49,9 +56,13 @@ public class QuestionLibrary {
 
         createFileNames();
 
+        randomInt.add(0);
 
         buildArrays();
-        if(moduleID==6) randomizeArrays();
+
+        if(moduleID==6) {
+            randomizeArrays();
+        }
 
     }
 
@@ -78,11 +89,18 @@ public class QuestionLibrary {
        if(moduleID!=6){
            explanations.add("!");
            createArray(explanations, explanationsFileName);
+           createCorrectAnswerArray(correctAnswersFileName);
+       }
+       else{
+           testQuestions.add("f");
+           testAnswers.add(Arrays.asList("f"));
+           testCorrectAnswers.add("1");
+           createArray(tempCorrectAnswers, correctAnswersFileName);
        }
 
         createArray(questions, questionFileName);
         createAnswerArray(answerFileName);
-        createCorrectAnswerArray(correctAnswersFileName);
+
     }
 
     /**
@@ -113,7 +131,6 @@ public class QuestionLibrary {
 
                 int comma1 = line.indexOf(";");
                 int comma2 = line.indexOf(";", comma1+1);
-                Log.d("Test", comma1+"");
                 int comma3 = line.indexOf(";", comma2+1);
                 int comma4 = line.indexOf(";", comma3+1);
 
@@ -146,7 +163,6 @@ public class QuestionLibrary {
 
         correctAnswers.add(new ArrayList<String>());
 
-
         int linecount=0;
 
         try{
@@ -161,6 +177,7 @@ public class QuestionLibrary {
                     int colon1 = line.indexOf(";");
                     String answer1 = line.substring(0,colon1) ;
                     correctAnswers.get(linecount).add(answer1);
+
                 }
                 else if(count ==2){
                     int colon1 = line.indexOf(";");
@@ -196,6 +213,8 @@ public class QuestionLibrary {
             ioe.printStackTrace();
         }
 
+        correctAnswers.remove(linecount);
+
     }
 
     //returns the answer choices for the buttons
@@ -226,34 +245,44 @@ public class QuestionLibrary {
     }
 
     public ArrayList getCorrectAnswer(int i){
-        if(moduleID!=6){
-            return correctAnswers.get(i);
-        }
-        else return testCorrectAnswers.get(i);//for test module
-
+         return correctAnswers.get(i);
     }
+
+    public String getTestCorrectAnswer(int i){
+        return testCorrectAnswers.get(i);
+    }
+
+
 
     //returns the amount of questions
     public int getAnswerAmount(int i){
         if(moduleID!=6){
             answerAmount=correctAnswers.get(i).size();
         }
-        else answerAmount=testCorrectAnswers.get(i).size();//for test module
+        else answerAmount=1;//for test module
 
         return answerAmount;
     }
 
     //Shuffles the question, answer and correctanswer arrays. Takes the 1st 20 and puts it into a new arraylist with the prefixes test
     public void randomizeArrays(){
-        for(int i=0; i<randomInt.size(); i++){
+
+        randomInt.clear();
+
+        for(int i=0; i<50; i++){
             randomInt.add(i);
         }
-        Collections.shuffle(Arrays.asList(randomInt));
+        Collections.shuffle(randomInt, new Random(seed));
+
+        testQuestions.clear();
+        testAnswers.clear();
+        testCorrectAnswers.clear();
+
 
         for(int i=0; i<20; i++){
             testQuestions.add(questions.get(randomInt.get(i)));
             testAnswers.add(answers.get(randomInt.get(i)));
-            testCorrectAnswers.add(correctAnswers.get(randomInt.get(i)));
+            testCorrectAnswers.add(tempCorrectAnswers.get(randomInt.get(i)));
         }
 
 
@@ -312,13 +341,12 @@ public class QuestionLibrary {
 
 
     private void test(){
-        Log.d("MyTag", answers.size()+"");
+        Log.d("MyTag", correctAnswers.size()+"");
 
-        for (int i=0; i<answers.size(); i++){
-            for(int j=0; j<answers.get(i).size(); j++){
-                Log.d("MyTag", "answers.get"+i+" "+j);
-                Log.d("MyTag", answers.get(i).get(j));
-            }
+        for (int i=0; i<correctAnswers.size(); i++){
+            Log.d("TEST2: "+i, questions.get(i)+"");
+            Log.d("TEST1: "+i, correctAnswers.get(i)+"");
+
         }
     }
 
