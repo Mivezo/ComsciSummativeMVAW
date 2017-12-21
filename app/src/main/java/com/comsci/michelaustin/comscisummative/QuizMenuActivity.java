@@ -233,7 +233,10 @@ public class QuizMenuActivity extends AppCompatActivity{
 
         nextArrowButton.setVisibility(View.GONE);
 
-        writeResume();
+        if(moduleNumber!=6){
+            writeResume();
+        }
+
     }
 
     //allows the UI to test and remove buttons if the options are blank
