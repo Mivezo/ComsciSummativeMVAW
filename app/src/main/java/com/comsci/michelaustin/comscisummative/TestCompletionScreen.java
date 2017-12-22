@@ -23,6 +23,8 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     private ArrayList<String> userResult = new ArrayList<String>();
     private ArrayList<String> testCorrectAnswers = new ArrayList<String>();
+    private static ArrayList<String> userResultS = new ArrayList<String>();
+    private static ArrayList<String> testCorrectAnswersS = new ArrayList<String>();
     private ArrayList<String> testQuestions = new ArrayList<String>();
     private boolean pass;
     private int passPercent;
@@ -47,7 +49,9 @@ public class TestCompletionScreen extends AppCompatActivity {
 
         testQuestions = getIntent().getStringArrayListExtra("TEST_QUESTION_ARRAY");
         testCorrectAnswers = getIntent().getStringArrayListExtra("TEST_CORRECT_ANSWER_ARRAY");
+        testCorrectAnswersS = getIntent().getStringArrayListExtra("TEST_CORRECT_ANSWER_ARRAY");
         userResult = getIntent().getStringArrayListExtra("TEST_RESULT_ARRAY");
+        userResultS = getIntent().getStringArrayListExtra("TEST_RESULT_ARRAY");
 
         mQuestionibrary = new QuestionLibrary(getApplicationContext());
         questionRight=20;
@@ -137,6 +141,15 @@ public class TestCompletionScreen extends AppCompatActivity {
         }
 
         passPercent = (int) Math.round(percent);
-
     }
+
+    public static boolean isCorrect(int i){
+        if (userResultS.get(i).equals(testCorrectAnswersS.get(i))){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }
