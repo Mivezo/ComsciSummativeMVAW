@@ -17,6 +17,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -47,13 +49,15 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private MediaPlayer mp;
     private String grabbedAnswer;
 
+    private Animation in;
+    private Animation out;
+
     private TextToSpeech talker;
     int result;
 
     private int moduleNumber;
 
     private Dialog dialog;//dialog for popup
-
 
     ArrayList answerArray = new ArrayList();
 
@@ -87,6 +91,13 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
+
+        in = new AlphaAnimation(0.0f, 1.0f);
+        in.setDuration(1000);
+
+        out = new AlphaAnimation(1.0f, 0.0f);
+        out.setDuration(1000);
+
         int musicchoice = 0;
 
         if (moduleNumber == 1){
@@ -217,8 +228,11 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     //Displays the questions on the screen as well as fetches the correct answer
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
+
         String ques = mQuestionLibraryTest.getQuestion(questionNumber);
+
         questionLabel.setText(ques);
+        questionLabel.startAnimation(in);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             talker.speak(ques,TextToSpeech.QUEUE_FLUSH,null,null);
@@ -391,6 +405,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     //Adding delay to the button to make green visible
     private void switchQuestion(){
         final Handler handler = new Handler();
+        questionLabel.startAnimation(out);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -410,6 +425,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                         displayTestCompletionScreen();
                     }
                 }
+
             }
         }, 1000);
         amountCorrectComparison=0;
