@@ -21,6 +21,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     private Animation in;
     private Animation out;
+    private ImageView lifeg;
 
     private TextToSpeech talker;
     int result;
@@ -91,12 +93,15 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
+        lifeg = findViewById(R.id.lifeguard);
 
         in = new AlphaAnimation(0.0f, 1.0f);
         in.setDuration(1000);
 
         out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(1000);
+
+        lifeg.startAnimation(in);
 
         int musicchoice = 0;
 
@@ -230,6 +235,10 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private void displayQuestions(){
 
         String ques = mQuestionLibraryTest.getQuestion(questionNumber);
+
+        if (questionNumber!=1){
+            lifeg.startAnimation(in);
+        }
 
         questionLabel.setText(ques);
         questionLabel.startAnimation(in);
@@ -406,6 +415,11 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private void switchQuestion(){
         final Handler handler = new Handler();
         questionLabel.startAnimation(out);
+        lifeg.startAnimation(out);
+        option1.startAnimation(out);
+        option2.startAnimation(out);
+        option3.startAnimation(out);
+        option4.startAnimation(out);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
