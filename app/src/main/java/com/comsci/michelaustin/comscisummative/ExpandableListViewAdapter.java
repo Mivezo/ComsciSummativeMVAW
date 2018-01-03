@@ -66,7 +66,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     public View getGroupView(int i, boolean b, View view, ViewGroup viewGroup) {
 
         TextView txtView = new TextView(context);
-        txtView.setText(groupNames.get(i));
+        txtView.setText((i+1)+"."+groupNames.get(i));
         txtView.setPadding(100,0,50,0);
         txtView.setTextColor(Color.BLACK);
         if (TestCompletionScreen.isCorrect(i)){

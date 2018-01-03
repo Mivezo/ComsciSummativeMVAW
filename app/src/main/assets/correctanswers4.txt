@@ -1,0 +1,18 @@
+Tissue/muscle bleed under the skin;
+Ice the injury for 15 minutes every hour;
+Redness;Mild swelling;Anxiety;
+Call 911;
+Anxiety;Swelling;Anxiety;
+Apply a wet cloth if available;
+Red, black, and grey tissue;Underlying tissue and organs exposed;Fainting;
+Flush the wound with cool, clean water;
+Bleeding;
+False;
+True;
+True;
+False;
+Rest, Immobilize, Cold, Elevate;
+False;
+Vomiting;
+If on land, hold the victim down so they do not hurt themselves;
+False;
