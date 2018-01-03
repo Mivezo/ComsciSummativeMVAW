@@ -61,6 +61,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     private TextToSpeech talker;
     int result;
+    int openingQuestion;
 
     private int moduleNumber;
 
@@ -101,6 +102,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
         lifeg = findViewById(R.id.lifeguard);
+        openingQuestion = 0;
 
         in = new AlphaAnimation(0.0f, 1.0f);
         in.setDuration(1000);
@@ -108,7 +110,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(1000);
 
-        lifeg.startAnimation(in);
+        //lifeg.startAnimation(in);
 
         int musicchoice = 0;
 
@@ -243,7 +245,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         String ques = mQuestionLibraryTest.getQuestion(questionNumber);
 
-        if (questionNumber!=1){
+        if(questionNumber!=openingQuestion){
             lifeg.startAnimation(in);
         }
 
@@ -533,6 +535,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         String line2= fileIo.readFromFile(getApplicationContext(), getCorrectString);
 
         questionNumber=Integer.parseInt(line);
+        openingQuestion=questionNumber;
         amountGetCorrect=Integer.parseInt(line2);
 
     }
