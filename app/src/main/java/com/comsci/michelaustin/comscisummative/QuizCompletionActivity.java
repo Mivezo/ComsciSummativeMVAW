@@ -38,4 +38,10 @@ public class QuizCompletionActivity extends AppCompatActivity {
 
         fileIo.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent change = new Intent(getApplicationContext(), menuopening.class);
+        startActivity(change);
+    }
 }

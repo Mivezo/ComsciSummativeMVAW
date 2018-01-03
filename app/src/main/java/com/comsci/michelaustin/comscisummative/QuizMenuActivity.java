@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,8 +53,11 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private String grabbedAnswer;
 
     private Animation in;
+    private Animation shake;
     private Animation out;
     private ImageView lifeg;
+
+    private Vibrator vib;
 
     private TextToSpeech talker;
     int result;
@@ -91,6 +96,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
         lifeg = findViewById(R.id.lifeguard);
@@ -265,6 +272,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         //to test specifically for true and false questions and to remove visibility of the last two buttons
         if (testWhetherBlank(2)) {
             option3.setVisibility(View.GONE);
+            option3.setEnabled(false);
         }
         else{
             option3.setVisibility(View.VISIBLE);
@@ -273,6 +281,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         if (testWhetherBlank(3)) {
             option4.setVisibility(View.GONE);
+            option4.setEnabled(false);
         }
         else{
             option4.setVisibility(View.VISIBLE);
@@ -394,6 +403,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         if(!correct){
             if(moduleNumber!=6){
                 b.setBackgroundColor(Color.RED);
+                b.startAnimation(shake);
+                vib.vibrate(150);
+                b.setEnabled(false);
             }
             else{
                 questionNumber+=1;//increases questionNumber to switch question
@@ -418,8 +430,12 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         lifeg.startAnimation(out);
         option1.startAnimation(out);
         option2.startAnimation(out);
-        option3.startAnimation(out);
-        option4.startAnimation(out);
+
+        if ((option3.getVisibility() == View.VISIBLE) && (option4.getVisibility() == View.VISIBLE)) {
+            option3.startAnimation(out);
+            option4.startAnimation(out);
+        }
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -480,6 +496,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     //Displays the completion screen
     public void displayCompletionScreen(){
+        talker.stop();
         Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
         startIntent.putExtra("AMOUNT_CORRECT", amountGetCorrect);
         startIntent.putExtra("TOTAL_CORRECT", mQuestionLibraryTest.getQuestionAmount());
@@ -488,6 +505,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     }
 
     public void displayTestCompletionScreen(){
+        talker.stop();
         Intent startIntent= new Intent(getApplicationContext(), TestCompletionScreen.class);
         startIntent.putStringArrayListExtra("TEST_QUESTION_ARRAY", testQuestionArray);//passing the test arrays to the test completion activity
         startIntent.putStringArrayListExtra("TEST_CORRECT_ANSWER_ARRAY", testCorrectAnswerArray);

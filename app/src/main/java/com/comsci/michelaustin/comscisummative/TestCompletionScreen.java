@@ -152,4 +152,10 @@ public class TestCompletionScreen extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent change = new Intent(getApplicationContext(), menuopening.class);
+        startActivity(change);
+    }
+
 }
