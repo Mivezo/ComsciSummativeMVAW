@@ -53,6 +53,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private String grabbedAnswer;
 
     private Animation in;
+    private Animation option1in,option2in,option3in,option4in;
     private Animation shake;
     private Animation out;
     private ImageView lifeg;
@@ -104,11 +105,23 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         lifeg = findViewById(R.id.lifeguard);
         openingQuestion = 0;
 
+        option1in = new AlphaAnimation(0.0f, 1.0f);
+        option1in.setDuration(1200);
+
+        option2in = new AlphaAnimation(0.0f, 1.0f);
+        option2in.setDuration(1600);
+
+        option3in = new AlphaAnimation(0.0f, 1.0f);
+        option3in.setDuration(2000);
+
+        option4in = new AlphaAnimation(0.0f, 1.0f);
+        option4in.setDuration(2400);
+
         in = new AlphaAnimation(0.0f, 1.0f);
         in.setDuration(1000);
 
         out = new AlphaAnimation(1.0f, 0.0f);
-        out.setDuration(1000);
+        out.setDuration(800);
 
         //lifeg.startAnimation(in);
 
@@ -170,27 +183,34 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(option1);
+
                 if(moduleNumber==6){
                     option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
-
+                    option1.setBackgroundColor(Color.WHITE);
                     grabbedAnswer=(String) option1.getText();
+                    showNextArrowButton();
                 }
-
+                else{
+                    checkAnswer(option1);
+                }
             }
         });
         option2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(option2);
+
                 if(moduleNumber==6){
                     option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
-
+                    option2.setBackgroundColor(Color.WHITE);
                     grabbedAnswer=(String) option2.getText();
+                    showNextArrowButton();
+                }
+                else{
+                    checkAnswer(option2);
                 }
 
             }
@@ -198,13 +218,17 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         option3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(option3);
+
                 if(moduleNumber==6){
                     option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
-
+                    option3.setBackgroundColor(Color.WHITE);
                     grabbedAnswer=(String) option3.getText();
+                    showNextArrowButton();
+                }
+                else{
+                    checkAnswer(option3);
                 }
 
             }
@@ -212,13 +236,17 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         option4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(option4);
+
                 if(moduleNumber==6){
                     option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
-
+                    option4.setBackgroundColor(Color.WHITE);
                     grabbedAnswer=(String) option4.getText();
+                    showNextArrowButton();
+                }
+                else{
+                    checkAnswer(option4);
                 }
 
             }
@@ -243,10 +271,17 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
 
-        String ques = mQuestionLibraryTest.getQuestion(questionNumber);
+        String ques = (questionNumber+1)+". "+mQuestionLibraryTest.getQuestion(questionNumber);
 
         if(questionNumber!=openingQuestion){
             lifeg.startAnimation(in);
+            option1.startAnimation(option1in);
+            option2.startAnimation(option2in);
+
+            if (!testWhetherBlank(2) && !testWhetherBlank(3)) {
+                option3.startAnimation(option3in);
+                option4.startAnimation(option4in);
+            }
         }
 
         questionLabel.setText(ques);
@@ -340,17 +375,21 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     }
 
     private boolean testFullyComplete(){
-        /*if(questionNumber == mQuestionLibrary.getQuestionAmount()){
-            return true;
-        }*/
-        if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
-            if(moduleNumber != 6){
+        if(moduleNumber!=6){
+            if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
                 mp.stop();
                 mp.release();
+                return true;
             }
-            return true;
+            else return false;
         }
-        else return false;
+        else{
+
+            if(questionNumber == mQuestionLibraryTest.getQuestionAmount()-1){
+                return true;
+            }
+            else return false;
+        }
     }
 
     @Override
@@ -372,54 +411,25 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         for (int i = 0; i<answerArray.size(); i++){
             //compares the text on the button with the arrayList
-            if(b.getText().equals(answerArray.get(i))){
-                if(moduleNumber!=6){
-                    b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
-                    b.setEnabled(false);
-                }
-                else{
-                    b.setBackgroundColor(Color.BLUE);
-                }
-
+            if(b.getText().equals(answerArray.get(i))) {
+                b.setBackgroundColor(Color.GREEN); //sets to green to indicate correct answer
+                b.setEnabled(false);
                 amountCorrectComparison++; //increment integer to compare with set number of correct answers
                 correct=true;
 
                 if(testComplete()){
                     questionNumber+=1;//increases questionNumber to switch question
-                    if(moduleNumber!=6){
-                        showPopup(this.findViewById(android.R.id.content));
-                    }
-                    else{
-                        nextArrowButton.setVisibility(View.VISIBLE);
-                        nextArrowButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                switchQuestion();
-                            }
-                        });
-                    }
 
+                    showPopup(this.findViewById(android.R.id.content));
                 }
             }
         }
         if(!correct){
-            if(moduleNumber!=6){
-                b.setBackgroundColor(Color.RED);
-                b.startAnimation(shake);
-                vib.vibrate(150);
-                b.setEnabled(false);
-            }
-            else{
-                questionNumber+=1;//increases questionNumber to switch question
-                b.setBackgroundColor(Color.BLUE);
-                nextArrowButton.setVisibility(View.VISIBLE);
-                nextArrowButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switchQuestion();
-                    }
-                });
-            }
+
+            b.setBackgroundColor(Color.RED);
+            b.startAnimation(shake);
+            vib.vibrate(150);
+            b.setEnabled(false);
             amountGetCorrect--;
         }
 
@@ -444,6 +454,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                 // Do something after 1.5s = 1500ms
                 if(!testFullyComplete()){
                     if(moduleNumber==6){
+                        questionNumber++;
                         testResult.add(grabbedAnswer);
                     }
                     displayQuestions();
@@ -459,7 +470,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                 }
 
             }
-        }, 1000);
+        }, 800);
         amountCorrectComparison=0;
     }
 
@@ -608,5 +619,17 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         }
         super.onPause();
 
+    }
+
+    private void showNextArrowButton(){
+        nextArrowButton.setVisibility(View.VISIBLE);
+        nextArrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextArrowButton.setVisibility(View.GONE);
+                switchQuestion();
+
+            }
+        });
     }
 }
