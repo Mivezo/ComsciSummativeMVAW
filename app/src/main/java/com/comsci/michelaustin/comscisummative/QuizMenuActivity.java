@@ -51,6 +51,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private String getCorrectString;
     private MediaPlayer mp;
     private String grabbedAnswer;
+    private String voiceMuted;
+    private String vibrations;
 
     private Animation in;
     private Animation option1in,option2in,option3in,option4in;
@@ -61,6 +63,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Vibrator vib;
 
     private TextToSpeech talker;
+    boolean playvoice;
     int result;
     int openingQuestion;
 
@@ -102,6 +105,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
+        voiceMuted = fileIo.readFromFile(this,"voiceMute.txt");
+        vibrations = fileIo.readFromFile(this, "vibration.txt");
         lifeg = findViewById(R.id.lifeguard);
         openingQuestion = 0;
 
@@ -150,6 +155,10 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         }
 
         talker = new TextToSpeech(QuizMenuActivity.this, this);
+
+        if (voiceMuted.equals("notmuted")){
+            playvoice = true;
+        }
 
         //initializing the buttons as well as the question labels
         option1 = (Button) findViewById(R.id.option1);
@@ -287,10 +296,12 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         questionLabel.setText(ques);
         questionLabel.startAnimation(in);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            talker.speak(ques,TextToSpeech.QUEUE_FLUSH,null,null);
-        } else {
-            talker.speak(ques, TextToSpeech.QUEUE_FLUSH, null);
+        if (playvoice == true) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                talker.speak(ques, TextToSpeech.QUEUE_FLUSH, null, null);
+            } else {
+                talker.speak(ques, TextToSpeech.QUEUE_FLUSH, null);
+            }
         }
 
         option1.setText(getChoice(questionNumber,0));
@@ -428,7 +439,11 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
             b.setBackgroundColor(Color.RED);
             b.startAnimation(shake);
-            vib.vibrate(150);
+
+            if (vibrations.equals("on")){
+                vib.vibrate(150);
+            }
+
             b.setEnabled(false);
             amountGetCorrect--;
         }

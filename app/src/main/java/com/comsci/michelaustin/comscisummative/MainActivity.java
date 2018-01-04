@@ -42,5 +42,7 @@ public class MainActivity extends AppCompatActivity {
             fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
         }
         fileIo.writeFile("0", "testResult.txt", getApplicationContext());
+        fileIo.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
+        fileIo.writeFile("on", "vibration.txt", getApplicationContext());
     }
 }

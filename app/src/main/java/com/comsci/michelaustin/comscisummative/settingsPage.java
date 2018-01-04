@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class settingsPage extends AppCompatActivity {
 
     ImageButton reset, name;
     Context context = this;
+    ToggleButton voice, vib;
+    String mutestatus, vibstatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,19 @@ public class settingsPage extends AppCompatActivity {
 
         reset = findViewById(R.id.resetbutton);
         name = findViewById(R.id.changename);
+        voice = findViewById(R.id.voice);
+        vib = findViewById(R.id.vibration);
+
+        mutestatus = fileIo.readFromFile(this,"voiceMute.txt");
+        vibstatus = fileIo.readFromFile(this, "vibration.txt");
+
+        if (mutestatus.equals("muted")){
+            voice.setChecked(true);
+        }
+
+        if (vibstatus.equals("off")){
+            vib.setChecked(true);
+        }
 
         name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +70,7 @@ public class settingsPage extends AppCompatActivity {
                                         MainActivity.userName = userInput.getText().toString();
                                         // get user input and set it to result
                                         // edit text
-                                        writenew(MainActivity.userName);
+                                        writenew(MainActivity.userName, "lifeguardname.txt");
                                         finish();
 
                                     }
@@ -73,10 +89,40 @@ public class settingsPage extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
+        voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (voice.isChecked()){
+                    writenew("muted","voiceMute.txt");
+                    Toast.makeText(settingsPage.this, "Voice Assist MUTED", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    writenew("notmuted","voiceMute.txt");
+                    Toast.makeText(settingsPage.this, "Voice Assist UnMuted", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        vib.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (vib.isChecked()){
+                    writenew("off","vibration.txt");
+                    Toast.makeText(settingsPage.this, "Vibrations turned OFF", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    writenew("on","vibration.txt");
+                    Toast.makeText(settingsPage.this, "Vibrations turned ON", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
-    private void writenew (String name){
-        fileIo.writeFile(name,"lifeguardname.txt",this);
+    private void writenew (String name, String file){
+        fileIo.writeFile(name,file,this);
     }
 
     @Override
