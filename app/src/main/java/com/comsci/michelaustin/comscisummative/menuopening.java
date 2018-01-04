@@ -3,24 +3,28 @@ package com.comsci.michelaustin.comscisummative;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.os.Handler;
 
 public class menuopening extends AppCompatActivity {
 
     String name = MainActivity.userName;
     ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
     int height, width;
+
+    int currentModule;
 
     TextView nameshow, welcome, mod1, mod2, mod3, mod4, mod5;
 
@@ -33,10 +37,13 @@ public class menuopening extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuopening);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        currentModule = 0;
+
         fileIo.writeFile(name,"lifeguardname.txt",this);
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
 
-        dialog = new Dialog(this,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        dialog = new Dialog(this,R.style.PauseDialog);
 
         nameshow = (TextView) findViewById(R.id.menuname);
         nameshow.setText("Welcome " + name+ "!");
@@ -65,6 +72,7 @@ public class menuopening extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                currentModule = 1;
                 animateButton(module1Button, mod1);
 
           /*      */
@@ -75,13 +83,8 @@ public class menuopening extends AppCompatActivity {
         module2Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                module1Button.setEnabled(false);
-                module3Button.setEnabled(false);
-                module4Button.setEnabled(false);
-                module5Button.setEnabled(false);
-                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
-                startQuiz.putExtra("MODULE_ID",2);
-                startActivity(startQuiz);
+                currentModule = 2;
+                animateButton(module2Button, mod2);
             }
         });
 
@@ -95,6 +98,13 @@ public class menuopening extends AppCompatActivity {
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
                 startQuiz.putExtra("MODULE_ID",3);
                 startActivity(startQuiz);
+            }
+        });
+
+        module4Button.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                currentModule = 4;
+                animateButton(module4Button, mod4);
             }
         });
 
@@ -113,12 +123,23 @@ public class menuopening extends AppCompatActivity {
         });
 
 
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialogBackPressed();
+            }
+        });
+
     }
 
     public void animateButton(ImageButton b, TextView t) {
+
+        Log.d("TEST", module1Button.getHeight()+" "+module1Button.getY() + " "+height);
+
+        b.setEnabled(false);
         b.clearAnimation();
 
-        ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "translationY", 0, height - b.getHeight()/2-b.getY());
+        ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "translationY", 0, (height - b.getHeight()/2-b.getY()-b.getHeight()/4));
         animation1.setDuration(1000);
 
         ObjectAnimator animation2 = ObjectAnimator.ofFloat(b, "translationX", 0, width - b.getWidth()/2-b.getX());
@@ -144,7 +165,7 @@ public class menuopening extends AppCompatActivity {
 
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(animation1, animation2,animation3, animation4, animation5, animation6, animation7, animation8);
+        animatorSet.playTogether(animation1, animation2/*,animation3, animation4*/, animation5, animation6, animation7, animation8);
         animatorSet.start();
 
         int buttonId = b.getId();
@@ -240,10 +261,15 @@ public class menuopening extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                Log.d("TEST2", module1Button.getHeight()+" "+module1Button.getY() + " "+height);
                 // Do something after a certain amount of time
-                showMenuPopup();
+                //showMenuPopup();
+                //dialogBackPressed();
+
             }
         }, 1000);
+        b.clearAnimation();
 
     }
 
@@ -273,17 +299,60 @@ public class menuopening extends AppCompatActivity {
             public void onClick(View v) {
                 dialog.dismiss();
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
-                startQuiz.putExtra("MODULE_ID",1);
+                startQuiz.putExtra("MODULE_ID",currentModule);
                 startActivity(startQuiz);
             }
         });
         dialog.show();
     }
 
+    public void reverseButtonAnimation(ImageButton b, TextView t){
+
+        Log.d("Height2", module2Button.getHeight()+"");
+
+        b.clearAnimation();
+
+        ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "translationY",  -(b.getHeight()/2-b.getY())+b.getY(), 0);
+        animation1.setDuration(5000);
+
+        ObjectAnimator animation2 = ObjectAnimator.ofFloat(b, "translationX", 0, -1*(width - b.getWidth()/2-b.getX()));
+        animation2.setDuration(1000);
+
+        ObjectAnimator animation3 = ObjectAnimator.ofFloat(b, "scaleX", 5, 1);
+        animation3.setDuration(1000);
+
+        ObjectAnimator animation4 = ObjectAnimator.ofFloat(b, "scaleY", 5, 1);
+        animation4.setDuration(1000);
+
+        ObjectAnimator animation5 = ObjectAnimator.ofFloat(t, "translationY", 0, -1*(height - t.getHeight()/2-t.getY()));
+        animation5.setDuration(1000);
+
+        ObjectAnimator animation6 = ObjectAnimator.ofFloat(t, "translationX", 0, -1*(width - t.getWidth()/2-t.getX()));
+        animation6.setDuration(1000);
+
+        ObjectAnimator animation7 = ObjectAnimator.ofFloat(t, "scaleX", 4, 1);
+        animation7.setDuration(1000);
+
+        ObjectAnimator animation8 = ObjectAnimator.ofFloat(t, "scaleY", 4, 1);
+        animation8.setDuration(1000);
+
+
+        AnimatorSet animatorSet = new AnimatorSet();
+
+        animation1.start();
+        //animatorSet.playTogether(animation1/*, animation2, animation3, animation4, animation5, animation6, animation7, animation8*/);
+        //animatorSet.start();
+    }
+
     @Override
     public void onBackPressed() {
         Intent switchpanel = new Intent(getApplicationContext(), mainMenu.class);
         startActivity(switchpanel);
+    }
+
+    public void dialogBackPressed(){
+        //dialog.dismiss();
+        reverseButtonAnimation(module1Button, mod1);
     }
 
 }

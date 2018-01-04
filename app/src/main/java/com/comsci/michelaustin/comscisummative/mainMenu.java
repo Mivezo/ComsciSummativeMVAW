@@ -88,10 +88,10 @@ public class mainMenu extends AppCompatActivity {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 mediaPlayerMain.stop();
-                Toast.makeText(mainMenu.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mainMenu.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(mainMenu.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mainMenu.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();
