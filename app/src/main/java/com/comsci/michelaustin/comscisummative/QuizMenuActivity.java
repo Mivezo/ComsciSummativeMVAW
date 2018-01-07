@@ -651,19 +651,4 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             }
         });
     }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (moduleNumber!=6) {
-            if (mp.isPlaying()) {
-                mp.stop();
-            }
-        }
-
-        if(talker.isSpeaking()){
-            talker.stop();
-        }
-    }
 }

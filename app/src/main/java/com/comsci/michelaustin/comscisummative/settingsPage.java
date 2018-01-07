@@ -56,35 +56,34 @@ public class settingsPage extends AppCompatActivity {
         retrievedVolume = fileIo.readFromFile(this, "volume.txt");
         userVolume = Float.parseFloat(retrievedVolume);
 
-        if (mSharedPrefs!=null) {
+        if (mSharedPrefs != null) {
             mProgress = mSharedPrefs.getInt("mMySeekBarProgress", 0);
         }
 
         hi = MediaPlayer.create(getApplicationContext(), R.raw.song1);
         hi.setLooping(true);
-        hi.setVolume(userVolume,userVolume);
+        hi.setVolume(userVolume, userVolume);
         hi.start();
 
         mVolumeControl = findViewById(R.id.volume_control);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mVolumeControl.setMax(MAX_VOLUME);
 
-        if (mProgress == 0){
-            mVolumeControl.setProgress(MAX_VOLUME*mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC)/mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        }
-        else{
+        if (mProgress == 0) {
+            mVolumeControl.setProgress(MAX_VOLUME * mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+        } else {
             mVolumeControl.setProgress(mProgress);
         }
         mVolumeControl.setOnSeekBarChangeListener(mVolumeControlChangeListener);
 
-        mutestatus = fileIo.readFromFile(this,"voiceMute.txt");
+        mutestatus = fileIo.readFromFile(this, "voiceMute.txt");
         vibstatus = fileIo.readFromFile(this, "vibration.txt");
 
-        if (mutestatus.equals("muted")){
+        if (mutestatus.equals("muted")) {
             voice.setChecked(true);
         }
 
-        if (vibstatus.equals("off")){
+        if (vibstatus.equals("off")) {
             vib.setChecked(true);
         }
 
@@ -108,18 +107,18 @@ public class settingsPage extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         MainActivity.userName = userInput.getText().toString();
                                         // get user input and set it to result
                                         // edit text
                                         writenew(MainActivity.userName, "lifeguardname.txt");
-                                        finish();
+                                        //   finish();
 
                                     }
                                 })
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -136,12 +135,11 @@ public class settingsPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (voice.isChecked()){
-                    writenew("muted","voiceMute.txt");
+                if (voice.isChecked()) {
+                    writenew("muted", "voiceMute.txt");
                     Toast.makeText(settingsPage.this, "Voice Assist MUTED", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    writenew("notmuted","voiceMute.txt");
+                } else {
+                    writenew("notmuted", "voiceMute.txt");
                     Toast.makeText(settingsPage.this, "Voice Assist UnMuted", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -151,12 +149,11 @@ public class settingsPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (vib.isChecked()){
-                    writenew("off","vibration.txt");
+                if (vib.isChecked()) {
+                    writenew("off", "vibration.txt");
                     Toast.makeText(settingsPage.this, "Vibrations turned OFF", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    writenew("on","vibration.txt");
+                } else {
+                    writenew("on", "vibration.txt");
                     Toast.makeText(settingsPage.this, "Vibrations turned ON", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -173,7 +170,8 @@ public class settingsPage extends AppCompatActivity {
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {}
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
@@ -181,12 +179,12 @@ public class settingsPage extends AppCompatActivity {
             mEditor = mSharedPrefs.edit();
             int mProgress = mVolumeControl.getProgress();
             mEditor.putInt("mMySeekBarProgress", mProgress).apply();
-            fileIo.writeFile(""+volume,"volume.txt",context);
+            fileIo.writeFile("" + volume, "volume.txt", context);
         }
     };
 
-    private void writenew (String name, String file){
-        fileIo.writeFile(name,file,this);
+    private void writenew(String name, String file) {
+        fileIo.writeFile(name, file, this);
     }
 
     @Override
@@ -206,19 +204,6 @@ public class settingsPage extends AppCompatActivity {
                 hi.stop();
                 Toast.makeText(settingsPage.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if(mainMenu.mediaPlayerMain.isPlaying()){
-            mainMenu.mediaPlayerMain.stop();
-        }
-
-        if(hi.isPlaying()){
-            hi.stop();
         }
     }
 }
