@@ -208,4 +208,17 @@ public class settingsPage extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(mainMenu.mediaPlayerMain.isPlaying()){
+            mainMenu.mediaPlayerMain.stop();
+        }
+
+        if(hi.isPlaying()){
+            hi.stop();
+        }
+    }
 }

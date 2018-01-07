@@ -37,6 +37,7 @@ public class firstopening extends AppCompatActivity {
         buoyButton.startAnimation(shake);
 
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
         buoyButton.setOnClickListener(new View.OnClickListener() {
@@ -122,4 +123,14 @@ public class firstopening extends AppCompatActivity {
         }
         super.onPause();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
+    }
+
 }

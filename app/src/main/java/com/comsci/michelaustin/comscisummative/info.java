@@ -43,4 +43,13 @@ public class info extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(mainMenu.mediaPlayerMain.isPlaying()){
+            mainMenu.mediaPlayerMain.stop();
+        }
+    }
+
 }

@@ -96,5 +96,14 @@ public class mainMenu extends AppCompatActivity {
         }
         super.onPause();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if(mediaPlayerMain.isPlaying()){
+            mediaPlayerMain.stop();
+        }
+    }
 }
 
