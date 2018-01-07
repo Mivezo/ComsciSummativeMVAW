@@ -3,6 +3,7 @@ package com.comsci.michelaustin.comscisummative;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -23,10 +24,16 @@ public class menuopening extends AppCompatActivity {
     int height, width;
 
     int currentModule;
+    ImageButton currentButton;
+    TextView currentText;
 
     TextView nameshow, welcome, mod1, mod2, mod3, mod4, mod5;
 
     float buttonY, buttonX, centerY, centerX;
+
+    Animation shake;
+
+    boolean fade=true;
 
     private Dialog dialog;
 
@@ -41,7 +48,7 @@ public class menuopening extends AppCompatActivity {
         currentModule = 0;
 
         fileIo.writeFile(name,"lifeguardname.txt",this);
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
+        shake = AnimationUtils.loadAnimation(this, R.anim.turn);
 
         dialog = new Dialog(this,R.style.PauseDialog);
 
@@ -74,8 +81,8 @@ public class menuopening extends AppCompatActivity {
 
                 currentModule = 1;
                 animateButton(module1Button, mod1);
-
-          /*      */
+                currentButton = module1Button;
+                currentText = mod1;
 
             }
         });
@@ -85,19 +92,20 @@ public class menuopening extends AppCompatActivity {
             public void onClick(View view) {
                 currentModule = 2;
                 animateButton(module2Button, mod2);
+                currentButton = module2Button;
+                currentText = mod2;
+
             }
         });
 
         module3Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                module1Button.setEnabled(false);
-                module2Button.setEnabled(false);
-                module4Button.setEnabled(false);
-                module5Button.setEnabled(false);
-                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
-                startQuiz.putExtra("MODULE_ID",3);
-                startActivity(startQuiz);
+                currentModule = 3;
+                animateButton(module3Button, mod3);
+                currentButton = module3Button;
+                currentText = mod3;
+
             }
         });
 
@@ -105,6 +113,9 @@ public class menuopening extends AppCompatActivity {
             public void onClick(View view) {
                 currentModule = 4;
                 animateButton(module4Button, mod4);
+                currentButton = module4Button;
+                currentText = mod4;
+
             }
         });
 
@@ -123,12 +134,12 @@ public class menuopening extends AppCompatActivity {
         });
 
 
-        /*dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                dialogBackPressed();
+                dialogBackPressed(currentButton, currentText);
             }
-        });*/
+        });
 
     }
 
@@ -268,29 +279,62 @@ public class menuopening extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //showMenuPopup();
+                showMenuPopup();
                 //dialogBackPressed(b, t);
 
             }
         }, 1000);
 
-
+        fade=false;
     }
 
     public void fadeButton(ImageButton b){
-        Animation out = new AlphaAnimation(1.0f, 0.0f);
+
+        Animation out;
+
+        if(fade){
+            out = new AlphaAnimation(1.0f, 0.0f);
+        }
+        else{
+            out = new AlphaAnimation(0.0f, 1.0f);
+        }
+
         out.setDuration(500);
 
         b.startAnimation(out);
-        b.setVisibility(View.INVISIBLE);
+
+        if(fade){
+            b.setVisibility(View.INVISIBLE);
+        }
+        else{
+            b.setVisibility(View.VISIBLE);
+        }
+
+
     }
 
     public void fadeText(TextView t){
-        Animation out = new AlphaAnimation(1.0f, 0.0f);
+
+        Animation out;
+
+        if(fade){
+            out = new AlphaAnimation(1.0f, 0.0f);
+        }
+        else{
+            out = new AlphaAnimation(0.0f, 1.0f);
+        }
+
         out.setDuration(500);
 
         t.startAnimation(out);
-        t.setVisibility(View.INVISIBLE);
+
+        if(fade){
+            t.setVisibility(View.INVISIBLE);
+        }
+        else{
+            t.setVisibility(View.VISIBLE);
+        }
+
     }
 
     public void showMenuPopup(){
@@ -341,6 +385,117 @@ public class menuopening extends AppCompatActivity {
 
         animatorSet.playTogether(animation1,animation2, animation3, animation4, animation5, animation6, animation7, animation8);
         animatorSet.start();
+
+        int buttonId = b.getId();
+
+        fadeText(nameshow);
+        fadeText(welcome);
+
+
+        switch(buttonId) {
+            case R.id.module1:
+                module3Button.setEnabled(false);
+                module2Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module5Button.setEnabled(false);
+                module6Button.setEnabled(false);
+                fadeButton(module2Button);
+                fadeButton(module3Button);
+                fadeButton(module4Button);
+                fadeButton(module5Button);
+                fadeButton(module6Button);
+                fadeText(mod2);
+                fadeText(mod3);
+                fadeText(mod4);
+                fadeText(mod5);
+                break;
+            case R.id.module2:
+                module1Button.setEnabled(false);
+                module3Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module5Button.setEnabled(false);
+                module6Button.setEnabled(false);
+                fadeButton(module1Button);
+                fadeButton(module3Button);
+                fadeButton(module4Button);
+                fadeButton(module5Button);
+                fadeButton(module6Button);
+                fadeText(mod1);
+                fadeText(mod3);
+                fadeText(mod4);
+                fadeText(mod5);
+                break;
+            case R.id.module3:
+                module1Button.setEnabled(false);
+                module2Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module5Button.setEnabled(false);
+                module6Button.setEnabled(false);
+                fadeButton(module2Button);
+                fadeButton(module1Button);
+                fadeButton(module4Button);
+                fadeButton(module5Button);
+                fadeButton(module6Button);
+                fadeText(mod2);
+                fadeText(mod1);
+                fadeText(mod4);
+                fadeText(mod5);
+                break;
+            case R.id.module4:
+                module1Button.setEnabled(false);
+                module2Button.setEnabled(false);
+                module3Button.setEnabled(false);
+                module5Button.setEnabled(false);
+                module6Button.setEnabled(false);
+                fadeButton(module2Button);
+                fadeButton(module3Button);
+                fadeButton(module1Button);
+                fadeButton(module5Button);
+                fadeButton(module6Button);
+                fadeText(mod2);
+                fadeText(mod3);
+                fadeText(mod1);
+                fadeText(mod5);
+                break;
+            case R.id.module5:
+                module1Button.setEnabled(false);
+                module2Button.setEnabled(false);
+                module4Button.setEnabled(false);
+                module3Button.setEnabled(false);
+                module6Button.setEnabled(false);
+                fadeButton(module2Button);
+                fadeButton(module3Button);
+                fadeButton(module4Button);
+                fadeButton(module1Button);
+                fadeButton(module6Button);
+                fadeText(mod2);
+                fadeText(mod3);
+                fadeText(mod4);
+                fadeText(mod1);
+                break;
+        }
+        fade=true;
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                module1Button.startAnimation(shake);
+                module2Button.startAnimation(shake);
+                module3Button.startAnimation(shake);
+                module4Button.startAnimation(shake);
+                module5Button.startAnimation(shake);
+
+                module1Button.setEnabled(true);
+                module2Button.setEnabled(true);
+                module3Button.setEnabled(true);
+                module4Button.setEnabled(true);
+                module5Button.setEnabled(true);
+
+            }
+        }, 1000);
+
+
     }
 
     @Override
