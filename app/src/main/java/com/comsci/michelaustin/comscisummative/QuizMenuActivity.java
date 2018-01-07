@@ -59,6 +59,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Animation shake;
     private Animation out;
     private ImageView lifeg;
+    private float userVolume;
 
     private Vibrator vib;
 
@@ -107,6 +108,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
         voiceMuted = fileIo.readFromFile(this,"voiceMute.txt");
         vibrations = fileIo.readFromFile(this, "vibration.txt");
+        String temp = fileIo.readFromFile(this, "volume.txt");
+        userVolume = Float.parseFloat(temp);
         lifeg = findViewById(R.id.lifeguard);
         openingQuestion = 0;
 
@@ -151,6 +154,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         if (musicchoice != 0){
             mp = MediaPlayer.create(getApplicationContext(), musicchoice);
             mp.setLooping(true);
+            mp.setVolume(userVolume,userVolume);
             mp.start();
         }
 
