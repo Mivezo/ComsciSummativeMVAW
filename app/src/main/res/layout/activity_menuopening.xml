@@ -35,13 +35,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:adjustViewBounds="true"
+        android:maxWidth="140dp"
+        android:maxHeight="140dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.100000024"
-        app:srcCompat="@drawable/modulebuoy" />
+        app:srcCompat="@drawable/hiresbuoy" />
 
     <ImageButton
         android:id="@+id/module2"
@@ -52,13 +56,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:adjustViewBounds="true"
+        android:maxWidth="140dp"
+        android:maxHeight="140dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3"
-        app:srcCompat="@drawable/modulebuoy" />
+        app:srcCompat="@drawable/hiresbuoy" />
 
     <ImageButton
         android:id="@+id/module3"
@@ -69,12 +77,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:adjustViewBounds="true"
+        android:maxWidth="140dp"
+        android:maxHeight="140dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/modulebuoy" />
+        app:srcCompat="@drawable/hiresbuoy" />
 
     <ImageButton
         android:id="@+id/module4"
@@ -85,13 +97,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:adjustViewBounds="true"
+        android:maxWidth="140dp"
+        android:maxHeight="140dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.7"
-        app:srcCompat="@drawable/modulebuoy" />
+        app:srcCompat="@drawable/hiresbuoy" />
 
     <ImageButton
         android:id="@+id/module5"
@@ -102,13 +118,17 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@null"
+        android:adjustViewBounds="true"
+        android:maxWidth="140dp"
+        android:maxHeight="140dp"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9"
-        app:srcCompat="@drawable/modulebuoy" />
+        app:srcCompat="@drawable/hiresbuoy" />
 
     <TextView
         android:id="@+id/mod1"
