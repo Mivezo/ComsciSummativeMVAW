@@ -4,14 +4,14 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.PowerManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -35,9 +35,9 @@ public class settingsPage extends AppCompatActivity {
     private float volume;
     private String retrievedVolume;
     private float userVolume;
-    SharedPreferences mSharedPrefs;
-    SharedPreferences.Editor mEditor;
-    int mProgress;
+    private int progressBar;
+    private int marker, marker2;
+    PowerManager pm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,12 @@ public class settingsPage extends AppCompatActivity {
         setContentView(R.layout.activity_settings_page);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        mProgress = 0;
-        mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        progressBar = 0;
+
+        marker = 0;
+        marker2 = 0;
 
         reset = findViewById(R.id.resetbutton);
         name = findViewById(R.id.changename);
@@ -56,29 +60,31 @@ public class settingsPage extends AppCompatActivity {
         retrievedVolume = fileIo.readFromFile(this, "volume.txt");
         userVolume = Float.parseFloat(retrievedVolume);
 
-        if (mSharedPrefs != null) {
-            mProgress = mSharedPrefs.getInt("mMySeekBarProgress", 0);
-        }
+        progressBar = Integer.parseInt(fileIo.readFromFile(this, "seekbar.txt"));
 
         hi = MediaPlayer.create(getApplicationContext(), R.raw.song1);
         hi.setLooping(true);
         hi.setVolume(userVolume, userVolume);
-        hi.start();
 
         mVolumeControl = findViewById(R.id.volume_control);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mVolumeControl.setMax(MAX_VOLUME);
 
-        if (mProgress == 0) {
-            mVolumeControl.setProgress(MAX_VOLUME * mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-        } else {
-            mVolumeControl.setProgress(mProgress);
-        }
+        Log.d("myTag1", ""+mVolumeControl.getProgress());
+
+        //if (progressBar == null) {
+       //     mVolumeControl.setProgress(MAX_VOLUME * mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+      //  } else {
+            mVolumeControl.setProgress(progressBar);
+      //  }
+
+        Log.d("myTag2", ""+mVolumeControl.getProgress());
         mVolumeControl.setOnSeekBarChangeListener(mVolumeControlChangeListener);
 
         mutestatus = fileIo.readFromFile(this, "voiceMute.txt");
         vibstatus = fileIo.readFromFile(this, "vibration.txt");
 
+        Log.d("myTag3", ""+mVolumeControl.getProgress());
         if (mutestatus.equals("muted")) {
             voice.setChecked(true);
         }
@@ -86,6 +92,7 @@ public class settingsPage extends AppCompatActivity {
         if (vibstatus.equals("off")) {
             vib.setChecked(true);
         }
+
 
         name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +137,7 @@ public class settingsPage extends AppCompatActivity {
                 alertDialog.show();
             }
         });
-
+        Log.d("myTag4", ""+mVolumeControl.getProgress());
         voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +165,7 @@ public class settingsPage extends AppCompatActivity {
                 }
             }
         });
+        Log.d("myTag5", ""+mVolumeControl.getProgress());
     }
 
     private SeekBar.OnSeekBarChangeListener mVolumeControlChangeListener = new SeekBar.OnSeekBarChangeListener() {
@@ -171,15 +179,16 @@ public class settingsPage extends AppCompatActivity {
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
+            Log.d("myTag", ""+mVolumeControl.getProgress());
+            hi.start();
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            mSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-            mEditor = mSharedPrefs.edit();
             int mProgress = mVolumeControl.getProgress();
-            mEditor.putInt("mMySeekBarProgress", mProgress).apply();
+            fileIo.writeFile(mProgress+"", "seekbar.txt", context);
             fileIo.writeFile("" + volume, "volume.txt", context);
+            hi.pause();
         }
     };
 
@@ -200,10 +209,38 @@ public class settingsPage extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                mainMenu.mediaPlayerMain.stop();
+                mainMenu.mediaPlayerMain.pause();
                 hi.stop();
+                marker2 = 1;
                 Toast.makeText(settingsPage.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    protected void onResume(){
+        if (marker2==1){
+            mainMenu.mediaPlayerMain.start();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop(){
+        if(!(pm.isInteractive())){
+            if (mainMenu.mediaPlayerMain.isPlaying()){
+                mainMenu.mediaPlayerMain.pause();
+                marker = 1;
+            }
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        if (marker == 1){
+            mainMenu.mediaPlayerMain.start();
+        }
+        super.onRestart();
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -24,14 +25,20 @@ public class firstopening extends AppCompatActivity {
     ImageButton buoyButton;
     final Context context = this;
     public static MediaPlayer mediaPlayer;
+    PowerManager pm;
+    int marker, marker2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstopening);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
         buoyButton = findViewById(R.id.lgbuoy);
+
+        marker = 0;
+        marker2 = 0;
 
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
         buoyButton.startAnimation(shake);
@@ -114,7 +121,8 @@ public class firstopening extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                mediaPlayer.stop();
+                mediaPlayer.pause();
+                marker2=1;
                 Toast.makeText(firstopening.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
             else {
@@ -125,12 +133,29 @@ public class firstopening extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-        if(mediaPlayer.isPlaying()){
-            mediaPlayer.stop();
+    protected void onResume(){
+        if (marker2==1){
+            mediaPlayer.start();
         }
+        super.onResume();
     }
 
+    @Override
+    protected void onStop(){
+        if(!(pm.isInteractive())){
+            if (mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
+                marker = 1;
+            }
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        if (marker == 1){
+            mediaPlayer.start();
+        }
+        super.onRestart();
+    }
 }

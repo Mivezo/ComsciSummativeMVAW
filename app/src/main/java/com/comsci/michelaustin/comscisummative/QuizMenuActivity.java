@@ -12,6 +12,7 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +61,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Animation out;
     private ImageView lifeg;
     private float userVolume;
+    PowerManager pm;
+    int marker;
+    int marker2;
 
     private Vibrator vib;
 
@@ -103,6 +107,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         setContentView(R.layout.activity_quiz_menu);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        marker = 0;
+        marker2 = 0;
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
@@ -628,7 +635,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 if(moduleNumber!=6){
-                    mp.stop();
+                    mp.pause();
+                    marker2=1;
                 }
                 talker.stop();
                 Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
@@ -647,8 +655,37 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             public void onClick(View view) {
                 nextArrowButton.setVisibility(View.GONE);
                 switchQuestion();
-
             }
         });
+    }
+
+    @Override
+    protected void onResume(){
+        if (marker2==1){
+            mp.start();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop(){
+        if(!(pm.isInteractive())){
+            if (mp.isPlaying()){
+                mp.pause();
+                marker = 1;
+            }
+            if(talker.isSpeaking()){
+                talker.stop();
+            }
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        if (marker == 1){
+            mp.start();
+        }
+        super.onRestart();
     }
 }

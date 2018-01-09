@@ -45,5 +45,6 @@ public class MainActivity extends AppCompatActivity {
         fileIo.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
         fileIo.writeFile("on", "vibration.txt", getApplicationContext());
         fileIo.writeFile("1.0", "volume.txt", getApplicationContext());
+        fileIo.writeFile("80", "seekbar.txt", getApplicationContext());
     }
 }

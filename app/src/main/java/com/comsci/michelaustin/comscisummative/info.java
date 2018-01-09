@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -12,11 +13,17 @@ import java.util.List;
 
 public class info extends AppCompatActivity {
 
+    PowerManager pm;
+    int marker, marker2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        marker = 0;
+        marker2 = 0;
     }
 
     @Override
@@ -30,7 +37,8 @@ public class info extends AppCompatActivity {
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 if (mainMenu.mediaPlayerMain!=null){
                     if (mainMenu.mediaPlayerMain.isPlaying()) {
-                        mainMenu.mediaPlayerMain.stop();
+                        mainMenu.mediaPlayerMain.pause();
+                        marker2=1;
                     }
                 }
                 if (firstopening.mediaPlayer!=null){
@@ -44,12 +52,30 @@ public class info extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-        if(mainMenu.mediaPlayerMain.isPlaying()){
-            mainMenu.mediaPlayerMain.stop();
+    protected void onResume(){
+        if (marker2==1){
+            mainMenu.mediaPlayerMain.start();
         }
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop(){
+        if(!(pm.isInteractive())){
+            if (mainMenu.mediaPlayerMain.isPlaying()){
+                mainMenu.mediaPlayerMain.pause();
+                marker = 1;
+            }
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart(){
+        if (marker == 1){
+            mainMenu.mediaPlayerMain.start();
+        }
+        super.onRestart();
     }
 
 }
