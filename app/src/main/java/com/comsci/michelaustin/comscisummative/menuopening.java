@@ -25,6 +25,8 @@ public class menuopening extends AppCompatActivity {
     ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
     int height, width;
 
+    private boolean isAnimationStarted;
+
     AnimatorSet animatorSet;
 
     ArrayList <ImageButton> buttons = new ArrayList<>();
@@ -77,12 +79,32 @@ public class menuopening extends AppCompatActivity {
         mod4 = findViewById(R.id.mod4);
         mod5 = findViewById(R.id.mod5);
 
+
+        /*module1Button = findViewById(R.id.module1);
+        module2Button = findViewById(R.id.module2);
+        module3Button = findViewById(R.id.module3);
+        module4Button = findViewById(R.id.module4);
+        module5Button = findViewById(R.id.module5);*/
         (module1Button = findViewById(R.id.module1)).startAnimation(shake);
         (module2Button = findViewById(R.id.module2)).startAnimation(shake);
         (module3Button = findViewById(R.id.module3)).startAnimation(shake);
         (module4Button = findViewById(R.id.module4)).startAnimation(shake);
         (module5Button = findViewById(R.id.module5)).startAnimation(shake);
         module6Button = findViewById(R.id.module6);
+
+
+        /*final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                module1Button.startAnimation(shake);
+                module2Button.startAnimation(shake);
+                module3Button.startAnimation(shake);
+                module4Button.startAnimation(shake);
+                module5Button.startAnimation(shake);
+            }
+        }, 2000);
+*/
 
         buttons.add(module1Button);
         buttons.add(module2Button);
@@ -158,7 +180,7 @@ public class menuopening extends AppCompatActivity {
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                dialog.dismiss();
+                //dialog.dismiss();
                 dialogBackPressed();
             }
         });
@@ -303,12 +325,14 @@ public class menuopening extends AppCompatActivity {
             }
             else{
                 //buttons.get(i).clearAnimation();
-                buttons.get(i).setRotation(90);
+                //buttons.get(i).setRotation(0);
                 buttons.get(i).setEnabled(false);
                 fadeButton(buttons.get(i));
                 fadeText(textview.get(i));
             }
         }
+
+
 
         fadeButton(module6Button);
 
@@ -316,7 +340,17 @@ public class menuopening extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                for(int i=0; i<5; i++){
+                    if(b==buttons.get(i)){
+                        continue;
+                    }
+                    else{
+                        buttons.get(i).clearAnimation();
+                    }
+                }
                 showMenuPopup();
+
                 //dialogBackPressed(b, t);
 
             }
@@ -343,7 +377,7 @@ public class menuopening extends AppCompatActivity {
         }
         else{
             if(b!=module6Button){
-                animatorSet.playTogether(animation1, animation3);
+                animatorSet.playTogether(animation1/*, animation3*/);
             }
             else{
                 animatorSet.playTogether(animation1);
@@ -529,8 +563,9 @@ public class menuopening extends AppCompatActivity {
                 continue;
             }
             else{
-                buttons.get(i).setEnabled(false);
-                buttons.get(i).startAnimation(shake);
+                //buttons.get(i).setEnabled(false);
+                //buttons.get(i).setRotation(0);
+                //buttons.get(i).startAnimation(shake);
                 fadeButton(buttons.get(i));
                 fadeText(textview.get(i));
             }
@@ -544,7 +579,12 @@ public class menuopening extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                module1Button.startAnimation(shake);
+
+                for(int i=0; i<5; i++){
+                    //buttons.get(i).setRotation(0);
+                    buttons.get(i).startAnimation(shake);
+                }
+                //currentButton.startAnimation(shake);
                 /*module2Button.startAnimation(shake);
                 module3Button.startAnimation(shake);
                 module4Button.startAnimation(shake);
@@ -557,7 +597,7 @@ public class menuopening extends AppCompatActivity {
                 module5Button.setEnabled(true);
 
             }
-        }, 1500);
+        }, 1000);
 
 
     }
@@ -591,6 +631,17 @@ public class menuopening extends AppCompatActivity {
 
             }
         }, 1000);
+
+        for(int i=0; i<5; i++){
+            if(currentButton==buttons.get(i)){
+                continue;
+            }
+            else{
+                //buttons.get(i).setEnabled(false);
+                //buttons.get(i).setRotation(0);
+
+            }
+        }
 
         reverseButtonAnimation(buttons.get(currentModule), textview.get(currentModule) );
     }
