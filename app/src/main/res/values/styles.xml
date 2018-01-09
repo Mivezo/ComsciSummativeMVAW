@@ -19,6 +19,7 @@
     <style name="PauseDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/fadein</item>
 
+
     </style>
 
 </resources>
