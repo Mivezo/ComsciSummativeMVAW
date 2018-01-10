@@ -12,4 +12,14 @@
         <item name="android:windowBackground">@drawable/splashpage</item>
     </style>
 
+    <style name="PauseDialog" parent="@android:style/Theme.DeviceDefault.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+    </style>
+
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/fadein</item>
+
+
+    </style>
+
 </resources>

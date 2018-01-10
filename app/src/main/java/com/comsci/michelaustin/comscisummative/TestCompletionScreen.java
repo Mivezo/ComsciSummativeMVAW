@@ -9,10 +9,6 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class TestCompletionScreen extends AppCompatActivity {
@@ -75,6 +71,7 @@ public class TestCompletionScreen extends AppCompatActivity {
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                buildTestResult();
                 Intent startIntent = new Intent(getApplicationContext(), menuopening.class);
                 startActivity(startIntent);
             }
@@ -86,19 +83,7 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     private void buildTestResult(){
 
-        BufferedReader reader;
-
-        try{
-            InputStream inputStream = getApplicationContext().openFileInput("testResult.txt");
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-            String line = reader.readLine();
-            while(line != null){
-                userResult.add(line);
-                line=reader.readLine();
-            }
-        } catch(IOException ioe){
-            ioe.printStackTrace();
-        }
+        fileIo.appendLineFile(passPercent+"", "testScores.txt", this);
     }
 
     private void testAnswer(){

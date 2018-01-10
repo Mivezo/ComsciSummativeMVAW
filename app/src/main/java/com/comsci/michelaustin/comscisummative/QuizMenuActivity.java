@@ -76,6 +76,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     private Dialog dialog;//dialog for popup
 
+
     ArrayList answerArray = new ArrayList();
 
     ArrayList<String> testCorrectAnswerArray = new ArrayList<String>();
@@ -209,12 +210,14 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                     option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option1.setBackgroundColor(Color.WHITE);
+
                     grabbedAnswer=(String) option1.getText();
                     showNextArrowButton();
                 }
                 else{
                     checkAnswer(option1);
                 }
+
             }
         });
         option2.setOnClickListener(new View.OnClickListener() {
@@ -226,6 +229,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                     option3.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option2.setBackgroundColor(Color.WHITE);
+
+
                     grabbedAnswer=(String) option2.getText();
                     showNextArrowButton();
                 }
@@ -240,6 +245,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             public void onClick(View v) {
 
                 if(moduleNumber==6){
+                    option3.setBackgroundColor(Color.WHITE);
                     option2.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option1.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
                     option4.setBackgroundColor(getResources().getColor(R.color.colorLightblue));
@@ -290,9 +296,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     //Displays the questions on the screen as well as fetches the correct answer
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
-
-        String ques = (questionNumber+1)+". "+mQuestionLibraryTest.getQuestion(questionNumber);
-
+        String ques = mQuestionLibraryTest.getQuestion(questionNumber);
+        String displayQues =(questionNumber+1)+". "+mQuestionLibraryTest.getQuestion(questionNumber);
         if(questionNumber!=openingQuestion){
             lifeg.startAnimation(in);
             option1.startAnimation(option1in);
@@ -304,8 +309,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             }
         }
 
-        questionLabel.setText(ques);
         questionLabel.startAnimation(in);
+
+        questionLabel.setText(displayQues);
 
         if (playvoice == true) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -397,6 +403,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     }
 
     private boolean testFullyComplete(){
+
         if(moduleNumber!=6){
             if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
                 mp.stop();
@@ -406,12 +413,12 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             else return false;
         }
         else{
-
             if(questionNumber == mQuestionLibraryTest.getQuestionAmount()-1){
                 return true;
             }
             else return false;
         }
+
     }
 
     @Override
@@ -458,7 +465,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             b.setEnabled(false);
             amountGetCorrect--;
         }
-
     }
 
     //Adding delay to the button to make green visible
@@ -477,8 +483,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Do something after 1.5s = 1500ms
+                // Do something after a certain amount of time
                 if(!testFullyComplete()){
+
                     if(moduleNumber==6){
                         questionNumber++;
                         testResult.add(grabbedAnswer);
@@ -494,7 +501,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                         displayTestCompletionScreen();
                     }
                 }
-
             }
         }, 800);
         amountCorrectComparison=0;
@@ -655,6 +661,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             public void onClick(View view) {
                 nextArrowButton.setVisibility(View.GONE);
                 switchQuestion();
+
             }
         });
     }
