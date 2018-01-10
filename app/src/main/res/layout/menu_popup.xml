@@ -9,16 +9,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="710dp"
-        android:layout_height="710dp"
-        android:visibility="visible"
+        android:layout_width="705dp"
+        android:layout_height="705dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.43"
+        app:layout_constraintVertical_bias="0.37"
         app:srcCompat="@drawable/hiresbuoy" />
 
     <ImageButton

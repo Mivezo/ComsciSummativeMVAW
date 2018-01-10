@@ -30,10 +30,6 @@ public class MainActivity extends AppCompatActivity {
             startMenu = new Intent(this, mainMenu.class);
             startActivity(startMenu);
         }
-
-
-
-
     }
 
     private void createResumeFiles(){

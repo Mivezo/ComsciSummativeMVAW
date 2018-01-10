@@ -18,7 +18,7 @@
         android:fontFamily="casual"
         android:gravity="center"
         android:textAlignment="center"
-        android:textSize="21sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/option1"
         app:layout_constraintEnd_toEndOf="parent"
