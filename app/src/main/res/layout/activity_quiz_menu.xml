@@ -22,7 +22,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/option1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -106,7 +106,7 @@
     <ImageView
         android:id="@+id/lifeguard"
         android:layout_width="356dp"
-        android:layout_height="351dp"
+        android:layout_height="328dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -114,7 +114,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/questionLabel"
-        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintVertical_bias="0.26"
         app:srcCompat="@drawable/lifeguardbubble" />
+
+    <ProgressBar
+        android:id="@+id/testProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="332dp"
+        android:layout_height="13dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:max="100"
+        android:progressTint="@color/progress"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
 </android.support.constraint.ConstraintLayout>

@@ -25,6 +25,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     PowerManager pm;
     int marker;
     int marker2;
+
+    ProgressBar testProgress;
 
     private Vibrator vib;
 
@@ -111,6 +114,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         marker = 0;
         marker2 = 0;
+        testProgress = findViewById(R.id.testProgress);
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
@@ -121,23 +125,27 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         lifeg = findViewById(R.id.lifeguard);
         openingQuestion = 0;
 
+        if (moduleNumber != 6){
+            testProgress.setVisibility(View.INVISIBLE);
+        }
+
         option1in = new AlphaAnimation(0.0f, 1.0f);
-        option1in.setDuration(1200);
+        option1in.setDuration(900);
 
         option2in = new AlphaAnimation(0.0f, 1.0f);
-        option2in.setDuration(1600);
+        option2in.setDuration(1200);
 
         option3in = new AlphaAnimation(0.0f, 1.0f);
-        option3in.setDuration(2000);
+        option3in.setDuration(1500);
 
         option4in = new AlphaAnimation(0.0f, 1.0f);
-        option4in.setDuration(2400);
+        option4in.setDuration(1800);
 
         in = new AlphaAnimation(0.0f, 1.0f);
-        in.setDuration(1000);
+        in.setDuration(700);
 
         out = new AlphaAnimation(1.0f, 0.0f);
-        out.setDuration(800);
+        out.setDuration(500);
 
         //lifeg.startAnimation(in);
 
@@ -406,14 +414,18 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         if(moduleNumber!=6){
             if(questionNumber == mQuestionLibraryTest.getQuestionAmount()){
-                mp.stop();
-                mp.release();
+
+                if(mp.isPlaying()){
+                    mp.stop();
+                    mp.release();
+                }
                 return true;
             }
             else return false;
         }
         else{
             if(questionNumber == mQuestionLibraryTest.getQuestionAmount()-1){
+                testProgress.setProgress(testProgress.getProgress()+5);
                 return true;
             }
             else return false;
@@ -487,6 +499,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                 if(!testFullyComplete()){
 
                     if(moduleNumber==6){
+                        testProgress.setProgress(testProgress.getProgress()+5);
                         questionNumber++;
                         testResult.add(grabbedAnswer);
                     }
@@ -502,7 +515,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                     }
                 }
             }
-        }, 800);
+        }, 500);
         amountCorrectComparison=0;
     }
 
