@@ -9,9 +9,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="750dp"
-        android:layout_height="750dp"
+        android:layout_width="710dp"
+        android:layout_height="710dp"
         android:visibility="visible"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
