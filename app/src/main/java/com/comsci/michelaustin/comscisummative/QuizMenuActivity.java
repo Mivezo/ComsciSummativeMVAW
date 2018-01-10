@@ -241,8 +241,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     //Displays the questions on the screen as well as fetches the correct answer
     //Also fetches the correct amount of answers to test to allow for multiple answers
     private void displayQuestions(){
-        String ques = (questionNumber+1)+". "+mQuestionLibraryTest.getQuestion(questionNumber);
-        questionLabel.setText(ques);
+        String ques = mQuestionLibraryTest.getQuestion(questionNumber);
+        String displayQues =(questionNumber+1)+". "+mQuestionLibraryTest.getQuestion(questionNumber);;
+        questionLabel.setText(displayQues);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             talker.speak(ques,TextToSpeech.QUEUE_FLUSH,null,null);
