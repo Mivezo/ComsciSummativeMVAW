@@ -8,6 +8,9 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="progress">#00c4cc</color>
     <color name="lgRed">#D21404</color>
+    <color name="testred">#D9f41b1b</color>
+    <color name="testgreen">#D908b21a</color>
+    <color name="background">#f3c300</color>
     <color name="colorLightblue"> #CDFFFF</color>
     <color name="colorBlack"> #000000</color>
 </resources>

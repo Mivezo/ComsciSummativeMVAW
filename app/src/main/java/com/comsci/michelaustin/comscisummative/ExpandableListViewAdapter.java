@@ -2,6 +2,7 @@ package com.comsci.michelaustin.comscisummative;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -68,12 +69,12 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
         TextView txtView = new TextView(context);
         txtView.setText((i+1)+"."+groupNames.get(i));
         txtView.setPadding(100,0,50,0);
-        txtView.setTextColor(Color.BLACK);
+        txtView.setTextColor(Color.WHITE);
         if (TestCompletionScreen.isCorrect(i)){
-            txtView.setBackgroundColor(Color.rgb(8,178,74));
+            txtView.setBackgroundColor(ContextCompat.getColor(context, R.color.testgreen)); //without theme);
         }
         else{
-            txtView.setBackgroundColor(Color.RED);
+            txtView.setBackgroundColor(ContextCompat.getColor(context, R.color.testred));
         }
         txtView.setTextSize(17);
         return txtView;
@@ -82,6 +83,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter{
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
         TextView txtView = new TextView(context);
+        txtView.setBackgroundColor(Color.WHITE);
         txtView.setText(childNames.get(i).get(i1));
         txtView.setPadding(100,0,50,0);
         txtView.setTextColor(Color.BLACK);
