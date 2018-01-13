@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -57,7 +57,6 @@ public class menuopening extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuopening);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         currentModule = 0;
 
@@ -294,7 +293,7 @@ public class menuopening extends AppCompatActivity {
                         buttons.get(i).clearAnimation();
                     }
                 }
-                showMenuPopup();
+                    showMenuPopup();
 
                 //dialogBackPressed(b, t);
 
@@ -370,12 +369,37 @@ public class menuopening extends AppCompatActivity {
     public void showMenuPopup(){
         dialog.setContentView(R.layout.menu_popup);
 
+        ImageView modulePic = dialog.findViewById(R.id.modulePic);
+
+        switch (currentModule+1){
+            case 1:
+                modulePic.setImageResource(R.drawable.module1pic);
+                break;
+            case 2:
+                modulePic.setImageResource(R.drawable.module2pic);
+                break;
+            case 3:
+                modulePic.setImageResource(R.drawable.module3pic);
+                modulePic.getLayoutParams().height = (int) getResources().getDimension(R.dimen.imageview_height);
+                modulePic.getLayoutParams().width = (int) getResources().getDimension(R.dimen.imageview_width);
+                break;
+            case 4:
+                modulePic.setImageResource(R.drawable.module4pic);
+                break;
+            case 5:
+                modulePic.setImageResource(R.drawable.module5pic);
+                break;
+        }
+
+
         TextView resumeText = dialog.findViewById(R.id.resumeText);
         if(!resumeState){
             resumeText.setText("Play");
         }
         else{
+
             resumeText.setText("Resume");
+            resumeText.setTextSize((int) getResources().getDimension(R.dimen.textSize));
         }
 
         ImageButton play  =  dialog.findViewById(R.id.nextButton);

@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -109,7 +108,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_menu);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         marker = 0;

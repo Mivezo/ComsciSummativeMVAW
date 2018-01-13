@@ -3,7 +3,6 @@ package com.comsci.michelaustin.comscisummative;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ public class info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); //orientation to portrait
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         marker = 0;
         marker2 = 0;
