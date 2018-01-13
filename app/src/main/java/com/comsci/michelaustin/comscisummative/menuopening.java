@@ -27,6 +27,9 @@ public class menuopening extends AppCompatActivity {
 
     private boolean isAnimationStarted;
 
+    String resumeModule;
+    boolean resumeState;
+
     AnimatorSet animatorSet;
 
     ArrayList <ImageButton> buttons = new ArrayList<>();
@@ -121,7 +124,26 @@ public class menuopening extends AppCompatActivity {
         textview.add(mod4);
         textview.add(mod5);
 
-        module1Button.setOnClickListener(new View.OnClickListener() {
+        for(int i=0; i<5; i++){
+            final int tempmodnum = i;
+            buttons.get(i).setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    currentModule = tempmodnum;
+                    resumeModule = "resumeModule"+(currentModule+1)+".txt";
+
+                    resumeModule();
+
+                    animateButton(buttons.get(tempmodnum), textview.get(tempmodnum));
+                    currentButton = buttons.get(tempmodnum);
+                    currentText = textview.get(tempmodnum);
+
+                }
+            });
+        }
+
+
+        /*module1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -163,7 +185,7 @@ public class menuopening extends AppCompatActivity {
                 currentText = mod4;
 
             }
-        });
+        });*/
 
         module6Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,6 +370,14 @@ public class menuopening extends AppCompatActivity {
     public void showMenuPopup(){
         dialog.setContentView(R.layout.menu_popup);
 
+        TextView resumeText = dialog.findViewById(R.id.resumeText);
+        if(!resumeState){
+            resumeText.setText("Play");
+        }
+        else{
+            resumeText.setText("Resume");
+        }
+
         ImageButton play  =  dialog.findViewById(R.id.nextButton);
 
         play.setOnClickListener(new View.OnClickListener() {
@@ -492,6 +522,22 @@ public class menuopening extends AppCompatActivity {
        // currentText.setVisibility(View.INVISIBLE);
         dialog.dismiss();
         dialogBackPressed();
+    }
+
+    private void resumeModule(){
+
+        int temp;
+        String line = fileIo.readFromFile(getApplicationContext(), resumeModule);
+        temp=Integer.parseInt(line);
+
+        if(temp!=0){
+            resumeState=true;
+        }else{
+            resumeState=false;
+        }
+
+
+
     }
 
 }
