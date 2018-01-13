@@ -1,0 +1,15 @@
+First degree burn;
+Stroke;
+Obscured airway;
+Shock;
+Hypothermia;
+Seizure;
+Anaphylaxis;
+3rd degree burn;
+Heart Attack;
+Head Injury;
+Diabetic Emergency;
+All of the above;
+30;
+1 second;
+All of the above;
