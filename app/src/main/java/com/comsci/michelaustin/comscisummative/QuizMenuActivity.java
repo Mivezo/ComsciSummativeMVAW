@@ -71,7 +71,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     private TextToSpeech talker;
     boolean playvoice;
-    int result;
     int openingQuestion;
 
     private int moduleNumber;
@@ -95,7 +94,10 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS){
-            result = talker.setLanguage(Locale.UK);
+            if (talker.isLanguageAvailable(Locale.ENGLISH)==TextToSpeech.LANG_AVAILABLE){
+                talker.setLanguage(Locale.UK);
+            }
+            //result = talker.setLanguage(Locale.UK);
             displayQuestions();
         }
         else
@@ -172,7 +174,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             mp.start();
         }
 
-        talker = new TextToSpeech(QuizMenuActivity.this, this);
+        talker = new TextToSpeech(QuizMenuActivity.this, this, "com.google.android.tts");
 
         if (voiceMuted.equals("notmuted")){
             playvoice = true;
@@ -529,21 +531,14 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         explanationText.setText(explanation);
         explanationText.setMovementMethod(new ScrollingMovementMethod());
 
-        nextArrowButton.setVisibility(View.VISIBLE);
-
-
-        nextArrowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switchQuestion();
-            }
-        });
+        showNextArrowButton();
 
         //Switches the question when the next button is pressed
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                nextArrowButton.setVisibility(View.GONE);
                 switchQuestion();
             }
         });
