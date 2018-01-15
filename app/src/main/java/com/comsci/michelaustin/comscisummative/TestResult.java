@@ -18,6 +18,7 @@ public class TestResult {
 
     public TestResult(Context c){
         appcontext = c;
+        buildTestResult();
     }
 
     public void buildTestResult() {
@@ -39,7 +40,6 @@ public class TestResult {
             testResults.add(temp);
 
             strLine = strLine.replace(temp+";","");
-            Log.d("asda",strLine);
         }
 
     }
@@ -62,6 +62,10 @@ public class TestResult {
         for(int i=0; i<testResults.size(); i++ ){
             Log.d("Test"+i, testResults.get(i));
         }
+    }
+
+    public ArrayList getTestResults(){
+        return testResults;
     }
 
 }

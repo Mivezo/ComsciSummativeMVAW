@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -53,7 +52,7 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
 
     Animation in;
 
-    TestResult testResult;
+    /*TestResult testResult;*/
 
     DisplayMetrics displayMetrics = new DisplayMetrics();
 
@@ -63,7 +62,7 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
         overridePendingTransition( R.anim.fadein, R.anim.fadeout );
         setContentView(R.layout.activity_menuopening);
 
-        testResult = new TestResult(getApplicationContext());
+        /*testResult = new TestResult(getApplicationContext());*/
 
         currentModule = 0;
 
@@ -399,32 +398,9 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
     }
 
     public void showTestPopup(){
-        testpopup.setContentView(R.layout.test_prompt);
 
-        testResult.buildTestResult();
-        testResult.test();
-
-        TextView scoreText = testpopup.findViewById(R.id.scoreText);
-
-        if(testResult.getArraySize()>1){
-            //scoreText.setText("Your last score was: "+testResult.getlastResult()+"%");
-        }
-        else{
-            scoreText.setText("");
-        }
-
-        TextView nextText = testpopup.findViewById(R.id.nextText);
-        nextText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
-                startQuiz.putExtra("MODULE_ID",6);
-                startActivity(startQuiz);
-            }
-        });
-
-
-        testpopup.show();
+        Intent startQuiz = new Intent(getApplicationContext(), TestPopup.class);
+        startActivity(startQuiz);
     }
 
     public void reverseButtonAnimation(ImageButton b, TextView t){
