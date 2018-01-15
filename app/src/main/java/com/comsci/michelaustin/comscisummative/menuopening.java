@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -332,15 +333,6 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
         menupopup.setContentView(R.layout.menu_popup);
 
         ImageView restartIcon = menupopup.findViewById(R.id.restartIcon);
-
-        /*LayoutInflater li = LayoutInflater.from(getApplicationContext());
-        View promptsView = li.inflate(R.layout.restart_module_prompt, null);
-
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
-
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(promptsView);
-        alertDialogBuilder.show();*/
 
         restartIcon.setOnClickListener(new View.OnClickListener() {
             @Override

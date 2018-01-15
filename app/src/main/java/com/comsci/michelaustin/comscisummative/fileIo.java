@@ -4,14 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.PrintWriter;
 
 /**
  * Created by Evelina Vezarov on 2017-11-14.
@@ -66,14 +64,22 @@ public class fileIo {
     public static void appendLineFile(String data, String fileName,Context context) {
 
         try {
+            String separator = System.getProperty("line.separator");
             /*FileWriter fw = new FileWriter(fileName,true);
             OutputStreamWriter writer =  new OutputStreamWriter(fw));
             BufferedWriter bufferedWriter = new BufferedWriter(writer);*/
-            Writer output;
-            output = new BufferedWriter(new FileWriter(fileName, true));
 
-            output.append(data);
-            output.close();
+
+
+            PrintWriter outputStreamWriter = new PrintWriter(context.openFileOutput(fileName, Context.MODE_APPEND));
+
+
+            outputStreamWriter.append(separator);
+            outputStreamWriter.write(data);
+            /*outputStreamWriter.append("\n");
+            outputStreamWriter.append(data);*/
+            outputStreamWriter.flush();
+            outputStreamWriter.close();
 
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());

@@ -3,6 +3,7 @@ package com.comsci.michelaustin.comscisummative;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +16,7 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     ExpandableListView expandableListView;
 
-    private TextView passText;
+    private TextView passText, linkText;
 
     private ArrayList<String> userResult = new ArrayList<String>();
     private ArrayList<String> testCorrectAnswers = new ArrayList<String>();
@@ -58,14 +59,23 @@ public class TestCompletionScreen extends AppCompatActivity {
 
         buildListViewChild();
 
+        linkText = findViewById(R.id.linkText);
+
         if(pass){
+            linkText.setVisibility(View.VISIBLE);
+            linkText.setText("Since you have passed, click on http://www.lifesavingsociety.com/find-a-course.aspx to book a course!");
+            linkText.setMovementMethod(LinkMovementMethod.getInstance());
+
             verdict = "PASSED!";
         }else{
+            linkText.setVisibility(View.GONE);
             verdict = "FAILED!";
         }
 
         passText = (TextView) findViewById(R.id.passText);
         passText.setText("You have completed the test!\n Your percentage was "+passPercent+".\n"+"Verdict: "+verdict);
+
+
 
         menuButton = (Button) findViewById(R.id.menuButton);
         menuButton.setOnClickListener(new View.OnClickListener() {

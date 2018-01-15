@@ -3,11 +3,8 @@ package com.comsci.michelaustin.comscisummative;
 import android.content.Context;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 
 /**
@@ -29,50 +26,21 @@ public class TestResult {
         testResults.clear();
 
         int count=0;
+        String strLine="";
 
 
-        try {
+        strLine = fileIo.readFromFile(appcontext, "testScores.txt");
 
+        count = StringUtils.countMatches(strLine, ";");
 
+        for(int i=0; i<count; i++){
+            int colon = strLine.indexOf(";");
+            String temp = strLine.substring(0,colon);
+            testResults.add(temp);
 
-            InputStream inputStream = appcontext.openFileInput("testScores.txt");
-
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader br = new BufferedReader(inputStreamReader);
-
-            //String strLine = br.readLine();
-
-            //Read File Line By Line
-            /*while (strLine!= null) {
-                // Print the content on the console
-                count++;
-                Log.d("count",count+"");
-                testResults.add(strLine);
-
-                strLine=br.readLine();
-            }
-            */
-
-
-
-            for(int i=0; i<4; i++){
-                Log.d("count",i+"");
-
-
-                String strLine=br.readLine();
-                testResults.add(strLine);
-                //Log.d("Test"+i,strLine);
-            }
-
-
-            //Close the input stream
-            br.close();
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            e1.printStackTrace();
+            strLine = strLine.replace(temp+";","");
+            Log.d("asda",strLine);
         }
-
 
     }
 
@@ -90,12 +58,9 @@ public class TestResult {
     public void test(){
 
         Log.d("testsize", testResults.size()+"");
-        /*Log.d("Test0", testResults.get(0));
-        Log.d("Test1", testResults.get(1));*/
-
 
         for(int i=0; i<testResults.size(); i++ ){
-            Log.d("Test", testResults.get(i));
+            Log.d("Test"+i, testResults.get(i));
         }
     }
 

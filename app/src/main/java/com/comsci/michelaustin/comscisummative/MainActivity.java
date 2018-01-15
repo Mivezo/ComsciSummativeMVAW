@@ -35,12 +35,19 @@ public class MainActivity extends AppCompatActivity {
             fileIo.writeFile("0", "resumeModule"+i+".txt", getApplicationContext());
             fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
         }
-        fileIo.writeFile("zero", "testScores.txt", getApplicationContext());
-        fileIo.appendLineFile("one", "testScores.txt", getApplicationContext());
-        fileIo.appendLineFile("two", "testScores.txt", getApplicationContext());
-        fileIo.appendLineFile("three", "testScores.txt", getApplicationContext());
-        fileIo.appendLineFile("four", "testScores.txt", getApplicationContext());
-        fileIo.appendLineFile("five", "testScores.txt", getApplicationContext());
+        fileIo.writeFile("zero;", "testScores.txt", getApplicationContext());
+
+        //Log.d("Test0",fileIo.readFromFile(this,"testScores.txt"));
+        fileIo.appendLineFile("one;", "testScores.txt", getApplicationContext());
+        //Log.d("Test1",fileIo.readFromFile(this,"testScores.txt"));
+        fileIo.appendLineFile("two;", "testScores.txt", getApplicationContext());
+        //Log.d("Test2",fileIo.readFromFile(this,"testScores.txt"));
+        fileIo.appendLineFile("three;", "testScores.txt", getApplicationContext());
+        //Log.d("Test3",fileIo.readFromFile(this,"testScores.txt"));
+        fileIo.appendLineFile("four;", "testScores.txt", getApplicationContext());
+        //Log.d("Test4",fileIo.readFromFile(this,"testScores.txt"));
+        fileIo.appendLineFile("five;", "testScores.txt", getApplicationContext());
+        //Log.d("Test5",fileIo.readFromFile(this,"testScores.txt"));
 
         fileIo.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
         fileIo.writeFile("on", "vibration.txt", getApplicationContext());
