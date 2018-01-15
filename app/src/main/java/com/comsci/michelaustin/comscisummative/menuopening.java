@@ -59,7 +59,7 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition( R.anim.fadein, R.anim.fadeout );
+        //overridePendingTransition( R.anim.fadein, R.anim.fadeout );
         setContentView(R.layout.activity_menuopening);
 
         /*testResult = new TestResult(getApplicationContext());*/

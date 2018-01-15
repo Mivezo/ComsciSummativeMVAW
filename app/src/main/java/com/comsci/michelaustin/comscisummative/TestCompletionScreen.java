@@ -54,7 +54,7 @@ public class TestCompletionScreen extends AppCompatActivity {
         questionRight=20;
 
         //buildTestResult();
-        testAnswer();
+        testAnswer();//Gen
         testIfPassed();
 
         buildListViewChild();
@@ -93,9 +93,12 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     private void buildTestResult(){
 
-        fileIo.appendLineFile(passPercent+"", "testScores.txt", this);
+        fileIo.appendLineFile(passPercent+";", "testScores.txt", this);
     }
 
+    /**
+     * This Method tests whether the user's results are correct, and writes down how many they got correct
+     */
     private void testAnswer(){
         for(int i=0; i<20; i++){
             if(!userResult.get(i).equals(testCorrectAnswers.get(i))){
@@ -111,18 +114,25 @@ public class TestCompletionScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * The expandable list view adapter requires arrays for the child view.
+     * "Your answer" and "correct answers" are appended before
+     */
     private void buildListViewChild(){
-        childNames.add(new ArrayList<String>());
+        childNames.add(new ArrayList<String>());// clears
         childNames.clear();
         childNames.add(new ArrayList<String>());
 
         for(int i=0; i<20; i++){
             childNames.get(i).add("Your answer: "+userResult.get(i));
             childNames.get(i).add("Correct answer: "+testCorrectAnswers.get(i));
-            childNames.add(new ArrayList<String>());
+            childNames.add(new ArrayList<String>());//adds to arraylist
         }
     }
 
+    /**
+     * Calculates the percentage of the questions the user got correct. If above 80%, passed
+     */
     private void testIfPassed(){
         double temp = (double) questionRight/(double)20;
         double percent = temp*100;
@@ -137,6 +147,7 @@ public class TestCompletionScreen extends AppCompatActivity {
         passPercent = (int) Math.round(percent);
     }
 
+    //Returns true or false for each question specifically for the expandable list view adapter
     public static boolean isCorrect(int i){
         if (userResultS.get(i).equals(testCorrectAnswersS.get(i))){
             return true;
@@ -146,6 +157,7 @@ public class TestCompletionScreen extends AppCompatActivity {
         }
     }
 
+    //On back press goes to the menu opening class
     @Override
     public void onBackPressed() {
         Intent change = new Intent(getApplicationContext(), menuopening.class);

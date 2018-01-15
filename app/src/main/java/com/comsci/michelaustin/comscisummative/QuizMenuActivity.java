@@ -40,7 +40,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Button option2;
     private Button option3;
     private Button option4;
-    private ImageButton nextArrowButton;
+    private ImageButton nextArrowButton, backArrowButton;
     /*private String mAnswer;*/
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
@@ -186,6 +186,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         option3 = (Button) findViewById(R.id.option3);
         option4 = (Button) findViewById(R.id.option4);
         nextArrowButton = (ImageButton) findViewById(R.id.nextArrowButton);
+        backArrowButton = findViewById(R.id.backArrowButton);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
 
         // mQuestionLibrary = new QuestionLibrary(moduleNumber);
@@ -533,6 +534,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         showNextArrowButton();
 
+
+
         //Switches the question when the next button is pressed
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -572,7 +575,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         fileIo.writeFile(questionNumber+"", resumeModule, this);
         fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
-        //Log.d("MyTag", fileIo.readFromFile(this, resumeModule));
     }
 
     /**
@@ -589,13 +591,15 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     }
 
+    /**
+     * This builds the array for test only
+     */
     private void buildTestArrays(){
         testCorrectAnswerArray.add("fsdf");//arbitrary values to get cleared as cannot clear a null txt file
         testQuestionArray.add("ggd");
 
         testQuestionArray.clear();
         testCorrectAnswerArray.clear();
-
 
         for(int i=0; i<20; i++){
             testCorrectAnswerArray.add(mQuestionLibraryTest.getTestCorrectAnswer(i));
@@ -651,15 +655,16 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                     marker2=1;
                 }
                 talker.stop();
-                Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(QuizMenuActivity.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(QuizMenuActivity.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();
 
     }
 
+    //For the explanation popup and test, shows the next arrow to switch question
     private void showNextArrowButton(){
         nextArrowButton.setVisibility(View.VISIBLE);
         nextArrowButton.setOnClickListener(new View.OnClickListener() {
@@ -667,6 +672,16 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             public void onClick(View view) {
                 nextArrowButton.setVisibility(View.GONE);
                 switchQuestion();
+            }
+        });
+    }
+
+    private void showBackArrowButton(){
+        backArrowButton.setVisibility(View.VISIBLE);
+        backArrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backArrowButton.setVisibility(View.GONE);
 
             }
         });
