@@ -97,7 +97,7 @@ public class settingsPage extends AppCompatActivity {
             public void onClick(View v) {
                 // get prompts.xml view
                 LayoutInflater li = LayoutInflater.from(context);
-                View promptsView = li.inflate(R.layout.promp, null);
+                View promptsView = li.inflate(R.layout.name_enter_popup, null);
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         context);

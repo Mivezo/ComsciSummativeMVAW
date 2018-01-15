@@ -21,7 +21,11 @@ public class info extends AppCompatActivity {
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         marker = 0;
         marker2 = 0;
+
+        //Log.d("test", fileIo.readFromFile(this, "testScores.txt"));
+        TestResult testResult = new TestResult(getApplicationContext());
     }
+
 
     @Override
     protected void onPause() {

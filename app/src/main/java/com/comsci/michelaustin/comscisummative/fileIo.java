@@ -4,11 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
  * Created by Evelina Vezarov on 2017-11-14.
@@ -20,6 +23,7 @@ public class fileIo {
 
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
+
             outputStreamWriter.write(data);
             outputStreamWriter.close();
         } catch (IOException e) {
@@ -62,13 +66,21 @@ public class fileIo {
     public static void appendLineFile(String data, String fileName,Context context) {
 
         try {
-            OutputStreamWriter writer =  new OutputStreamWriter(context.openFileOutput(fileName, Context.MODE_PRIVATE));
-            writer.append(data);
-            writer.close();
+            /*FileWriter fw = new FileWriter(fileName,true);
+            OutputStreamWriter writer =  new OutputStreamWriter(fw));
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);*/
+            Writer output;
+            output = new BufferedWriter(new FileWriter(fileName, true));
+
+            output.append(data);
+            output.close();
+
         } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
+
+
 
 
 }

@@ -35,7 +35,13 @@ public class MainActivity extends AppCompatActivity {
             fileIo.writeFile("0", "resumeModule"+i+".txt", getApplicationContext());
             fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
         }
-        fileIo.writeFile("0", "testResult.txt", getApplicationContext());
+        fileIo.writeFile("zero", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("one", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("two", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("three", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("four", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("five", "testScores.txt", getApplicationContext());
+
         fileIo.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
         fileIo.writeFile("on", "vibration.txt", getApplicationContext());
         fileIo.writeFile("1.0", "volume.txt", getApplicationContext());

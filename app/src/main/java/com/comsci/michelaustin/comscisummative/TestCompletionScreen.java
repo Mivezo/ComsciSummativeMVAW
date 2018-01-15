@@ -111,7 +111,6 @@ public class TestCompletionScreen extends AppCompatActivity {
             childNames.get(i).add("Correct answer: "+testCorrectAnswers.get(i));
             childNames.add(new ArrayList<String>());
         }
-        //childNames.remove(19);
     }
 
     private void testIfPassed(){

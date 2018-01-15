@@ -15,7 +15,7 @@ Assess the environment;Activate EMS;Reassess airway, breathing and circulation;R
 3:1;30:2;5:1;15:2;
 This is the best position in which to do mouth-to-mouth;This is the best position in which to take a pulse;This is the best position in which to check breathing;This is the best position in which to allow vomit to drain;
 Mouth to mouth;Mouth to nose;Mouth to stoma;All of the above;
-Stop rescue breathing because the victim will start to breathe;Continue rescue breathing;Place the victim in recovery position and stop resuscitation;Place the victim in recovery position,, clear the airway and reassess airway, breathing and circulation;
+Stop rescue breathing because the victim will start to breathe;Continue rescue breathing;Place the victim in recovery position and stop resuscitation;Place the victim in recovery position, clear the airway and reassess airway, breathing and circulation;
 Force the administration of medication;Assist the victim to take his medications;Not allow administration of medication;Not worry about medication until ES arrives;
 Chest pain and nausea;Flushed face and sweating;Chest pain, shortness of breath and denial;All of the above;
 True;False; ; ;

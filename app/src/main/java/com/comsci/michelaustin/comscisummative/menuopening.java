@@ -3,6 +3,7 @@ package com.comsci.michelaustin.comscisummative;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class menuopening extends AppCompatActivity {
+public class menuopening extends AppCompatActivity implements OpenDialog{
 
     String name = MainActivity.userName;
     ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
@@ -47,16 +48,21 @@ public class menuopening extends AppCompatActivity {
 
     boolean fade=true;
 
-    private Dialog dialog;
+    private Dialog menupopup, testpopup;
 
     Animation in;
+
+    TestResult testResult;
 
     DisplayMetrics displayMetrics = new DisplayMetrics();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition( R.anim.fadein, R.anim.fadeout );
         setContentView(R.layout.activity_menuopening);
+
+        testResult = new TestResult(getApplicationContext());
 
         currentModule = 0;
 
@@ -66,7 +72,8 @@ public class menuopening extends AppCompatActivity {
         fileIo.writeFile(name,"lifeguardname.txt",this);
         shake = AnimationUtils.loadAnimation(this, R.anim.turn);
 
-        dialog = new Dialog(this,R.style.PauseDialog);
+        menupopup = new Dialog(this,R.style.PauseDialog);
+        testpopup = new Dialog(this);
 
         nameshow = (TextView) findViewById(R.id.menuname);
         nameshow.setText("Welcome " + name+ "!");
@@ -142,66 +149,21 @@ public class menuopening extends AppCompatActivity {
         }
 
 
-        /*module1Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                currentModule = 0;
-                animateButton(module1Button, mod1);
-                currentButton = module1Button;
-                currentText = mod1;
-
-            }
-        });
-
-        module2Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentModule = 1;
-                animateButton(module2Button, mod2);
-                currentButton = module2Button;
-                currentText = mod2;
-
-            }
-        });
-
-        module3Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                currentModule = 2;
-                animateButton(module3Button, mod3);
-                currentButton = module3Button;
-                currentText = mod3;
-
-            }
-        });
-
-        module4Button.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-                currentModule = 3;
-                animateButton(module4Button, mod4);
-                currentButton = module4Button;
-                currentText = mod4;
-
-            }
-        });*/
-
         module6Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                showTestPopup();
                 module1Button.setEnabled(false);
                 module2Button.setEnabled(false);
                 module3Button.setEnabled(false);
                 module4Button.setEnabled(false);
                 module5Button.setEnabled(false);
-                Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
-                startQuiz.putExtra("MODULE_ID",6);
-                startActivity(startQuiz);
+
             }
         });
 
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        menupopup.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 final Handler handler = new Handler();
@@ -367,9 +329,39 @@ public class menuopening extends AppCompatActivity {
     }
 
     public void showMenuPopup(){
-        dialog.setContentView(R.layout.menu_popup);
+        menupopup.setContentView(R.layout.menu_popup);
 
-        ImageView modulePic = dialog.findViewById(R.id.modulePic);
+        ImageView restartIcon = menupopup.findViewById(R.id.restartIcon);
+
+        /*LayoutInflater li = LayoutInflater.from(getApplicationContext());
+        View promptsView = li.inflate(R.layout.restart_module_prompt, null);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getApplicationContext());
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+        alertDialogBuilder.show();*/
+
+        restartIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Bundle b = new Bundle();
+                b.putInt("ID", currentModule);
+
+               /* DialogFragment newFragment = new DialogFragment();*/
+
+                DialogFragment newFragment = PropDialogFragment.newInstance();
+                newFragment.setArguments(b);
+
+                showDialog(newFragment);
+
+            }
+        });
+
+
+
+        ImageView modulePic = menupopup.findViewById(R.id.modulePic);
 
         switch (currentModule+1){
             case 1:
@@ -392,28 +384,55 @@ public class menuopening extends AppCompatActivity {
         }
 
 
-        TextView resumeText = dialog.findViewById(R.id.resumeText);
+        TextView resumeText = menupopup.findViewById(R.id.resumeText);
         if(!resumeState){
             resumeText.setText("Play");
         }
         else{
-
+            restartIcon.setVisibility(View.VISIBLE);
             resumeText.setText("Resume");
             resumeText.setTextSize((int) getResources().getDimension(R.dimen.textSize));
         }
 
-        ImageButton play  =  dialog.findViewById(R.id.nextButton);
+        ImageButton play  =  menupopup.findViewById(R.id.nextButton);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                menupopup.dismiss();
+                displayQuiz();
+            }
+        });
+        menupopup.show();
+    }
+
+    public void showTestPopup(){
+        testpopup.setContentView(R.layout.test_prompt);
+
+        testResult.buildTestResult();
+        testResult.test();
+
+        TextView scoreText = testpopup.findViewById(R.id.scoreText);
+
+        if(testResult.getArraySize()>1){
+            //scoreText.setText("Your last score was: "+testResult.getlastResult()+"%");
+        }
+        else{
+            scoreText.setText("");
+        }
+
+        TextView nextText = testpopup.findViewById(R.id.nextText);
+        nextText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
-                startQuiz.putExtra("MODULE_ID",currentModule+1);
+                startQuiz.putExtra("MODULE_ID",6);
                 startActivity(startQuiz);
             }
         });
-        dialog.show();
+
+
+        testpopup.show();
     }
 
     public void reverseButtonAnimation(ImageButton b, TextView t){
@@ -497,6 +516,12 @@ public class menuopening extends AppCompatActivity {
 
     }
 
+    public void displayQuiz(){
+        Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
+        startQuiz.putExtra("MODULE_ID",currentModule+1);
+        startActivity(startQuiz);
+    }
+
     @Override
     public void onBackPressed() {
 
@@ -518,7 +543,7 @@ public class menuopening extends AppCompatActivity {
     }
 
     public void dialogBackPressed(){
-        //dialog.dismiss();
+        //menupopup.dismiss();
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -544,7 +569,7 @@ public class menuopening extends AppCompatActivity {
 
     private void animback(){
        // currentText.setVisibility(View.INVISIBLE);
-        dialog.dismiss();
+        menupopup.dismiss();
         dialogBackPressed();
     }
 
@@ -564,5 +589,9 @@ public class menuopening extends AppCompatActivity {
 
     }
 
+    @Override
+    public void showDialog(DialogFragment dialog) {
+        dialog.show(getFragmentManager(),"tag");
+    }
 }
 
