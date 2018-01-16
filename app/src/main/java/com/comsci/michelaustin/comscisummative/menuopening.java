@@ -69,7 +69,10 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
         in = new AlphaAnimation(0.0f, 1.0f);
         in.setDuration(500);
 
-        fileIo.writeFile(name,"lifeguardname.txt",this);
+        if(MainActivity.first==1){
+            fileIo.writeFile(name,"lifeguardname.txt",this);
+        }
+
         shake = AnimationUtils.loadAnimation(this, R.anim.turn);
 
         menupopup = new Dialog(this,R.style.PauseDialog);
@@ -153,11 +156,11 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
             @Override
             public void onClick(View view) {
                 showTestPopup();
-                module1Button.setEnabled(false);
+                /*module1Button.setEnabled(false);
                 module2Button.setEnabled(false);
                 module3Button.setEnabled(false);
                 module4Button.setEnabled(false);
-                module5Button.setEnabled(false);
+                module5Button.setEnabled(false);*/
 
             }
         });
@@ -354,6 +357,7 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
 
         ImageView modulePic = menupopup.findViewById(R.id.modulePic);
 
+        //Sets
         switch (currentModule+1){
             case 1:
                 modulePic.setImageResource(R.drawable.module1pic);

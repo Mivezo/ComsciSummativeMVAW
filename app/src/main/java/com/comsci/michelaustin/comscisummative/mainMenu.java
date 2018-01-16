@@ -19,7 +19,7 @@ import java.util.List;
 
 public class mainMenu extends AppCompatActivity {
 
-    ImageButton playBuoy, resetButton;
+    ImageButton playBuoy, resetButton,infoButton;
     public static MediaPlayer mediaPlayerMain;
     private int marker, marker2;
     PowerManager pm;
@@ -35,6 +35,7 @@ public class mainMenu extends AppCompatActivity {
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
         playBuoy = findViewById(R.id.playbuoy);
+        infoButton = findViewById(R.id.info);
         resetButton = findViewById(R.id.resetButton);
 
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);

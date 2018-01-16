@@ -71,6 +71,7 @@ public class firstopening extends AppCompatActivity {
                                         // edit text
 
                                         if (!MainActivity.userName.isEmpty()){
+                                            MainActivity.first=1;
                                             mainMenu(menuopening.class);
                                             finish();
                                         }

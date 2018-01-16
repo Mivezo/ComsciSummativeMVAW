@@ -4,45 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="330dp"
-    android:layout_height="300dp"
+    android:layout_height="280dp"
     android:layout_gravity="center"
     android:background="@color/colorWhite">
 
     <TextView
         android:id="@+id/nextText"
-        android:layout_width="118dp"
+        android:layout_width="140dp"
         android:layout_height="41dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/colorWhite"
         android:text="START"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorAccent"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.924"
+        app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/explanationLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text=""
-        android:textColor="@android:color/black"
-        android:textSize="25sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/scoreText" />
 
     <TextView
         android:id="@+id/explanationText"
         android:layout_width="300dp"
-        android:layout_height="153dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="145dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -50,44 +38,42 @@
         android:text="You are about to take the test with 20 questions.\nYou will need to get at least 80% or 16 out of 20 to pass.\nIf you leave during the test your progress will not be saved."
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/nextText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.207" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/scoreText"
         android:layout_width="305dp"
-        android:layout_height="39dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Your previous score was: "
-        app:layout_constraintBottom_toTopOf="@+id/nextText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/explanationText"
-        app:layout_constraintVertical_bias="0.050000012" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/viewScores"
-        android:layout_width="165dp"
-        android:layout_height="41dp"
+        android:layout_width="134dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text=""
-        android:textColor="@android:color/black"
+        android:text="SCORES"
+        android:textColor="@color/colorAccent"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/nextText"
-        app:layout_constraintHorizontal_bias="0.615"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/scoreText"
+        app:layout_constraintVertical_bias="0.39" />
 
 </android.support.constraint.ConstraintLayout>

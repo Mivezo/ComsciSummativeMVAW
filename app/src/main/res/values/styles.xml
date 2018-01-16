@@ -12,6 +12,10 @@
         <item name="android:windowBackground">@drawable/splashpage</item>
     </style>
 
+    <style name="testScores" parent="@android:style/Theme.Holo.Dialog.NoActionBar">
+
+    </style>
+
     <style name="PauseDialog" parent="@android:style/Theme.DeviceDefault.NoActionBar">
         <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
         <item name="android:statusBarColor">@color/status</item>

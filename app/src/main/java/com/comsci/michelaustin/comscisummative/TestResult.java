@@ -26,20 +26,27 @@ public class TestResult {
         testResults.add("arbitrary valule");
         testResults.clear();
 
-        int count=0;
-        String strLine="";
+        String strLine = fileIo.readFromFile(appcontext, "testScores.txt");
+        Log.d("strLineOr", strLine);
 
+        int count = StringUtils.countMatches(strLine, ";");
 
-        strLine = fileIo.readFromFile(appcontext, "testScores.txt");
-
-        count = StringUtils.countMatches(strLine, ";");
+        Log.d("Test", count+"");
 
         for(int i=0; i<count; i++){
+
             int colon = strLine.indexOf(";");
+
+            //Log.d("test"+i, colon+"");
+
             String temp = strLine.substring(0,colon);
+
+            Log.d("test"+i, temp);
+
             testResults.add(temp);
 
-            strLine = strLine.replace(temp+";","");
+            strLine = strLine.replaceFirst(temp+";","");
+            Log.d("strLine", strLine);
         }
 
     }

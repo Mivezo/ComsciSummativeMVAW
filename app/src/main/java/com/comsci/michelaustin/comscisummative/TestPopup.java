@@ -21,7 +21,7 @@ public class TestPopup extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_popup);
 
-        dialog = new Dialog(this);
+        dialog = new Dialog(this,R.style.testScores);
 
         TextView viewScores = findViewById(R.id.viewScores);
 
@@ -33,10 +33,8 @@ public class TestPopup extends Activity {
         if(testResult.getArraySize()>1){
             scoreText.setText("Your last score was: "+testResult.getlastResult()+"%");
             viewScores.setVisibility(View.VISIBLE);
-            viewScores.setText("VIEW SCORES");
         }
         else{
-            scoreText.setText("");
             viewScores.setVisibility(View.GONE);
         }
 
@@ -48,6 +46,13 @@ public class TestPopup extends Activity {
             public void onClick(View view) {
                 dialog.setContentView(R.layout.view_test_scores);
 
+                TextView okTest = dialog.findViewById(R.id.okTest);
+                okTest.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
 
                 listView = dialog.findViewById(R.id.listView);
                 ItemAdapter adapter = new ItemAdapter(getApplicationContext());

@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -69,6 +70,7 @@ public class settingsPage extends AppCompatActivity {
 
                 TextView tv = promptsView.findViewById(R.id.textView1);
                 tv.setText("Are you sure?");
+                tv.setTextColor(Color.BLACK);
 
                 // set dialog message
                 alertDialogBuilder
@@ -76,9 +78,9 @@ public class settingsPage extends AppCompatActivity {
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        fileIo.writeFile("0","testScores.txt", getApplicationContext());
+                                        fileIo.writeFile("0;","testScores.txt", getApplicationContext());
                                         dialog.dismiss();
-                                        Toast.makeText(settingsPage.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(settingsPage.this, "SCORES RESET!", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                         .setNegativeButton("Cancel",

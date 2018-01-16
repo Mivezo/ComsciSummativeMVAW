@@ -15,15 +15,13 @@ import java.util.ArrayList;
 
 public class ItemAdapter extends BaseAdapter{
 
-    ArrayList testResults = new ArrayList<>();
+    ArrayList<String> testResults = new ArrayList<>();
     Context context;
     TestResult testResult;
 
     public ItemAdapter(Context c){
         this.context = c;
         testResult = new TestResult(context);
-
-
 
         testResults = testResult.getTestResults();
         testResults.remove(0);
@@ -47,8 +45,17 @@ public class ItemAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView txtView = new TextView(context);
+
+        if(Integer.parseInt(testResults.get(i))>=80){
+            txtView.setTextColor(Color.GREEN);
+        }
+        else{
+            txtView.setTextColor(Color.RED);
+        }
+
+        txtView.setEnabled(false);
+
         txtView.setText("Test Result "+(i+1)+": "+testResults.get(i)+"%");
-        txtView.setTextColor(Color.BLACK);
         txtView.setPadding(100,0,50,0);
         txtView.setTextSize(20);
 

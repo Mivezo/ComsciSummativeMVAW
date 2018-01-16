@@ -666,10 +666,12 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     //For the explanation popup and test, shows the next arrow to switch question
     private void showNextArrowButton(){
+        nextArrowButton.setEnabled(true);
         nextArrowButton.setVisibility(View.VISIBLE);
         nextArrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                nextArrowButton.setEnabled(false);
                 nextArrowButton.setVisibility(View.GONE);
                 switchQuestion();
             }

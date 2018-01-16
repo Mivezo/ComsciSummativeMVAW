@@ -1,9 +1,9 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +16,9 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     ExpandableListView expandableListView;
 
-    private TextView passText, linkText;
+    private TextView passText;
+
+
 
     private ArrayList<String> userResult = new ArrayList<String>();
     private ArrayList<String> testCorrectAnswers = new ArrayList<String>();
@@ -59,29 +61,36 @@ public class TestCompletionScreen extends AppCompatActivity {
 
         buildListViewChild();
 
-        linkText = findViewById(R.id.linkText);
+        Button courseText = findViewById(R.id.courseButton);
 
         if(pass){
-            linkText.setVisibility(View.VISIBLE);
-            linkText.setText("Since you have passed, click on http://www.lifesavingsociety.com/find-a-course.aspx to book a course!");
-            linkText.setMovementMethod(LinkMovementMethod.getInstance());
+            courseText.setVisibility(View.VISIBLE);
 
             verdict = "PASSED!";
         }else{
-            linkText.setVisibility(View.GONE);
+            courseText.setVisibility(View.GONE);
             verdict = "FAILED!";
         }
 
         passText = (TextView) findViewById(R.id.passText);
         passText.setText("You have completed the test!\n Your percentage was "+passPercent+".\n"+"Verdict: "+verdict);
 
+        courseText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri uri = Uri.parse("http://www.lifesavingsociety.com/find-a-course.aspx");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
+            }
+        });
 
 
-        menuButton = (Button) findViewById(R.id.menuButton);
+        menuButton = findViewById(R.id.menuButton);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buildTestResult();
+
                 Intent startIntent = new Intent(getApplicationContext(), menuopening.class);
                 startActivity(startIntent);
             }
@@ -89,11 +98,14 @@ public class TestCompletionScreen extends AppCompatActivity {
 
         ExpandableListViewAdapter adapter = new ExpandableListViewAdapter(getApplicationContext(), testQuestions, childNames);
         expandableListView.setAdapter(adapter);
+        buildTestResult();
     }
 
-    private void buildTestResult(){
 
+    //Added the score on to the previous test
+    private void buildTestResult(){
         fileIo.appendLineFile(passPercent+";", "testScores.txt", this);
+        Log.d("updated", fileIo.readFromFile(this,"testScores.txt"));
     }
 
     /**

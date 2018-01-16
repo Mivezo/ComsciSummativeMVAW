@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences prefs = null;
     public static String userName; //variables to be used
     private Intent startMenu;
+    public static int first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(startMenu); //start the menu
         }
         else{
-            startMenu = new Intent(this, mainMenu.class); //if the user has a name and is not running for the first time, send to menu
+            startMenu = new Intent(this, mainMenu.class);
+            first=0;//if the user has a name and is not running for the first time, send to menu
             startActivity(startMenu);
         }
     }
@@ -47,7 +50,13 @@ public class MainActivity extends AppCompatActivity {
         fileIo.appendLineFile("4;", "testScores.txt", getApplicationContext());
         //Log.d("Test4",fileIo.readFromFile(this,"testScores.txt"));
         fileIo.appendLineFile("5;", "testScores.txt", getApplicationContext());
-        //Log.d("Test5",fileIo.readFromFile(this,"testScores.txt"));
+        fileIo.appendLineFile("6;", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("7;", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("8;", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("9;", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("10;", "testScores.txt", getApplicationContext());
+        fileIo.appendLineFile("100;", "testScores.txt", getApplicationContext());
+        Log.d("Test5",fileIo.readFromFile(this,"testScores.txt"));
 
         fileIo.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
         fileIo.writeFile("on", "vibration.txt", getApplicationContext());
