@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -84,7 +83,6 @@ public class mainMenu extends AppCompatActivity {
     protected void onPause() {
         if (this.isFinishing()){ //basically BACK was pressed from this activity
             mediaPlayerMain.stop();
-            Toast.makeText(mainMenu.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
         }
 
         Context context = getApplicationContext();
@@ -96,10 +94,9 @@ public class mainMenu extends AppCompatActivity {
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 mediaPlayerMain.pause();
                 marker2=1;
-                Toast.makeText(mainMenu.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(mainMenu.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(mainMenu.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();

@@ -16,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -109,7 +108,6 @@ public class firstopening extends AppCompatActivity {
     protected void onPause() {
         if (this.isFinishing()){ //basically BACK was pressed from this activity
             mediaPlayer.stop();
-            Toast.makeText(firstopening.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
         }
 
         Context context = getApplicationContext();
@@ -121,10 +119,9 @@ public class firstopening extends AppCompatActivity {
             if (!topActivity.getPackageName().equals(context.getPackageName())) {
                 mediaPlayer.pause();
                 marker2=1;
-                Toast.makeText(firstopening.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
             else {
-                Toast.makeText(firstopening.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(firstopening.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();

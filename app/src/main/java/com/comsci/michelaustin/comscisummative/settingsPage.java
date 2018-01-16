@@ -111,15 +111,12 @@ public class settingsPage extends AppCompatActivity {
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mVolumeControl.setMax(MAX_VOLUME);
 
-        Log.d("myTag1", ""+mVolumeControl.getProgress());
-
         //if (progressBar == null) {
        //     mVolumeControl.setProgress(MAX_VOLUME * mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
       //  } else {
             mVolumeControl.setProgress(progressBar);
       //  }
 
-        Log.d("myTag2", ""+mVolumeControl.getProgress());
         mVolumeControl.setOnSeekBarChangeListener(mVolumeControlChangeListener);
 
         mutestatus = fileIo.readFromFile(this, "voiceMute.txt");
@@ -253,7 +250,6 @@ public class settingsPage extends AppCompatActivity {
                 mainMenu.mediaPlayerMain.pause();
                 hi.stop();
                 marker2 = 1;
-                Toast.makeText(settingsPage.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
     }

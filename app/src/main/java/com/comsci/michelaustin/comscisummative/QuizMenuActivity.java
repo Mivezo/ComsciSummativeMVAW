@@ -16,7 +16,6 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -608,13 +607,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     }
 
-    public void test(){
-        Log.d("MyTag", answerArray.size()+"");
-
-        for (int i = 0; i<answerArray.size(); i++){
-            Log.d("MyTag", ""+answerArray.get(i));
-        }
-    }
 
     public boolean fileExists(Context context, String filename) {
         File file = context.getFileStreamPath(filename);
@@ -640,7 +632,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             if (moduleNumber!= 6) {
                 mp.stop();
             }
-            Toast.makeText(QuizMenuActivity.this, "YOU PRESSED BACK FROM YOUR 'HOME/MAIN' ACTIVITY", Toast.LENGTH_SHORT).show();
         }
 
         Context context = getApplicationContext();
