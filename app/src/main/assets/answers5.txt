@@ -9,7 +9,7 @@ Bruising;Broken rib;Hypothermia;3rd degree burn;
 Anaphylaxis;Hyperthermia;Heart Attack;Broken ribs;
 Seizure;Head Injury;Shock;Broken Bone;
 Hypothermia;Diabetic Emergency;Shock;Seizure;
-The person has life-threatening external bleeding that cannot be controlled using direct pressure. ;The person is in a physical location that makes it impossible to apply direct pressure (e.g., the person or the person’s injured limb is trapped in a confined space). ;You must move the person and are unable to maintain direct pressure while doing so.;All of the above;
+The person has life-threatening external bleeding that cannot be controlled using direct pressure. ;The person is in a physical location that makes it impossible to apply direct pressure (e.g., the person or the person's injured limb is trapped in a confined space). ;You must move the person and are unable to maintain direct pressure while doing so.;All of the above;
 10;30;25;20;
 2 seconds;0.5 seconds;1.5 seconds;1 second;
 Blood spurting or flowing freely from a wound;Blood that fails to clot after you have taken all measures to control bleeding;Large amounts of blood loss;All of the above;

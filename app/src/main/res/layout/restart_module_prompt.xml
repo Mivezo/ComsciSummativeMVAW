@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Would you like to restart the module?"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_red_light"
+            android:textColor="@android:color/black"
             android:textSize="20sp" />
 
     </LinearLayout>
