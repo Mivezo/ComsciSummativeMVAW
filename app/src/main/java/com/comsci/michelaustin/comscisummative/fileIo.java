@@ -17,6 +17,13 @@ import java.io.PrintWriter;
 
 public class fileIo {
 
+    /**
+     * This method writes a string to a txt file. If there was no previous txt file,
+     * it will be created under the fileName. Any other text in the file will be overwritten.
+     * @param data Data to be written in txt file
+     * @param fileName Name of the txt file
+     * @param context Application Context
+     */
     public static void writeFile(String data, String fileName,Context context) {
 
         try {
@@ -30,6 +37,12 @@ public class fileIo {
     }
 
 
+    /**
+     * This method reads a line from a specific file.
+     * @param context ApplicationContext
+     * @param name Name of the txt File
+     * @return line from file
+     */
     public static String readFromFile(Context context, String name) {
 
         String ret = "";
@@ -61,23 +74,23 @@ public class fileIo {
         return ret;
     }
 
+    /**
+     * This method writes a string to a txt file.
+     * Instead of overriding the text, it appends the string on to the existing
+     * @param data Data to be written in txt file
+     * @param fileName Name of the txt file
+     * @param context Application Context
+     */
     public static void appendLineFile(String data, String fileName,Context context) {
 
         try {
             String separator = System.getProperty("line.separator");
-            /*FileWriter fw = new FileWriter(fileName,true);
-            OutputStreamWriter writer =  new OutputStreamWriter(fw));
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);*/
-
-
 
             PrintWriter outputStreamWriter = new PrintWriter(context.openFileOutput(fileName, Context.MODE_APPEND));
 
 
             outputStreamWriter.append(separator);
             outputStreamWriter.write(data);
-            /*outputStreamWriter.append("\n");
-            outputStreamWriter.append(data);*/
             outputStreamWriter.flush();
             outputStreamWriter.close();
 

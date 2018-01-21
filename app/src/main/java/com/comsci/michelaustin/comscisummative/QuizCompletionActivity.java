@@ -4,24 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class QuizCompletionActivity extends AppCompatActivity {
 
-    private Button menuButton;
-    private TextView correctAnswerTextView;
+    private ImageButton menuButton;
+    private TextView completionText;
     private int amountCorrect;
     private int totalAmount;
     private int moduleID;
+    private String completionString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_completion);
 
-        menuButton = (Button) findViewById(R.id.menuButton);
-        correctAnswerTextView = (TextView) findViewById(R.id.correctAnswerTextView);
+        menuButton = findViewById(R.id.menuButton);
+        completionText = (TextView) findViewById(R.id.completionText);
 
         amountCorrect = getIntent().getIntExtra("AMOUNT_CORRECT",0);
         totalAmount = getIntent().getIntExtra("TOTAL_AMOUNT", 0);
@@ -36,7 +37,26 @@ public class QuizCompletionActivity extends AppCompatActivity {
             }
         });
 
+        writeCompletionText();
+
         fileIo.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
+    }
+
+    private void writeCompletionText(){
+        switch (moduleID){
+            case 1: completionString="Shock and Environment Stresses";
+                    break;
+            case 2: completionString="Anaphylaxis/Obscured Airway";
+                break;
+            case 3: completionString="Circulatory Emergencies";
+                break;
+            case 4: completionString="Skin/Bone Injuries & Seizures";
+                break;
+            case 5: completionString="General info & symptoms";
+                break;
+        }
+
+        completionText.setText("Congratulations! You have completed the "+completionString+" module!");
     }
 
     @Override

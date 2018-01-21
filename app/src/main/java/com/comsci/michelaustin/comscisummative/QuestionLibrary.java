@@ -21,10 +21,10 @@ public class QuestionLibrary {
 
     private final Context context;
 
-    String questionFileName;
-    String answerFileName;
-    String explanationsFileName;
-    String correctAnswersFileName;
+    private String questionFileName;
+    private String answerFileName;
+    private String explanationsFileName;
+    private String correctAnswersFileName;
 
     private ArrayList<Integer> randomInt = new ArrayList<Integer>();
 
@@ -32,18 +32,18 @@ public class QuestionLibrary {
 
     private ArrayList <String> questions= new ArrayList<String>();
     private List<List<String>> answers = new ArrayList<List<String>>();
-    ArrayList<ArrayList<String>> correctAnswers = new ArrayList<ArrayList<String>>();
+    private ArrayList<ArrayList<String>> correctAnswers = new ArrayList<ArrayList<String>>();
     private ArrayList <String> explanations= new ArrayList<String>();
 
-    public ArrayList <String> testQuestions= new ArrayList<String>();
-    public List<List<String>> testAnswers = new ArrayList<List<String>>();
-    public ArrayList<String> testCorrectAnswers = new ArrayList<String>();
+    private ArrayList <String> testQuestions= new ArrayList<String>();
+    private List<List<String>> testAnswers = new ArrayList<List<String>>();
+    private ArrayList<String> testCorrectAnswers = new ArrayList<String>();
 
-    public ArrayList <String> tempCorrectAnswers= new ArrayList<String>();
+    private ArrayList <String> tempCorrectAnswers= new ArrayList<String>();
 
 
-    int moduleID;
-    int answerAmount;
+    private int moduleID;
+    private int answerAmount;
 
 
     public QuestionLibrary(Context c){
@@ -66,6 +66,10 @@ public class QuestionLibrary {
 
     }
 
+
+    /**
+     * This method creates the respected file names based on the module id passed in
+     */
     private void createFileNames(){
         if(moduleID!=6){
             explanationsFileName="explanations"+moduleID+".txt";
@@ -85,7 +89,7 @@ public class QuestionLibrary {
         correctAnswers.add(new ArrayList<String>());
         correctAnswers.get(0).add("1");
 
-        //no explanations needed for the test
+        //no explanations needed for the test, so only for modules that are not 6, explanations are created
         if(moduleID!=6){
             explanations.add("!");
             createArray(explanations, explanationsFileName);
@@ -265,7 +269,7 @@ public class QuestionLibrary {
     }
 
     //Shuffles the question, answer and correctanswer arrays. Takes the 1st 20 and puts it into a new arraylist with the prefixes test
-    public void randomizeArrays(){
+    private void randomizeArrays(){
 
         randomInt.clear();
 
@@ -303,7 +307,7 @@ public class QuestionLibrary {
      * @param a 2d answer arraylist
      * @return
      */
-    public String isAnswerBlank(int i, int q, List<List<String>> a){
+    private String isAnswerBlank(int i, int q, List<List<String>> a){
         if(!a.get(i).get(q).equals(" ")){
             String choice= a.get(i).get(q);
             return choice;
