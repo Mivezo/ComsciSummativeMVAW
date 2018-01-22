@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class menuopening extends AppCompatActivity implements OpenDialog{
+public class menuopening extends AppCompatActivity{
 
     String name = MainActivity.userName;
     ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
@@ -561,7 +561,6 @@ public class menuopening extends AppCompatActivity implements OpenDialog{
 
     }
 
-    @Override
     public void showDialog(DialogFragment dialog) {
         dialog.show(getFragmentManager(),"tag");
     }

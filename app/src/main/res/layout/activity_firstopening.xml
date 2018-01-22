@@ -70,7 +70,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:src="@drawable/infopage"
-        android:onClick="changelayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/ic_launcher_round" />

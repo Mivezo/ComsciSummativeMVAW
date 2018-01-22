@@ -20,7 +20,7 @@ import android.widget.ImageButton;
 import java.util.List;
 
 public class firstopening extends AppCompatActivity {
-    ImageButton buoyButton;
+    ImageButton buoyButton,info;
     final Context context = this;
     public static MediaPlayer mediaPlayer;
     PowerManager pm;
@@ -33,6 +33,7 @@ public class firstopening extends AppCompatActivity {
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
         buoyButton = findViewById(R.id.lgbuoy);
+        info = findViewById(R.id.info);
 
         marker = 0;
         marker2 = 0;
@@ -43,6 +44,13 @@ public class firstopening extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeActivity(info.class);
+            }
+        });
 
         buoyButton.setOnClickListener(new View.OnClickListener() {
 
@@ -71,7 +79,7 @@ public class firstopening extends AppCompatActivity {
 
                                         if (!MainActivity.userName.isEmpty()){
                                             MainActivity.first=1;
-                                            mainMenu(menuopening.class);
+                                            changeActivity(menuopening.class);
                                             finish();
                                         }
                                     }
@@ -94,14 +102,9 @@ public class firstopening extends AppCompatActivity {
 
     }
 
-    public void changelayout(View view){
-        Intent infoPage = new Intent (this, info.class);
-        startActivity(infoPage);
-    }
-
-    public void mainMenu (Class c){
-        Intent mainMenu = new Intent (this, c);
-        startActivity(mainMenu);
+    private void changeActivity(Class c){
+        Intent intent = new Intent(this, c);
+        startActivity(intent);
     }
 
     @Override
