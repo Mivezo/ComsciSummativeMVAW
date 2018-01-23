@@ -25,7 +25,7 @@ import java.util.List;
 
 public class settingsPage extends AppCompatActivity {
 
-    private ImageButton reset, name;
+    private ImageButton reset, name; //Initializing all the variables to be used in the class
     private Context context = this;
     private ToggleButton voice, vib;
     private String mutestatus, vibstatus;
@@ -38,18 +38,18 @@ public class settingsPage extends AppCompatActivity {
     private float userVolume;
     private int progressBar;
     private int marker, marker2;
-    PowerManager pm;
+    private PowerManager pm; //checks the devices power setting
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_page);
 
-        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE); //specifically checks device power service
 
         progressBar = 0;
 
-        marker = 0;
+        marker = 0; //markers that are just used as temp variables
         marker2 = 0;
 
         reset = findViewById(R.id.resetbutton);
@@ -59,11 +59,11 @@ public class settingsPage extends AppCompatActivity {
 
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                LayoutInflater li = LayoutInflater.from(context);
-                View promptsView = li.inflate(R.layout.restart_module_prompt, null);
+            public void onClick(View view) { //reset for the scores of the module menu
+                LayoutInflater li = LayoutInflater.from(context); //layout used to make the popup
+                View promptsView = li.inflate(R.layout.restart_module_prompt, null); //layout inflated to the restartmodulepromp
 
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context); //where the layout is actually stored then showed, in alertdialog
 
                 // set prompts.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
@@ -75,18 +75,18 @@ public class settingsPage extends AppCompatActivity {
                 // set dialog message
                 alertDialogBuilder
                         .setCancelable(false)
-                        .setPositiveButton("OK",
+                        .setPositiveButton("OK", //if user presses "Ok"
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        fileIo.writeFile("0;","testScores.txt", getApplicationContext());
+                                        fileIo.writeFile("0;","testScores.txt", getApplicationContext()); //write that the test scores are 0
                                         dialog.dismiss();
-                                        Toast.makeText(settingsPage.this, "SCORES RESET!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(settingsPage.this, "SCORES RESET!", Toast.LENGTH_SHORT).show(); //give a toast that it has been done
                                     }
                                 })
-                        .setNegativeButton("Cancel",
+                        .setNegativeButton("Cancel", //if user presses cancel, do nothing
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int id) {
-                                        dialog.cancel();
+                                        dialog.cancel(); //close dialog
                                     }
                                 });
 
@@ -101,43 +101,38 @@ public class settingsPage extends AppCompatActivity {
         retrievedVolume = fileIo.readFromFile(this, "volume.txt");
         userVolume = Float.parseFloat(retrievedVolume);
 
-        progressBar = Integer.parseInt(fileIo.readFromFile(this, "seekbar.txt"));
+        progressBar = Integer.parseInt(fileIo.readFromFile(this, "seekbar.txt")); //take the string seekbar and turn into float to be set the seekbar - to keep users volume preference
 
-        hi = MediaPlayer.create(getApplicationContext(), R.raw.song1);
-        hi.setLooping(true);
-        hi.setVolume(userVolume, userVolume);
+        hi = MediaPlayer.create(getApplicationContext(), R.raw.song1);//sample song to be played when seekbar is held/moved
+        hi.setLooping(true);//loop the music
+        hi.setVolume(userVolume, userVolume); //set volume to stored volume
 
         mVolumeControl = findViewById(R.id.volume_control);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         mVolumeControl.setMax(MAX_VOLUME);
+        //mVolumeControl.setProgress(MAX_VOLUME * mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
 
-        //if (progressBar == null) {
-       //     mVolumeControl.setProgress(MAX_VOLUME * mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC) / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
-      //  } else {
-            mVolumeControl.setProgress(progressBar);
-      //  }
+        mVolumeControl.setProgress(progressBar);
 
         mVolumeControl.setOnSeekBarChangeListener(mVolumeControlChangeListener);
 
-        mutestatus = fileIo.readFromFile(this, "voiceMute.txt");
-        vibstatus = fileIo.readFromFile(this, "vibration.txt");
+        mutestatus = fileIo.readFromFile(this, "voiceMute.txt"); //read if mutestatus is turned on
+        vibstatus = fileIo.readFromFile(this, "vibration.txt"); //read if vibration setting is turned on
 
-        Log.d("myTag3", ""+mVolumeControl.getProgress());
         if (mutestatus.equals("muted")) {
-            voice.setChecked(true);
+            voice.setChecked(true); //if voice is muted, set the button to muted
         }
 
         if (vibstatus.equals("off")) {
-            vib.setChecked(true);
+            vib.setChecked(true); //if vibrations are turned off, set button to off
         }
-
 
         name.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //when change name is clicked
                 // get prompts.xml view
                 LayoutInflater li = LayoutInflater.from(context);
-                View promptsView = li.inflate(R.layout.name_enter_popup, null);
+                View promptsView = li.inflate(R.layout.name_enter_popup, null); //same process as reset scores
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                         context);
@@ -153,11 +148,16 @@ public class settingsPage extends AppCompatActivity {
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
-                                        MainActivity.userName = userInput.getText().toString();
-                                        // get user input and set it to result
-                                        // edit text
-                                        writenew(MainActivity.userName, "lifeguardname.txt");
-                                        //   finish();
+
+                                        String test = userInput.getText().toString();
+
+                                        if (!(test.equals(""))){ //does not let user enter nothing as their name
+                                            MainActivity.userName = userInput.getText().toString();
+                                            writenew(MainActivity.userName, "lifeguardname.txt");
+                                        }
+                                        else{
+                                            Toast.makeText(settingsPage.this, "You must Enter a Name", Toast.LENGTH_SHORT).show(); //if user enters nothing, tell them
+                                        }
 
                                     }
                                 })
@@ -178,13 +178,13 @@ public class settingsPage extends AppCompatActivity {
         Log.d("myTag4", ""+mVolumeControl.getProgress());
         voice.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //if the user presses the voice
 
                 if (voice.isChecked()) {
-                    writenew("muted", "voiceMute.txt");
+                    writenew("muted", "voiceMute.txt");//if it is checked, set status to voice muted
                     Toast.makeText(settingsPage.this, "Voice Assist MUTED", Toast.LENGTH_SHORT).show();
                 } else {
-                    writenew("notmuted", "voiceMute.txt");
+                    writenew("notmuted", "voiceMute.txt"); //if status is not checked, set to unmuted
                     Toast.makeText(settingsPage.this, "Voice Assist UnMuted", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -192,18 +192,17 @@ public class settingsPage extends AppCompatActivity {
 
         vib.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { //vibration button listener
 
                 if (vib.isChecked()) {
-                    writenew("off", "vibration.txt");
+                    writenew("off", "vibration.txt"); //if it is checked, turn vibration status to off
                     Toast.makeText(settingsPage.this, "Vibrations turned OFF", Toast.LENGTH_SHORT).show();
                 } else {
-                    writenew("on", "vibration.txt");
+                    writenew("on", "vibration.txt"); //if it is not checked, turn vibrations to on
                     Toast.makeText(settingsPage.this, "Vibrations turned ON", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        Log.d("myTag5", ""+mVolumeControl.getProgress());
     }
 
     private SeekBar.OnSeekBarChangeListener mVolumeControlChangeListener = new SeekBar.OnSeekBarChangeListener() {
@@ -216,13 +215,12 @@ public class settingsPage extends AppCompatActivity {
         }
 
         @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-            Log.d("myTag", ""+mVolumeControl.getProgress());
+        public void onStartTrackingTouch(SeekBar seekBar) { //when seekbar starts moving, turn on sample music
             hi.start();
         }
 
         @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
+        public void onStopTrackingTouch(SeekBar seekBar) { //when seekbar stops moving, paush sample music and set progress & volume preference
             int mProgress = mVolumeControl.getProgress();
             fileIo.writeFile(mProgress+"", "seekbar.txt", context);
             fileIo.writeFile("" + volume, "volume.txt", context);
@@ -235,28 +233,28 @@ public class settingsPage extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause() { //on pause of activitt
 
-        if (this.isFinishing()) {
+        if (this.isFinishing()) { //if the song is finishing, stop it
             hi.stop();
         }
-        super.onPause();
-        Context context = getApplicationContext();
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        super.onPause(); //call super of onpause
+        Context context = getApplicationContext(); //check context of app, if homebutton is beingpressed
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE); //check activity of homebutton being pressed
         List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
-            if (!topActivity.getPackageName().equals(context.getPackageName())) {
-                mainMenu.mediaPlayerMain.pause();
-                hi.stop();
-                marker2 = 1;
+            if (!topActivity.getPackageName().equals(context.getPackageName())) { //if the homebutton is actually being pressed
+                mainMenu.mediaPlayerMain.pause(); //pause seagull music
+                hi.stop(); //stop sample music player
+                marker2 = 1; //set marker to 1
             }
         }
     }
 
     @Override
     protected void onResume(){
-        if (marker2==1){
+        if (marker2==1){ //On reopening app from recents, if the marker is 1, then start the seagull music again
             mainMenu.mediaPlayerMain.start();
         }
         super.onResume();
@@ -264,9 +262,9 @@ public class settingsPage extends AppCompatActivity {
 
     @Override
     protected void onStop(){
-        if(!(pm.isInteractive())){
-            if (mainMenu.mediaPlayerMain.isPlaying()){
-                mainMenu.mediaPlayerMain.pause();
+        if(!(pm.isInteractive())){ //if the phone has been turned off
+            if (mainMenu.mediaPlayerMain.isPlaying()){ //if seagull is playing
+                mainMenu.mediaPlayerMain.pause(); //turn off
                 marker = 1;
             }
         }
@@ -275,8 +273,8 @@ public class settingsPage extends AppCompatActivity {
 
     @Override
     protected void onRestart(){
-        if (marker == 1){
-            mainMenu.mediaPlayerMain.start();
+        if (marker == 1){ //check marker if phone has been stoped
+            mainMenu.mediaPlayerMain.start(); //restart the seagull
         }
         super.onRestart();
     }
