@@ -570,7 +570,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private void writeResume(){
 
         fileIo.writeFile(questionNumber+"", resumeModule, this);
-        fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
+        //fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
     }
 
     /**
@@ -634,7 +634,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         if (this.isFinishing()) { //basically BACK was pressed from this activity
             if (moduleNumber!= 6) {
-                if(mp.isPlaying()){
+                if (mp.isPlaying()){
                     mp.stop();
                 }
             }

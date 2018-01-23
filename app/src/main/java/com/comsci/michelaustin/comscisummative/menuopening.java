@@ -490,6 +490,7 @@ public class menuopening extends AppCompatActivity{
         Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
         startQuiz.putExtra("MODULE_ID",currentModule+1);
         startActivity(startQuiz);
+        finish();
     }
 
     @Override
