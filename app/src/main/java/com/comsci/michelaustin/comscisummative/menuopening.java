@@ -23,34 +23,32 @@ import java.util.ArrayList;
 public class menuopening extends AppCompatActivity{
 
     String name = MainActivity.userName;
-    ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
-    int height, width;
+    private ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
+    private int height, width;
 
-    private boolean isAnimationStarted;
+    private String resumeModule;
+    private boolean resumeState;
 
-    String resumeModule;
-    boolean resumeState;
+    private AnimatorSet animatorSet;
 
-    AnimatorSet animatorSet;
+    private ArrayList <ImageButton> buttons = new ArrayList<>();
+    private ArrayList <TextView> textViews = new ArrayList();
 
-    ArrayList <ImageButton> buttons = new ArrayList<>();
-    ArrayList <TextView> textview = new ArrayList();
+    private int currentModule;
+    private ImageButton currentButton;
+    private TextView currentText;
 
-    int currentModule;
-    ImageButton currentButton;
-    TextView currentText;
+    private TextView nameshow, welcome, mod1, mod2, mod3, mod4, mod5;
 
-    TextView nameshow, welcome, mod1, mod2, mod3, mod4, mod5;
+    private float buttonY, buttonX, centerY, centerX;
 
-    float buttonY, buttonX, centerY, centerX;
+    private Animation shake;
 
-    Animation shake;
-
-    boolean fade=true;
+    private boolean fade=true;
 
     private Dialog menupopup, testpopup;
 
-    Animation in;
+    private Animation in;
 
     /*TestResult testResult;*/
 
@@ -127,11 +125,11 @@ public class menuopening extends AppCompatActivity{
         buttons.add(module4Button);
         buttons.add(module5Button);
 
-        textview.add(mod1);
-        textview.add(mod2);
-        textview.add(mod3);
-        textview.add(mod4);
-        textview.add(mod5);
+        textViews.add(mod1);
+        textViews.add(mod2);
+        textViews.add(mod3);
+        textViews.add(mod4);
+        textViews.add(mod5);
 
         for(int i=0; i<5; i++){
             final int tempmodnum = i;
@@ -143,9 +141,9 @@ public class menuopening extends AppCompatActivity{
 
                     resumeModule();
 
-                    animateButton(buttons.get(tempmodnum), textview.get(tempmodnum));
+                    animateButton(buttons.get(tempmodnum), textViews.get(tempmodnum));
                     currentButton = buttons.get(tempmodnum);
-                    currentText = textview.get(tempmodnum);
+                    currentText = textViews.get(tempmodnum);
 
                 }
             });
@@ -182,7 +180,7 @@ public class menuopening extends AppCompatActivity{
 
     }
 
-    public void animateButton(ImageButton button, TextView tutton) {
+    private void animateButton(ImageButton button, TextView tutton) {
 
         final ImageButton b= button;
         final TextView t = tutton;
@@ -239,7 +237,7 @@ public class menuopening extends AppCompatActivity{
                 //buttons.get(i).setRotation(0);
                 buttons.get(i).setEnabled(false);
                 fadeButton(buttons.get(i));
-                fadeText(textview.get(i));
+                fadeText(textViews.get(i));
             }
         }
 
@@ -331,7 +329,7 @@ public class menuopening extends AppCompatActivity{
 
     }
 
-    public void showMenuPopup(){
+    private void showMenuPopup(){
         menupopup.setContentView(R.layout.menu_popup);
 
         ImageView restartIcon = menupopup.findViewById(R.id.restartIcon);
@@ -401,13 +399,13 @@ public class menuopening extends AppCompatActivity{
         menupopup.show();
     }
 
-    public void showTestPopup(){
+    private void showTestPopup(){
 
         Intent startQuiz = new Intent(getApplicationContext(), TestPopup.class);
         startActivity(startQuiz);
     }
 
-    public void reverseButtonAnimation(ImageButton b, TextView t){
+    private void reverseButtonAnimation(ImageButton b, TextView t){
 
         ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "translationY",  centerY,0);
         animation1.setDuration(1000);
@@ -453,7 +451,7 @@ public class menuopening extends AppCompatActivity{
                 //buttons.get(i).setRotation(0);
                 //buttons.get(i).startAnimation(shake);
                 fadeButton(buttons.get(i));
-                fadeText(textview.get(i));
+                fadeText(textViews.get(i));
             }
         }
 
@@ -488,7 +486,7 @@ public class menuopening extends AppCompatActivity{
 
     }
 
-    public void displayQuiz(){
+    private void displayQuiz(){
         Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
         startQuiz.putExtra("MODULE_ID",currentModule+1);
         startActivity(startQuiz);
@@ -514,8 +512,8 @@ public class menuopening extends AppCompatActivity{
 
     }
 
-    public void dialogBackPressed(){
-        //menupopup.dismiss();
+    private void dialogBackPressed(){
+        /*//menupopup.dismiss();
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -534,9 +532,9 @@ public class menuopening extends AppCompatActivity{
                 //buttons.get(i).setRotation(0);
 
             }
-        }
+        }*/
 
-        reverseButtonAnimation(buttons.get(currentModule), textview.get(currentModule) );
+        reverseButtonAnimation(buttons.get(currentModule), textViews.get(currentModule) );
     }
 
     private void animback(){
@@ -561,7 +559,7 @@ public class menuopening extends AppCompatActivity{
 
     }
 
-    public void showDialog(DialogFragment dialog) {
+    private void showDialog(DialogFragment dialog) {
         dialog.show(getFragmentManager(),"tag");
     }
 }

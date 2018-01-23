@@ -27,7 +27,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +38,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Button option2;
     private Button option3;
     private Button option4;
-    private ImageButton nextArrowButton, backArrowButton;
+    private ImageButton nextArrowButton;
     /*private String mAnswer;*/
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
@@ -77,11 +76,11 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Dialog dialog;//dialog for popup
 
 
-    ArrayList answerArray = new ArrayList();
+    private ArrayList answerArray = new ArrayList();
 
-    ArrayList<String> testCorrectAnswerArray = new ArrayList<String>();
-    ArrayList<String> testQuestionArray = new ArrayList<String>();
-    ArrayList<String> testResult = new ArrayList<String>();
+    private ArrayList<String> testCorrectAnswerArray = new ArrayList<String>();
+    private ArrayList<String> testQuestionArray = new ArrayList<String>();
+    private ArrayList<String> testResult = new ArrayList<String>();
 
     SharedPreferences prefs = null;
 
@@ -185,7 +184,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         option3 = (Button) findViewById(R.id.option3);
         option4 = (Button) findViewById(R.id.option4);
         nextArrowButton = (ImageButton) findViewById(R.id.nextArrowButton);
-        backArrowButton = findViewById(R.id.backArrowButton);
         questionLabel = (TextView) findViewById(R.id.questionLabel);
 
         // mQuestionLibrary = new QuestionLibrary(moduleNumber);
@@ -391,7 +389,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         }
 
     }
-
 
     //fetches the correct question from the QuestionLibrary class
     private String getChoice(int q, int n){
@@ -608,13 +605,20 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     }
 
 
-    public boolean fileExists(Context context, String filename) {
-        File file = context.getFileStreamPath(filename);
-        if(file == null || !file.exists()) {
-            return false;
-        }
-        return true;
+    //For the explanation popup and test, shows the next arrow to switch question
+    private void showNextArrowButton(){
+        nextArrowButton.setEnabled(true);
+        nextArrowButton.setVisibility(View.VISIBLE);
+        nextArrowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextArrowButton.setEnabled(false);
+                nextArrowButton.setVisibility(View.GONE);
+                switchQuestion();
+            }
+        });
     }
+
 
     @Override
     protected void onDestroy(){
@@ -630,7 +634,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         if (this.isFinishing()) { //basically BACK was pressed from this activity
             if (moduleNumber!= 6) {
-                mp.stop();
+                if(mp.isPlaying()){
+                    mp.stop();
+                }
             }
         }
 
@@ -653,31 +659,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         }
         super.onPause();
 
-    }
-
-    //For the explanation popup and test, shows the next arrow to switch question
-    private void showNextArrowButton(){
-        nextArrowButton.setEnabled(true);
-        nextArrowButton.setVisibility(View.VISIBLE);
-        nextArrowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextArrowButton.setEnabled(false);
-                nextArrowButton.setVisibility(View.GONE);
-                switchQuestion();
-            }
-        });
-    }
-
-    private void showBackArrowButton(){
-        backArrowButton.setVisibility(View.VISIBLE);
-        backArrowButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                backArrowButton.setVisibility(View.GONE);
-
-            }
-        });
     }
 
     @Override

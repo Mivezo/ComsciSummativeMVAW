@@ -1,7 +1,6 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -150,6 +149,7 @@ public class QuestionLibrary {
                 line=reader.readLine();
 
             }
+            file.close();
         } catch(IOException ioe){
             ioe.printStackTrace();
         }
@@ -213,9 +213,13 @@ public class QuestionLibrary {
                 line=reader.readLine();
 
             }
+
+            file.close();
+
         } catch(IOException ioe){
             ioe.printStackTrace();
         }
+
 
         correctAnswers.remove(linecount);
 
@@ -338,19 +342,10 @@ public class QuestionLibrary {
                 line=reader.readLine();
 
             }
+            file.close();
         } catch(IOException ioe){
             ioe.printStackTrace();
         }
     }
 
-
-    private void test(){
-        Log.d("MyTag", correctAnswers.size()+"");
-
-        for (int i=0; i<correctAnswers.size(); i++){
-            Log.d("TEST2: "+i, questions.get(i)+"");
-            Log.d("TEST1: "+i, correctAnswers.get(i)+"");
-
-        }
-    }
 }
