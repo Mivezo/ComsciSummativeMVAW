@@ -36,9 +36,9 @@ public class Info extends AppCompatActivity {
         if (!taskInfo.isEmpty()) { //if app is not open
             ComponentName topActivity = taskInfo.get(0).topActivity; //get the order of the recent apps
             if (!topActivity.getPackageName().equals(context.getPackageName())) { //if the top app of the recent apps is not this package (this app), then do something
-                if (mainMenu.mediaPlayerMain!=null){ //error check
-                    if (mainMenu.mediaPlayerMain.isPlaying()) { //error check
-                        mainMenu.mediaPlayerMain.pause(); //pause the mediaplayer
+                if (MainMenu.mediaPlayerMain!=null){ //error check
+                    if (MainMenu.mediaPlayerMain.isPlaying()) { //error check
+                        MainMenu.mediaPlayerMain.pause(); //pause the mediaplayer
                         marker2=1; //set the marker to one
                     }
                 }
@@ -54,7 +54,7 @@ public class Info extends AppCompatActivity {
     @Override
     protected void onResume(){ //override the on resume to start the mediaplayer again if it is paused (which is checked with marker)
         if (marker2==1){
-            mainMenu.mediaPlayerMain.start();
+            MainMenu.mediaPlayerMain.start();
         }
         super.onResume();
     }
@@ -62,8 +62,8 @@ public class Info extends AppCompatActivity {
     @Override
     protected void onStop(){
         if(!(pm.isInteractive())){ //if the screen was turned off and the app cant be interacted with
-            if (mainMenu.mediaPlayerMain.isPlaying()){
-                mainMenu.mediaPlayerMain.pause(); //pause media player
+            if (MainMenu.mediaPlayerMain.isPlaying()){
+                MainMenu.mediaPlayerMain.pause(); //pause media player
                 marker = 1;
             }
         }
@@ -73,7 +73,7 @@ public class Info extends AppCompatActivity {
     @Override
     protected void onRestart(){
         if (marker == 1){ //if the app has been stopped and media player paused, resume it by checking the marker
-            mainMenu.mediaPlayerMain.start();
+            MainMenu.mediaPlayerMain.start();
         }
         super.onRestart();
     }

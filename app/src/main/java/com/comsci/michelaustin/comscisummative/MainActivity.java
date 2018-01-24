@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(startMenu); //start the menu
         }
         else{
-            startMenu = new Intent(this, mainMenu.class);
+            startMenu = new Intent(this, MainMenu.class);
             first=0;//if the user has a name and is not running for the first time, send to menu
             startActivity(startMenu);
         }

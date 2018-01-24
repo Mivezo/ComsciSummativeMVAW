@@ -243,7 +243,7 @@ public class SettingsPage extends AppCompatActivity {
         if (!taskInfo.isEmpty()) {
             ComponentName topActivity = taskInfo.get(0).topActivity;
             if (!topActivity.getPackageName().equals(context.getPackageName())) { //if the homebutton is actually being pressed
-                mainMenu.mediaPlayerMain.pause(); //pause seagull music
+                MainMenu.mediaPlayerMain.pause(); //pause seagull music
                 backgroundMusic.stop(); //stop sample music player
                 marker2 = 1; //set marker to 1
             }
@@ -253,7 +253,7 @@ public class SettingsPage extends AppCompatActivity {
     @Override
     protected void onResume(){
         if (marker2==1){ //On reopening app from recents, if the marker is 1, then start the seagull music again
-            mainMenu.mediaPlayerMain.start();
+            MainMenu.mediaPlayerMain.start();
         }
         super.onResume();
     }
@@ -261,8 +261,8 @@ public class SettingsPage extends AppCompatActivity {
     @Override
     protected void onStop(){
         if(!(pm.isInteractive())){ //if the phone has been turned off
-            if (mainMenu.mediaPlayerMain.isPlaying()){ //if seagull is playing
-                mainMenu.mediaPlayerMain.pause(); //turn off
+            if (MainMenu.mediaPlayerMain.isPlaying()){ //if seagull is playing
+                MainMenu.mediaPlayerMain.pause(); //turn off
                 marker = 1;
             }
         }
@@ -272,7 +272,7 @@ public class SettingsPage extends AppCompatActivity {
     @Override
     protected void onRestart(){
         if (marker == 1){ //check marker if phone has been stoped
-            mainMenu.mediaPlayerMain.start(); //restart the seagull
+            MainMenu.mediaPlayerMain.start(); //restart the seagull
         }
         super.onRestart();
     }

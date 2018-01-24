@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/beach"
-    tools:context="com.comsci.michelaustin.comscisummative.mainMenu">
+    tools:context="com.comsci.michelaustin.comscisummative.MainMenu">
 
     <TextView
         android:id="@+id/completionText"

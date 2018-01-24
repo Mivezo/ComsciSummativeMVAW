@@ -42,7 +42,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".mainMenu"
+            android:name=".MainMenu"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity

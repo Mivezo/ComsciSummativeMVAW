@@ -21,7 +21,7 @@ import java.util.List;
 
 public class FirstOpening extends AppCompatActivity {
     ImageButton buoyButton,info;
-    final Context context = this;
+    final Context context = this; //initializing variables to be used
     public static MediaPlayer mediaPlayer;
     PowerManager pm;
     int marker, marker2;
@@ -30,20 +30,20 @@ public class FirstOpening extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firstopening);
-        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE); //set power manager
 
-        buoyButton = findViewById(R.id.lgbuoy);
+        buoyButton = findViewById(R.id.lgbuoy); //grab the panels from the activity
         info = findViewById(R.id.info);
 
         marker = 0;
         marker2 = 0;
 
-        Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.turn); //import animation
         buoyButton.startAnimation(shake);
 
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beachwaves); //set mediaplayer
+        mediaPlayer.setLooping(true); //make it loop
+        mediaPlayer.start(); //start media player
 
         info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +131,7 @@ public class FirstOpening extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume(){ //when app is resumed from onPause
         if (marker2==1){
             mediaPlayer.start();
         }
@@ -139,7 +139,7 @@ public class FirstOpening extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop(){
+    protected void onStop(){ //when phone is turned off
         if(!(pm.isInteractive())){
             if (mediaPlayer.isPlaying()){
                 mediaPlayer.pause();
@@ -150,7 +150,7 @@ public class FirstOpening extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestart(){
+    protected void onRestart(){ //when app is restarted from onStop
         if (marker == 1){
             mediaPlayer.start();
         }

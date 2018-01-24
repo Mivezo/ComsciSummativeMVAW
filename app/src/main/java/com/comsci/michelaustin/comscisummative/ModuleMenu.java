@@ -473,12 +473,12 @@ public class ModuleMenu extends AppCompatActivity{
                 startActivity(switchpanel);
             }
             else{
-                Intent switchpanel = new Intent(getApplicationContext(), mainMenu.class);
+                Intent switchpanel = new Intent(getApplicationContext(), MainMenu.class);
                 startActivity(switchpanel);
             }
         }
         else{
-            Intent switchpanel = new Intent(getApplicationContext(), mainMenu.class);
+            Intent switchpanel = new Intent(getApplicationContext(), MainMenu.class);
             startActivity(switchpanel);
         }
 

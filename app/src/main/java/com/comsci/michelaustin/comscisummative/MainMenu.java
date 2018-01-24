@@ -8,7 +8,6 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -16,13 +15,16 @@ import android.widget.ImageButton;
 
 import java.util.List;
 
-public class mainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity {
 
     ImageButton playBuoy, resetButton,infoButton;
     public static MediaPlayer mediaPlayerMain;
     private int marker, marker2;
     PowerManager pm;
 
+    /*
+            SIMILAR TO FIRSTOPENING - Comments
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +98,7 @@ public class mainMenu extends AppCompatActivity {
                 marker2=1;
             }
             else {
-                //Toast.makeText(mainMenu.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainMenu.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();
@@ -107,7 +109,6 @@ public class mainMenu extends AppCompatActivity {
     protected void onResume(){
         if (marker2==1){
             mediaPlayerMain.start();
-            Log.d("tesstss","HAS PLAYED");
         }
         super.onResume();
     }
