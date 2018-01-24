@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.comsci.michelaustin.comscisummative.menuopening"
+    tools:context="com.comsci.michelaustin.comscisummative.ModuleMenu"
     android:background="@drawable/beach">
 
     <TextView

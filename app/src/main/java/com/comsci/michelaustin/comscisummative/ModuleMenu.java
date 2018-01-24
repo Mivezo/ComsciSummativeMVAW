@@ -20,11 +20,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class menuopening extends AppCompatActivity{
+public class ModuleMenu extends AppCompatActivity{
 
     String name = MainActivity.userName;
     private ImageButton module1Button, module2Button, module3Button, module4Button, module5Button, module6Button;
-    private int height, width;
+    private int scrheight, scrwidth;
 
     private String resumeModule;
     private boolean resumeState;
@@ -35,10 +35,10 @@ public class menuopening extends AppCompatActivity{
     private ArrayList <TextView> textViews = new ArrayList();
 
     private int currentModule;
-    private ImageButton currentButton;
-    private TextView currentText;
+    ImageButton currentButton;
+    TextView currentText;
 
-    private TextView nameshow, welcome, mod1, mod2, mod3, mod4, mod5;
+    private TextView nameshow, welcome, mod1Text, mod2Text, mod3Text, mod4Text, mod5Text;
 
     private float buttonY, buttonX, centerY, centerX;
 
@@ -50,17 +50,12 @@ public class menuopening extends AppCompatActivity{
 
     private Animation in;
 
-    /*TestResult testResult;*/
-
     DisplayMetrics displayMetrics = new DisplayMetrics();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //overridePendingTransition( R.anim.fadein, R.anim.fadeout );
         setContentView(R.layout.activity_menuopening);
-
-        /*testResult = new TestResult(getApplicationContext());*/
 
         currentModule = 0;
 
@@ -68,7 +63,7 @@ public class menuopening extends AppCompatActivity{
         in.setDuration(500);
 
         if(MainActivity.first==1){
-            fileIo.writeFile(name,"lifeguardname.txt",this);
+            FileIO.writeFile(name,"lifeguardname.txt",this);
         }
 
         shake = AnimationUtils.loadAnimation(this, R.anim.turn);
@@ -76,28 +71,24 @@ public class menuopening extends AppCompatActivity{
         menupopup = new Dialog(this,R.style.PauseDialog);
         testpopup = new Dialog(this);
 
-        nameshow = (TextView) findViewById(R.id.menuname);
+        nameshow = findViewById(R.id.menuname);
         nameshow.setText("Welcome " + name+ "!");
 
-        welcome = (TextView) findViewById(R.id.welcome);
+        welcome = findViewById(R.id.welcome);
         welcome.setText("Please pick a\nModule:");
 
+        //For the animations, the screen width and height are used to calculate distances
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        height = displayMetrics.heightPixels/2;
-        width = displayMetrics.widthPixels/2;
+        scrheight = displayMetrics.heightPixels/2;
+        scrwidth = displayMetrics.widthPixels/2;
 
-        mod1 = findViewById(R.id.mod1);
-        mod2 = findViewById(R.id.mod2);
-        mod3 = findViewById(R.id.mod3);
-        mod4 = findViewById(R.id.mod4);
-        mod5 = findViewById(R.id.mod5);
+        mod1Text = findViewById(R.id.mod1);//creating textview objects
+        mod2Text = findViewById(R.id.mod2);
+        mod3Text = findViewById(R.id.mod3);
+        mod4Text = findViewById(R.id.mod4);
+        mod5Text = findViewById(R.id.mod5);
 
-
-        /*module1Button = findViewById(R.id.module1);
-        module2Button = findViewById(R.id.module2);
-        module3Button = findViewById(R.id.module3);
-        module4Button = findViewById(R.id.module4);
-        module5Button = findViewById(R.id.module5);*/
+        //Creating the module buttons and adding a shake animation
         (module1Button = findViewById(R.id.module1)).startAnimation(shake);
         (module2Button = findViewById(R.id.module2)).startAnimation(shake);
         (module3Button = findViewById(R.id.module3)).startAnimation(shake);
@@ -106,33 +97,22 @@ public class menuopening extends AppCompatActivity{
         module6Button = findViewById(R.id.module6);
 
 
-        /*final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                module1Button.startAnimation(shake);
-                module2Button.startAnimation(shake);
-                module3Button.startAnimation(shake);
-                module4Button.startAnimation(shake);
-                module5Button.startAnimation(shake);
-            }
-        }, 2000);
-*/
-
+        //Adding the buttons and textviews to arraylists to be easier to manage
         buttons.add(module1Button);
         buttons.add(module2Button);
         buttons.add(module3Button);
         buttons.add(module4Button);
         buttons.add(module5Button);
 
-        textViews.add(mod1);
-        textViews.add(mod2);
-        textViews.add(mod3);
-        textViews.add(mod4);
-        textViews.add(mod5);
+        textViews.add(mod1Text);
+        textViews.add(mod2Text);
+        textViews.add(mod3Text);
+        textViews.add(mod4Text);
+        textViews.add(mod5Text);
 
+        //For loop for testing the onclick of any button dynamically
         for(int i=0; i<5; i++){
-            final int tempmodnum = i;
+            final int tempmodnum = i;//have to set final because onClickListener needs it
             buttons.get(i).setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
@@ -144,26 +124,20 @@ public class menuopening extends AppCompatActivity{
                     animateButton(buttons.get(tempmodnum), textViews.get(tempmodnum));
                     currentButton = buttons.get(tempmodnum);
                     currentText = textViews.get(tempmodnum);
-
                 }
             });
         }
 
-
+        //Onclick of test button
         module6Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showTestPopup();
-                /*module1Button.setEnabled(false);
-                module2Button.setEnabled(false);
-                module3Button.setEnabled(false);
-                module4Button.setEnabled(false);
-                module5Button.setEnabled(false);*/
-
             }
         });
 
 
+        //If the menu popup is cancelled, the buttons will animate back after a delay
         menupopup.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -172,7 +146,6 @@ public class menuopening extends AppCompatActivity{
                     @Override
                     public void run() {
                         animback();
-                        //currentText.startAnimation(in);
                     }
                 }, 500);
             }
@@ -180,8 +153,14 @@ public class menuopening extends AppCompatActivity{
 
     }
 
+    /**
+     * This method animates the buttons and textview to the center of the screen then displays the popup
+     * @param button button clicked
+     * @param tutton textview attached to button
+     */
     private void animateButton(ImageButton button, TextView tutton) {
 
+        //need to set final because handler delay
         final ImageButton b= button;
         final TextView t = tutton;
 
@@ -191,8 +170,8 @@ public class menuopening extends AppCompatActivity{
         buttonY = b.getY();
         buttonX = b.getX();
 
-        centerY = (height - b.getHeight()/2-buttonY);
-        centerX = width - b.getWidth()/2-b.getX();
+        centerY = (scrheight - b.getHeight()/2-buttonY);//Using math to determine distance to center of screen
+        centerX = scrwidth - b.getWidth()/2-b.getX();
 
         ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "translationY", 0, centerY);
         animation1.setDuration(1000);
@@ -219,22 +198,19 @@ public class menuopening extends AppCompatActivity{
         animation8.setDuration(1000);
 
 
-        animatorSet = new AnimatorSet();
+        animatorSet = new AnimatorSet();//Plays all the animations
         animatorSet.playTogether(animation1, animation2,animation3, animation4, animation5, animation6, animation7, animation8);
         animatorSet.start();
 
-        int buttonId = b.getId();
-
-        fadeText(nameshow);
+        fadeText(nameshow);//fading out name and welcome text
         fadeText(welcome);
 
+        //Fading out all the other textviews and buttons except for current one
         for(int i=0; i<5; i++){
             if(b==buttons.get(i)){
                 continue;
             }
             else{
-                //buttons.get(i).clearAnimation();
-                //buttons.get(i).setRotation(0);
                 buttons.get(i).setEnabled(false);
                 fadeButton(buttons.get(i));
                 fadeText(textViews.get(i));
@@ -243,59 +219,52 @@ public class menuopening extends AppCompatActivity{
 
         fadeButton(module6Button);
 
+        //Shows the popup after animation is done
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-                for(int i=0; i<5; i++){
-                    if(b==buttons.get(i)){
+                for (int i = 0; i < 5; i++) {
+                    if (b == buttons.get(i)) {
                         continue;
-                    }
-                    else{
+                    } else {
                         buttons.get(i).clearAnimation();
                     }
                 }
-                    showMenuPopup();
-
-                //dialogBackPressed(b, t);
-
+                showMenuPopup();
             }
         }, 1000);
-
-
 
         fade=false;
     }
 
+    /**
+     * This method fades in and out an image button.
+     * @param b ImageButton
+     */
     public void fadeButton(ImageButton b){
 
+        //fade in animation
         ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "alpha", 0f, 1f);
         animation1.setDuration(2000);
 
-        ObjectAnimator animation3 = ObjectAnimator.ofFloat(b, "rotation", -45f, 45f);
-        animation3.setDuration(2000);
-
         AnimatorSet animatorSet = new AnimatorSet();
 
+        //fade out animation
         Animation out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(500);
 
+        //Using the fade boolean, method determines whether to fade in out fade out the button.
         if(fade){
             b.startAnimation(out);
         }
         else{
-            if(b!=module6Button){
-                animatorSet.playTogether(animation1/*, animation3*/);
-            }
-            else{
-                animatorSet.playTogether(animation1);
-            }
-
+            animatorSet.playTogether(animation1);
             animatorSet.start();
         }
 
 
+        //sets visibility of button
         if(fade){
             b.setVisibility(View.INVISIBLE);
         }
@@ -305,6 +274,10 @@ public class menuopening extends AppCompatActivity{
 
     }
 
+    /**
+     * This method fades in and out a textview. Very similar to fadeButton method.
+     * @param t
+     */
     public void fadeText(TextView t){
 
         Animation out;
@@ -334,16 +307,18 @@ public class menuopening extends AppCompatActivity{
 
         ImageView restartIcon = menupopup.findViewById(R.id.restartIcon);
 
+        //sets onclick of restart icon
         restartIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                //Because of the way dialogs work, there is no way to add a dialog on top of another
+                //normally. This is a way to somehow circumvent this problem.
+                //Bundle is passed in so the propdialogfragment knows which module to rewrite to 0
                 Bundle b = new Bundle();
                 b.putInt("ID", currentModule);
 
-               /* DialogFragment newFragment = new DialogFragment();*/
-
-                DialogFragment newFragment = PropDialogFragment.newInstance();
+                DialogFragment newFragment = RestartDialogFragment.newInstance();
                 newFragment.setArguments(b);
 
                 showDialog(newFragment);
@@ -355,7 +330,7 @@ public class menuopening extends AppCompatActivity{
 
         ImageView modulePic = menupopup.findViewById(R.id.modulePic);
 
-        //Sets
+        //Sets the image inside the buoy to be the corresponding image of the module
         switch (currentModule+1){
             case 1:
                 modulePic.setImageResource(R.drawable.module1pic);
@@ -365,8 +340,8 @@ public class menuopening extends AppCompatActivity{
                 break;
             case 3:
                 modulePic.setImageResource(R.drawable.module3pic);
-                modulePic.getLayoutParams().height = (int) getResources().getDimension(R.dimen.imageview_height);
-                modulePic.getLayoutParams().width = (int) getResources().getDimension(R.dimen.imageview_width);
+                modulePic.getLayoutParams().height = (int) getResources().getDimension(R.dimen.imageview_height);//need to resize this picture because
+                modulePic.getLayoutParams().width = (int) getResources().getDimension(R.dimen.imageview_width);//it was too big originally
                 break;
             case 4:
                 modulePic.setImageResource(R.drawable.module4pic);
@@ -377,6 +352,7 @@ public class menuopening extends AppCompatActivity{
         }
 
 
+        //Sets text in play button to resume or play depending on whether module is resumeable
         TextView resumeText = menupopup.findViewById(R.id.resumeText);
         if(!resumeState){
             resumeText.setText("Play");
@@ -389,6 +365,7 @@ public class menuopening extends AppCompatActivity{
 
         ImageButton play  =  menupopup.findViewById(R.id.nextButton);
 
+        //Play button displays the quiz
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -396,15 +373,22 @@ public class menuopening extends AppCompatActivity{
                 displayQuiz();
             }
         });
-        menupopup.show();
+        menupopup.show();//shows the menupopup
     }
 
-    private void showTestPopup(){
 
+    //Switches activity to the testpopup activity. Even thought it looks like a dialog
+    //A dialog would be hard to implement so an activity is used.
+    private void showTestPopup(){
         Intent startQuiz = new Intent(getApplicationContext(), TestPopup.class);
         startActivity(startQuiz);
     }
 
+    /**
+     * This method does the exact opposite of the animate button method.
+     * @param b button clicked
+     * @param t textview attached to button
+     */
     private void reverseButtonAnimation(ImageButton b, TextView t){
 
         ObjectAnimator animation1 = ObjectAnimator.ofFloat(b, "translationY",  centerY,0);
@@ -437,8 +421,6 @@ public class menuopening extends AppCompatActivity{
         animatorSet.playTogether(animation1,animation2, animation3, animation4, animation5, animation6, animation7, animation8);
         animatorSet.start();
 
-        int buttonId = b.getId();
-
         fadeText(nameshow);
         fadeText(welcome);
 
@@ -447,9 +429,6 @@ public class menuopening extends AppCompatActivity{
                 continue;
             }
             else{
-                //buttons.get(i).setEnabled(false);
-                //buttons.get(i).setRotation(0);
-                //buttons.get(i).startAnimation(shake);
                 fadeButton(buttons.get(i));
                 fadeText(textViews.get(i));
             }
@@ -459,26 +438,16 @@ public class menuopening extends AppCompatActivity{
 
         fade=true;
 
+        //Starting the animation and enabling the buttons only once the reverse animation is done
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 for(int i=0; i<5; i++){
-                    //buttons.get(i).setRotation(0);
                     buttons.get(i).startAnimation(shake);
+                    buttons.get(i).setEnabled(true);
                 }
-                //currentButton.startAnimation(shake);
-                /*module2Button.startAnimation(shake);
-                module3Button.startAnimation(shake);
-                module4Button.startAnimation(shake);
-                module5Button.startAnimation(shake);
-*/
-                module1Button.setEnabled(true);
-                module2Button.setEnabled(true);
-                module3Button.setEnabled(true);
-                module4Button.setEnabled(true);
-                module5Button.setEnabled(true);
 
             }
         }, 1000);
@@ -486,6 +455,7 @@ public class menuopening extends AppCompatActivity{
 
     }
 
+    //Switches activity to quizmenuactivity
     private void displayQuiz(){
         Intent startQuiz = new Intent(getApplicationContext(), QuizMenuActivity.class);
         startQuiz.putExtra("MODULE_ID",currentModule+1);
@@ -493,12 +463,13 @@ public class menuopening extends AppCompatActivity{
         finish();
     }
 
+    //Overriding back press in order to switch to the correct panel
     @Override
     public void onBackPressed() {
 
         if (animatorSet!=null){
             if(animatorSet.isRunning()){
-                Intent switchpanel = new Intent(getApplicationContext(), menuopening.class);
+                Intent switchpanel = new Intent(getApplicationContext(), ModuleMenu.class);
                 startActivity(switchpanel);
             }
             else{
@@ -514,32 +485,10 @@ public class menuopening extends AppCompatActivity{
     }
 
     private void dialogBackPressed(){
-        /*//menupopup.dismiss();
-
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        }, 1000);
-
-        for(int i=0; i<5; i++){
-            if(currentButton==buttons.get(i)){
-                continue;
-            }
-            else{
-                //buttons.get(i).setEnabled(false);
-                //buttons.get(i).setRotation(0);
-
-            }
-        }*/
-
         reverseButtonAnimation(buttons.get(currentModule), textViews.get(currentModule) );
     }
 
     private void animback(){
-       // currentText.setVisibility(View.INVISIBLE);
         menupopup.dismiss();
         dialogBackPressed();
     }
@@ -547,7 +496,7 @@ public class menuopening extends AppCompatActivity{
     private void resumeModule(){
 
         int temp;
-        String line = fileIo.readFromFile(getApplicationContext(), resumeModule);
+        String line = FileIO.readFromFile(getApplicationContext(), resumeModule);
         temp=Integer.parseInt(line);
 
         if(temp!=0){
@@ -555,9 +504,6 @@ public class menuopening extends AppCompatActivity{
         }else{
             resumeState=false;
         }
-
-
-
     }
 
     private void showDialog(DialogFragment dialog) {

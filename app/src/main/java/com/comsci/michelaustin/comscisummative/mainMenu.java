@@ -48,7 +48,7 @@ public class mainMenu extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                startClass(menuopening.class);
+                startClass(ModuleMenu.class);
                 mediaPlayerMain.stop();
             }
         });
@@ -57,7 +57,7 @@ public class mainMenu extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                startClass(settingsPage.class);
+                startClass(SettingsPage.class);
             }
         });
 
@@ -65,7 +65,7 @@ public class mainMenu extends AppCompatActivity {
     }
 
     public void changelayoutinfo (View view){
-        Intent infoPage = new Intent (this, info.class);
+        Intent infoPage = new Intent (this, Info.class);
         startActivity(infoPage);
     }
 

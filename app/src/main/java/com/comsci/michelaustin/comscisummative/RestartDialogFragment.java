@@ -13,15 +13,15 @@ import android.view.View;
  * Created by Austin on 2018-01-14.
  */
 
-public class PropDialogFragment extends DialogFragment {
+public class RestartDialogFragment extends DialogFragment {
 
     int currentModule;
 
-    public PropDialogFragment() { /*empty*/ }
+    public RestartDialogFragment() { /*empty*/ }
 
-    /** creates a new instance of PropDialogFragment */
-    public static PropDialogFragment newInstance() {
-        return new PropDialogFragment();
+    /** creates a new instance of RestartDialogFragment */
+    public static RestartDialogFragment newInstance() {
+        return new RestartDialogFragment();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PropDialogFragment extends DialogFragment {
                 .setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface menupopup,int id) {
-                                fileIo.writeFile("0","resumeModule"+(currentModule+1)+".txt",getActivity().getApplicationContext());
+                                FileIO.writeFile("0","resumeModule"+(currentModule+1)+".txt",getActivity().getApplicationContext());
                                 Intent startQuiz = new Intent(getActivity().getApplicationContext(), QuizMenuActivity.class);
                                 startQuiz.putExtra("MODULE_ID",currentModule+1);
                                 startActivity(startQuiz);

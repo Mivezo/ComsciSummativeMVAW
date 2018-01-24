@@ -118,9 +118,9 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
-        String voiceMuted = fileIo.readFromFile(this,"voiceMute.txt");
-        vibrations = fileIo.readFromFile(this, "vibration.txt");
-        String temp = fileIo.readFromFile(this, "volume.txt");
+        String voiceMuted = FileIO.readFromFile(this,"voiceMute.txt");
+        vibrations = FileIO.readFromFile(this, "vibration.txt");
+        String temp = FileIO.readFromFile(this, "volume.txt");
         userVolume = Float.parseFloat(temp);
         lifeg = findViewById(R.id.lifeguard);
         openingQuestion = 0;
@@ -410,7 +410,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             mp.stop();
             mp.release();
         }
-        Intent change = new Intent(getApplicationContext(), menuopening.class);
+        Intent change = new Intent(getApplicationContext(), ModuleMenu.class);
         startActivity(change);
     }
 
@@ -539,14 +539,14 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
      * Gets called everytime the questions are displayed to store the question number in their respected resume module txts
      */
     private void writeResume(){
-        fileIo.writeFile(questionNumber+"", resumeModulefn, this);
+        FileIO.writeFile(questionNumber+"", resumeModulefn, this);
     }
 
     /**
      * Grabs the question number from the respected resume module and sets that as the question number
      */
     private void resumeModule(){
-        String line = fileIo.readFromFile(getApplicationContext(), resumeModulefn);
+        String line = FileIO.readFromFile(getApplicationContext(), resumeModulefn);
 
         questionNumber=Integer.parseInt(line);
         openingQuestion=questionNumber;

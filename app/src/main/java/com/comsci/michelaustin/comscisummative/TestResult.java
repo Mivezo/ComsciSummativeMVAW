@@ -1,7 +1,6 @@
 package com.comsci.michelaustin.comscisummative;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,18 +20,17 @@ public class TestResult {
         buildTestResult();
     }
 
-    private void buildTestResult() {
+    public void buildTestResult() {
 
         testResults.add("arbitrary valule");
         testResults.clear();
 
-        String strLine = fileIo.readFromFile(appcontext, "testScores.txt");
+        String strLine = FileIO.readFromFile(appcontext, "testScores.txt");
 
         int count = StringUtils.countMatches(strLine, ";");
 
 
         for(int i=0; i<count; i++){
-
             int colon = strLine.indexOf(";");
 
 

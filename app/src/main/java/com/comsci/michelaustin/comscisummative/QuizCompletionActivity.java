@@ -32,14 +32,14 @@ public class QuizCompletionActivity extends AppCompatActivity {
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplication(), menuopening.class);
+                Intent startIntent = new Intent(getApplication(), ModuleMenu.class);
                 startActivity(startIntent);
             }
         });
 
         writeCompletionText();
 
-        fileIo.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
+        FileIO.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
     }
 
     private void writeCompletionText(){
@@ -52,7 +52,7 @@ public class QuizCompletionActivity extends AppCompatActivity {
                 break;
             case 4: completionString="Skin/Bone Injuries & Seizures";
                 break;
-            case 5: completionString="General info & symptoms";
+            case 5: completionString="General Info & symptoms";
                 break;
         }
 
@@ -61,7 +61,7 @@ public class QuizCompletionActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent change = new Intent(getApplicationContext(), menuopening.class);
+        Intent change = new Intent(getApplicationContext(), ModuleMenu.class);
         startActivity(change);
     }
 }

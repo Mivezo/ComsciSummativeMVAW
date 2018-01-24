@@ -19,7 +19,7 @@ import android.widget.ImageButton;
 
 import java.util.List;
 
-public class firstopening extends AppCompatActivity {
+public class FirstOpening extends AppCompatActivity {
     ImageButton buoyButton,info;
     final Context context = this;
     public static MediaPlayer mediaPlayer;
@@ -48,7 +48,7 @@ public class firstopening extends AppCompatActivity {
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeActivity(info.class);
+                changeActivity(Info.class);
             }
         });
 
@@ -79,7 +79,7 @@ public class firstopening extends AppCompatActivity {
 
                                         if (!MainActivity.userName.isEmpty()){
                                             MainActivity.first=1;
-                                            changeActivity(menuopening.class);
+                                            changeActivity(ModuleMenu.class);
                                             finish();
                                         }
                                     }
@@ -124,7 +124,7 @@ public class firstopening extends AppCompatActivity {
                 marker2=1;
             }
             else {
-                //Toast.makeText(firstopening.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FirstOpening.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();

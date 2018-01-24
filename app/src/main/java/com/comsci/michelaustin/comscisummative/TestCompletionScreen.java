@@ -32,7 +32,6 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     private  ArrayList<ArrayList<String>> childNames = new ArrayList<ArrayList<String>>();
 
-    private QuestionLibrary mQuestionibrary;
 
     private int questionRight;
 
@@ -52,7 +51,6 @@ public class TestCompletionScreen extends AppCompatActivity {
         userResult = getIntent().getStringArrayListExtra("TEST_RESULT_ARRAY");
         userResultS = getIntent().getStringArrayListExtra("TEST_RESULT_ARRAY");
 
-        mQuestionibrary = new QuestionLibrary(getApplicationContext());
         questionRight=20;
 
         //buildTestResult();
@@ -91,7 +89,7 @@ public class TestCompletionScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent startIntent = new Intent(getApplicationContext(), menuopening.class);
+                Intent startIntent = new Intent(getApplicationContext(), ModuleMenu.class);
                 startActivity(startIntent);
             }
         });
@@ -104,8 +102,8 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     //Added the score on to the previous test
     private void buildTestResult(){
-        fileIo.appendLineFile(passPercent+";", "testScores.txt", this);
-        Log.d("updated", fileIo.readFromFile(this,"testScores.txt"));
+        FileIO.appendLineFile(passPercent+";", "testScores.txt", this);
+        Log.d("updated", FileIO.readFromFile(this,"testScores.txt"));
     }
 
     /**
@@ -116,13 +114,6 @@ public class TestCompletionScreen extends AppCompatActivity {
             if(!userResult.get(i).equals(testCorrectAnswers.get(i))){
                 questionRight--;
             }
-        }
-    }
-
-    private void test(){
-        for(int i = 0; i<testCorrectAnswers.size(); i++){
-            Log.d("CorrectAnswer: "+i, testCorrectAnswers.get(i));
-            Log.d("UserChoice: "+i, userResult.get(i));
         }
     }
 
@@ -172,7 +163,7 @@ public class TestCompletionScreen extends AppCompatActivity {
     //On back press goes to the menu opening class
     @Override
     public void onBackPressed() {
-        Intent change = new Intent(getApplicationContext(), menuopening.class);
+        Intent change = new Intent(getApplicationContext(), ModuleMenu.class);
         startActivity(change);
     }
 

@@ -15,7 +15,7 @@ import java.io.PrintWriter;
  * Created by Evelina Vezarov on 2017-11-14.
  */
 
-public class fileIo {
+public class FileIO {
 
     /**
      * This method writes a string to a txt file. If there was no previous txt file,

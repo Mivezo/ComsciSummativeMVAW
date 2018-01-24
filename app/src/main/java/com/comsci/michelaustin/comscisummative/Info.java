@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
-public class info extends AppCompatActivity {
+public class Info extends AppCompatActivity {
 
     PowerManager pm; //powermanager to see if screen is off
     int marker, marker2; //code markers
@@ -22,7 +22,7 @@ public class info extends AppCompatActivity {
         marker = 0;
         marker2 = 0;
 
-        //Log.d("test", fileIo.readFromFile(this, "testScores.txt"));
+        //Log.d("test", FileIO.readFromFile(this, "testScores.txt"));
         TestResult testResult = new TestResult(getApplicationContext());
     }
 
@@ -42,9 +42,9 @@ public class info extends AppCompatActivity {
                         marker2=1; //set the marker to one
                     }
                 }
-                if (firstopening.mediaPlayer!=null){ //if the first opening media player is set (so if this infopage was called from the first menu not the regular menu
-                    if (firstopening.mediaPlayer.isPlaying()) {
-                        firstopening.mediaPlayer.stop(); //stop media player
+                if (FirstOpening.mediaPlayer!=null){ //if the first opening media player is set (so if this infopage was called from the first menu not the regular menu
+                    if (FirstOpening.mediaPlayer.isPlaying()) {
+                        FirstOpening.mediaPlayer.stop(); //stop media player
                     }
                 }
             }

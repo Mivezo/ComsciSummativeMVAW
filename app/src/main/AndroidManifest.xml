@@ -23,14 +23,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".firstopening"
+            android:name=".FirstOpening"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".info"
+            android:name=".Info"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".menuopening"
+            android:name=".ModuleMenu"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
@@ -46,7 +46,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".settingsPage"
+            android:name=".SettingsPage"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity

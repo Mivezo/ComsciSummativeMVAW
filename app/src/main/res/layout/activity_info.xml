@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/aboutpage"
-    tools:context="com.comsci.michelaustin.comscisummative.info">
+    tools:context="com.comsci.michelaustin.comscisummative.Info">
 
 </android.support.constraint.ConstraintLayout>
