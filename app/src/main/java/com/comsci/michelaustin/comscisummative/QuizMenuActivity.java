@@ -31,39 +31,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * This Class deals with the quiz portion of the app
+ * Authors:Austin Wu, Michel Vezarov
+ * Created November 2017
+ */
 public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.OnInitListener{
 
     private TextView questionLabel;
-    private Button option1;
+    private Button option1;//Option buttons
     private Button option2;
     private Button option3;
     private Button option4;
-    private ImageButton nextArrowButton;
+    private ImageButton nextArrowButton;//next arrow button to switch question to next one
     /*private String mAnswer;*/
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
     private int amountCorrectComparison=0;//integer to compare
-    private int amountGetCorrect;//Integer to store how many questions the user has gotten right
 
-    private String explanation="";
-    private String resumeModule;
-    private String getCorrectString;
+    private String explanation="";//explanation string used in the popup
+    private String resumeModulefn;//filename of the resume module
     private MediaPlayer mp;
     private String grabbedAnswer;
-    private String voiceMuted;
     private String vibrations;
 
+    //Animations to animate the buttons and the question in
     private Animation in;
     private Animation option1in,option2in,option3in,option4in;
     private Animation shake;
     private Animation out;
+
     private ImageView lifeg;
+
     private float userVolume;
     PowerManager pm;
     int marker;
     int marker2;
 
-    ProgressBar testProgress;
+    private ProgressBar testProgress;//progressbar for the test
 
     private Vibrator vib;
 
@@ -73,21 +78,18 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     private int moduleNumber;
 
-    private Dialog dialog;//dialog for popup
+    private Dialog dialog;//dialog for explanation popup
 
 
     private ArrayList answerArray = new ArrayList();
 
-    private ArrayList<String> testCorrectAnswerArray = new ArrayList<String>();
-    private ArrayList<String> testQuestionArray = new ArrayList<String>();
-    private ArrayList<String> testResult = new ArrayList<String>();
+    private ArrayList<String> testCorrectAnswerArray = new ArrayList<>();
+    private ArrayList<String> testQuestionArray = new ArrayList<>();
+    private ArrayList<String> testResult = new ArrayList<>();
 
     SharedPreferences prefs = null;
 
-
-
-    //private QuestionLibrary mQuestionLibrary;//QuestionLibrary Object
-    private QuestionLibrary mQuestionLibraryTest;
+    private QuestionLibrary mQuestionLibraryTest;//QuestionLibrary object
 
     @Override
     public void onInit(int status) {
@@ -116,7 +118,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         prefs = getSharedPreferences("com.comsci.michelaustin.comscisummative", MODE_PRIVATE);
         moduleNumber = getIntent().getIntExtra("MODULE_ID", 0);
-        voiceMuted = fileIo.readFromFile(this,"voiceMute.txt");
+        String voiceMuted = fileIo.readFromFile(this,"voiceMute.txt");
         vibrations = fileIo.readFromFile(this, "vibration.txt");
         String temp = fileIo.readFromFile(this, "volume.txt");
         userVolume = Float.parseFloat(temp);
@@ -179,33 +181,25 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         }
 
         //initializing the buttons as well as the question labels
-        option1 = (Button) findViewById(R.id.option1);
-        option2 = (Button) findViewById(R.id.option2);
-        option3 = (Button) findViewById(R.id.option3);
-        option4 = (Button) findViewById(R.id.option4);
-        nextArrowButton = (ImageButton) findViewById(R.id.nextArrowButton);
-        questionLabel = (TextView) findViewById(R.id.questionLabel);
+        option1 = findViewById(R.id.option1);
+        option2 = findViewById(R.id.option2);
+        option3 = findViewById(R.id.option3);
+        option4 = findViewById(R.id.option4);
+        nextArrowButton = findViewById(R.id.nextArrowButton);
+        questionLabel = findViewById(R.id.questionLabel);
 
-        // mQuestionLibrary = new QuestionLibrary(moduleNumber);
 
         mQuestionLibraryTest = new QuestionLibrary(moduleNumber, getApplicationContext());
 
 
-        resumeModule="resumeModule"+moduleNumber+".txt";
-        getCorrectString="resumeCorrectAnswers"+moduleNumber+".txt";
-
+        resumeModulefn="resumeModule"+moduleNumber+".txt";
 
         resumeModule();
-        amountGetCorrect=mQuestionLibraryTest.getQuestionAmount();
-
-        //displayQuestions(); //displaying the questions on the option buttons as well as retrieving specific question info
-
 
 
         //creating a dialog for the popup window
         dialog = new Dialog(this);
 
-        // Sets onclick listener for each button to test whether the user clicked the right one
         // Sets onclick listener for each button to test whether the user clicked the right one
         option1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -284,19 +278,13 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             }
         });
 
-        if(moduleNumber==6){
+        if(moduleNumber==6){//Because buildTestArrays only work with the test, this avoids the others
             buildTestArrays();
         }
-
-
-        /*if(moduleNumber==6){
-            test();
-        }*/
 
         testResult.add("Arbitrary Value");
         testResult.clear();
 
-        //fileIo.writeFile("", "testResult.txt", this);
     }
 
     //Displays the questions on the screen as well as fetches the correct answer
@@ -319,7 +307,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
         questionLabel.setText(displayQues);
 
-        if (playvoice == true) {
+        if (playvoice) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 talker.speak(ques, TextToSpeech.QUEUE_FLUSH, null, null);
             } else {
@@ -378,33 +366,17 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     //allows the UI to test and remove buttons if the options are blank
     public boolean testWhetherBlank(int q){
-        /*if(mQuestionLibrary.getChoice(questionNumber,q).equals("")){
-            return true;
-        }*/
-        if(mQuestionLibraryTest.getChoice(questionNumber,q).equals("")){
-            return true;
-        }
-        else{
-            return false;
-        }
-
+        return mQuestionLibraryTest.getChoice(questionNumber,q).equals("");
     }
 
     //fetches the correct question from the QuestionLibrary class
     private String getChoice(int q, int n){
-        //String result = mQuestionLibrary.getChoice(q,n);
-        String result = mQuestionLibraryTest.getChoice(q,n);
-        return result;
+        return mQuestionLibraryTest.getChoice(q,n);
     }
 
     //Testing whether the user chose all possible answers
     private boolean testComplete(){
-        if(amountCorrectComparison == amountCorrect){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return amountCorrectComparison == amountCorrect;
     }
 
     private boolean testFullyComplete(){
@@ -458,7 +430,7 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                 if(testComplete()){
                     questionNumber+=1;//increases questionNumber to switch question
 
-                    showPopup(this.findViewById(android.R.id.content));
+                    showPopup(this.findViewById(android.R.id.content));//displays the explanation popup
                 }
             }
         }
@@ -472,7 +444,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
             }
 
             b.setEnabled(false);
-            amountGetCorrect--;
         }
     }
 
@@ -516,21 +487,22 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
         amountCorrectComparison=0;
     }
 
+    /**
+     * This method displays the popup of the explanation
+     * @param v contentview
+     */
     public void showPopup(View v) {
+        //Creating all the items from the xml layout
         TextView nextButton;
-        TextView explanationLabel;
         TextView explanationText;
         dialog.setContentView(R.layout.custompopup);
 
-        explanationLabel = (TextView) dialog.findViewById(R.id.explanationLabel);
-        nextButton = (TextView) dialog.findViewById(R.id.nextText);
-        explanationText = (TextView) dialog.findViewById(R.id.explanationText);
+        nextButton = dialog.findViewById(R.id.nextText);
+        explanationText = dialog.findViewById(R.id.explanationText);
         explanationText.setText(explanation);
         explanationText.setMovementMethod(new ScrollingMovementMethod());
 
-        showNextArrowButton();
-
-
+        showNextArrowButton();//displays the next arrow button behind the popup
 
         //Switches the question when the next button is pressed
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -548,19 +520,18 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     public void displayCompletionScreen(){
         talker.stop();
         Intent startIntent= new Intent(getApplicationContext(), QuizCompletionActivity.class);
-        startIntent.putExtra("AMOUNT_CORRECT", amountGetCorrect);
         startIntent.putExtra("TOTAL_CORRECT", mQuestionLibraryTest.getQuestionAmount());
         startIntent.putExtra("MODULEID", moduleNumber);
         startActivity(startIntent);
     }
 
+    //Displays the test completion screen
     public void displayTestCompletionScreen(){
         talker.stop();
         Intent startIntent= new Intent(getApplicationContext(), TestCompletionScreen.class);
         startIntent.putStringArrayListExtra("TEST_QUESTION_ARRAY", testQuestionArray);//passing the test arrays to the test completion activity
         startIntent.putStringArrayListExtra("TEST_CORRECT_ANSWER_ARRAY", testCorrectAnswerArray);
         startIntent.putStringArrayListExtra("TEST_RESULT_ARRAY", testResult);
-
         startActivity(startIntent);
     }
 
@@ -568,22 +539,17 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
      * Gets called everytime the questions are displayed to store the question number in their respected resume module txts
      */
     private void writeResume(){
-
-        fileIo.writeFile(questionNumber+"", resumeModule, this);
-        //fileIo.writeFile(amountGetCorrect+"", getCorrectString, this);
+        fileIo.writeFile(questionNumber+"", resumeModulefn, this);
     }
 
     /**
      * Grabs the question number from the respected resume module and sets that as the question number
      */
     private void resumeModule(){
-
-        String line = fileIo.readFromFile(getApplicationContext(), resumeModule);
-        String line2= fileIo.readFromFile(getApplicationContext(), getCorrectString);
+        String line = fileIo.readFromFile(getApplicationContext(), resumeModulefn);
 
         questionNumber=Integer.parseInt(line);
         openingQuestion=questionNumber;
-        amountGetCorrect=Integer.parseInt(line2);
 
     }
 
@@ -652,9 +618,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
                     marker2=1;
                 }
                 talker.stop();
-                //Toast.makeText(QuizMenuActivity.this, "YOU LEFT YOUR APP", Toast.LENGTH_SHORT).show();
-            } else {
-                //Toast.makeText(QuizMenuActivity.this, "YOU SWITCHED ACTIVITIES WITHIN YOUR APP", Toast.LENGTH_SHORT).show();
             }
         }
         super.onPause();

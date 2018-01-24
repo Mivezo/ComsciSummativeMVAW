@@ -35,27 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private void createResumeFiles(){ //creating all the fileio text files for when the app is resumed
         for(int i=0; i<=6; i++){
             fileIo.writeFile("0", "resumeModule"+i+".txt", getApplicationContext());
-            fileIo.writeFile("0", "resumeCorrectAnswers"+i+".txt",getApplicationContext());
         }
         fileIo.writeFile("0;", "testScores.txt", getApplicationContext());
 
-        //Log.d("Test0",fileIo.readFromFile(this,"testScores.txt"));
-      //  fileIo.appendLineFile("1;", "testScores.txt", getApplicationContext());
-        //Log.d("Test1",fileIo.readFromFile(this,"testScores.txt"));
-        //fileIo.appendLineFile("2;", "testScores.txt", getApplicationContext());
-        //Log.d("Test2",fileIo.readFromFile(this,"testScores.txt"));
-       // fileIo.appendLineFile("3;", "testScores.txt", getApplicationContext());
-        //Log.d("Test3",fileIo.readFromFile(this,"testScores.txt"));
-        //fileIo.appendLineFile("4;", "testScores.txt", getApplicationContext());
-        //Log.d("Test4",fileIo.readFromFile(this,"testScores.txt"));
-        //fileIo.appendLineFile("5;", "testScores.txt", getApplicationContext());
-        //fileIo.appendLineFile("6;", "testScores.txt", getApplicationContext());
-        //fileIo.appendLineFile("7;", "testScores.txt", getApplicationContext());
-        //fileIo.appendLineFile("8;", "testScores.txt", getApplicationContext());
-        //fileIo.appendLineFile("9;", "testScores.txt", getApplicationContext());
-        //fileIo.appendLineFile("10;", "testScores.txt", getApplicationContext());
-        //fileIo.appendLineFile("100;", "testScores.txt", getApplicationContext());
-        //Log.d("Test5",fileIo.readFromFile(this,"testScores.txt"));
 
         fileIo.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
         fileIo.writeFile("on", "vibration.txt", getApplicationContext());

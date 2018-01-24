@@ -21,32 +21,26 @@ public class TestResult {
         buildTestResult();
     }
 
-    public void buildTestResult() {
+    private void buildTestResult() {
 
         testResults.add("arbitrary valule");
         testResults.clear();
 
         String strLine = fileIo.readFromFile(appcontext, "testScores.txt");
-        Log.d("strLineOr", strLine);
 
         int count = StringUtils.countMatches(strLine, ";");
 
-        Log.d("Test", count+"");
 
         for(int i=0; i<count; i++){
 
             int colon = strLine.indexOf(";");
 
-            //Log.d("test"+i, colon+"");
 
             String temp = strLine.substring(0,colon);
-
-            Log.d("test"+i, temp);
 
             testResults.add(temp);
 
             strLine = strLine.replaceFirst(temp+";","");
-            Log.d("strLine", strLine);
         }
 
     }
@@ -60,15 +54,6 @@ public class TestResult {
         int tempint = Integer.parseInt(testResults.get(testResults.size()-1));
 
         return tempint;
-    }
-
-    public void test(){
-
-        Log.d("testsize", testResults.size()+"");
-
-        for(int i=0; i<testResults.size(); i++ ){
-            Log.d("Test"+i, testResults.get(i));
-        }
     }
 
     public ArrayList getTestResults(){
