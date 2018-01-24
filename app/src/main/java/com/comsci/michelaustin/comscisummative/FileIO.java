@@ -88,8 +88,7 @@ public class FileIO {
 
             PrintWriter outputStreamWriter = new PrintWriter(context.openFileOutput(fileName, Context.MODE_APPEND));
 
-
-            outputStreamWriter.append(separator);
+            outputStreamWriter.append(separator);//appends line
             outputStreamWriter.write(data);
             outputStreamWriter.flush();
             outputStreamWriter.close();

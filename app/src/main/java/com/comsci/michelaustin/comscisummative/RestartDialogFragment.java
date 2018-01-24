@@ -10,12 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 /**
+ * This class converts an alertdialog into a dialog fragment for use in the menupopup
  * Created by Austin on 2018-01-14.
  */
 
 public class RestartDialogFragment extends DialogFragment {
 
-    int currentModule;
+    int currentModule;//module id of module clicked in menu opening
 
     public RestartDialogFragment() { /*empty*/ }
 
@@ -29,13 +30,14 @@ public class RestartDialogFragment extends DialogFragment {
 
         currentModule = getArguments().getInt("ID");
 
-        //getting proper access to LayoutInflater is the trick. getLayoutInflater is a                   //Function
+        //getting proper access to LayoutInflater is the trick
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         View view = inflater.inflate(R.layout.restart_module_prompt, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(view);
 
+        //sets the functionalities of the alert dialog
         builder
                 .setCancelable(false)
                 .setPositiveButton("YES",
@@ -53,8 +55,6 @@ public class RestartDialogFragment extends DialogFragment {
                                 menupopup.cancel();
                             }
                         });
-        /*builder.setTitle(getActivity().getString(R.string.sysinfo)).setNeutralButton(
-                getActivity().getString(R.string.okay), null);*/
         return builder.create();
     }
 }

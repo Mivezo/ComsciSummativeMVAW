@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/**
+ * This class displays the completion screen
+ */
 public class QuizCompletionActivity extends AppCompatActivity {
 
     private ImageButton menuButton;
     private TextView completionText;
-    private int amountCorrect;
-    private int totalAmount;
     private int moduleID;
     private String completionString;
 
@@ -22,12 +23,10 @@ public class QuizCompletionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz_completion);
 
         menuButton = findViewById(R.id.menuButton);
-        completionText = (TextView) findViewById(R.id.completionText);
+        completionText = findViewById(R.id.completionText);
 
-        amountCorrect = getIntent().getIntExtra("AMOUNT_CORRECT",0);
-        totalAmount = getIntent().getIntExtra("TOTAL_AMOUNT", 0);
         moduleID = getIntent().getIntExtra("MODULEID", 0);
-        //correctAnswerTextView.setText("You got "+amountCorrect+" correct out of "+totalAmount+".");
+
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +41,7 @@ public class QuizCompletionActivity extends AppCompatActivity {
         FileIO.writeFile("0", "resumeModule"+moduleID+".txt", getApplicationContext());//clears the resume file for the module
     }
 
+    //writes different text depending on module
     private void writeCompletionText(){
         switch (moduleID){
             case 1: completionString="Shock and Environment Stresses";

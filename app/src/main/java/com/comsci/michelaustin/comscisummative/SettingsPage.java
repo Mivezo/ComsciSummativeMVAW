@@ -203,6 +203,7 @@ public class SettingsPage extends AppCompatActivity {
         });
     }
 
+    //seekbar for the volume
     private SeekBar.OnSeekBarChangeListener mVolumeControlChangeListener = new SeekBar.OnSeekBarChangeListener() {
 
         @Override
@@ -226,12 +227,17 @@ public class SettingsPage extends AppCompatActivity {
         }
     };
 
+    /**
+     * This method writes data using fileio
+     * @param name data to be input
+     * @param file filename
+     */
     private void writenew(String name, String file) {
         FileIO.writeFile(name, file, this);
     }
 
     @Override
-    protected void onPause() { //on pause of activitt
+    protected void onPause() { //on pause of activity
 
         if (this.isFinishing()) { //if the song is finishing, stop it
             backgroundMusic.stop();

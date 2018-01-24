@@ -8,12 +8,16 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * This class is the popup when the user clicks the test.
+ * It looks like a dialog even though it is an activity.
+ */
 public class TestPopup extends Activity {
 
     TestResult testResult;
     Dialog dialog;
 
-    ListView listView;
+    ListView listView;//listview for displaying past scores
 
 
     @Override
@@ -25,11 +29,12 @@ public class TestPopup extends Activity {
 
         TextView viewScores = findViewById(R.id.viewScores);
 
-        testResult = new TestResult(getApplicationContext());
+        testResult = new TestResult(getApplicationContext());//instantiate object
 
         testResult.buildTestResult();
 
         TextView scoreText = findViewById(R.id.scoreText);
+        //if the user has completed the test once, the user will be able to see past scores
         if(testResult.getArraySize()>1){
             scoreText.setText("Your last score was: "+testResult.getlastResult()+"%");
             viewScores.setVisibility(View.VISIBLE);
@@ -38,14 +43,14 @@ public class TestPopup extends Activity {
             viewScores.setVisibility(View.GONE);
         }
 
-
-
-
+        //When user clicks on viewscores, the user is able to view the popup
+        //dialog which shows the past scores in a listview
         viewScores.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.setContentView(R.layout.view_test_scores);
 
+                //When the user presses ok, the  popup closes
                 TextView okTest = dialog.findViewById(R.id.okTest);
                 okTest.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -56,12 +61,12 @@ public class TestPopup extends Activity {
 
                 listView = dialog.findViewById(R.id.listView);
                 ItemAdapter adapter = new ItemAdapter(getApplicationContext());
-                listView.setAdapter(adapter);
+                listView.setAdapter(adapter);//setting adapter for the listview
                 dialog.show();
             }
         });
 
-
+        //when the user presses next, the test starts
         TextView nextText = findViewById(R.id.nextText);
         nextText.setOnClickListener(new View.OnClickListener() {
             @Override

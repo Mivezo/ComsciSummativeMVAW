@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
             FileIO.writeFile("0", "resumeModule"+i+".txt", getApplicationContext());
         }
         FileIO.writeFile("0;", "testScores.txt", getApplicationContext());
-
-
         FileIO.writeFile("notmuted", "voiceMute.txt", getApplicationContext());
         FileIO.writeFile("on", "vibration.txt", getApplicationContext());
         FileIO.writeFile("1.0", "volume.txt", getApplicationContext());

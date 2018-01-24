@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
@@ -12,12 +11,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/**
+ * This class displays the completion screen with an expandable listview. It also allows
+ * the user to return to the menu after. If the user passsed, they will be able to book a course online.
+ */
 public class TestCompletionScreen extends AppCompatActivity {
 
     ExpandableListView expandableListView;
 
     private TextView passText;
-
 
 
     private ArrayList<String> userResult = new ArrayList<String>();
@@ -43,7 +45,7 @@ public class TestCompletionScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_completion_screen);
 
-        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListView = findViewById(R.id.expandableListView);
 
         testQuestions = getIntent().getStringArrayListExtra("TEST_QUESTION_ARRAY");
         testCorrectAnswers = getIntent().getStringArrayListExtra("TEST_CORRECT_ANSWER_ARRAY");
@@ -51,28 +53,28 @@ public class TestCompletionScreen extends AppCompatActivity {
         userResult = getIntent().getStringArrayListExtra("TEST_RESULT_ARRAY");
         userResultS = getIntent().getStringArrayListExtra("TEST_RESULT_ARRAY");
 
-        questionRight=20;
+        questionRight=20;//gets subtracted everytime user gets something wrong
 
-        //buildTestResult();
-        testAnswer();//Gen
+        testAnswer();
         testIfPassed();
 
         buildListViewChild();
 
         Button courseText = findViewById(R.id.courseButton);
 
+        //Depending on whether the user passed or failed, the text displayed will be different
         if(pass){
             courseText.setVisibility(View.VISIBLE);
-
             verdict = "PASSED!";
         }else{
             courseText.setVisibility(View.GONE);
             verdict = "FAILED!";
         }
 
-        passText = (TextView) findViewById(R.id.passText);
+        passText = findViewById(R.id.passText);
         passText.setText("You have completed the test!\n Your percentage was "+passPercent+".\n"+"Verdict: "+verdict);
 
+        //When user clicks the button, takes them to lifeguard link
         courseText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +86,7 @@ public class TestCompletionScreen extends AppCompatActivity {
         });
 
 
+        //Returns back to module menu
         menuButton = findViewById(R.id.menuButton);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +106,6 @@ public class TestCompletionScreen extends AppCompatActivity {
     //Added the score on to the previous test
     private void buildTestResult(){
         FileIO.appendLineFile(passPercent+";", "testScores.txt", this);
-        Log.d("updated", FileIO.readFromFile(this,"testScores.txt"));
     }
 
     /**
@@ -152,12 +154,7 @@ public class TestCompletionScreen extends AppCompatActivity {
 
     //Returns true or false for each question specifically for the expandable list view adapter
     public static boolean isCorrect(int i){
-        if (userResultS.get(i).equals(testCorrectAnswersS.get(i))){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return userResultS.get(i).equals(testCorrectAnswersS.get(i));
     }
 
     //On back press goes to the menu opening class

@@ -484,21 +484,32 @@ public class ModuleMenu extends AppCompatActivity{
 
     }
 
+    /**
+     * This method runs the animation when the dialog is backpressed
+     */
     private void dialogBackPressed(){
         reverseButtonAnimation(buttons.get(currentModule), textViews.get(currentModule) );
     }
 
+    /**
+     * This method dismisses the menupopup
+     */
     private void animback(){
         menupopup.dismiss();
         dialogBackPressed();
     }
 
+    /**
+     * This method reads a line from the resumemodule txt file to determine whether a module is resumeable
+     * or not
+     */
     private void resumeModule(){
 
         int temp;
         String line = FileIO.readFromFile(getApplicationContext(), resumeModule);
         temp=Integer.parseInt(line);
 
+        //
         if(temp!=0){
             resumeState=true;
         }else{
@@ -506,6 +517,10 @@ public class ModuleMenu extends AppCompatActivity{
         }
     }
 
+    /**
+     * This method shows the menu popup dialogfragment
+     * @param dialog dialogfragment
+     */
     private void showDialog(DialogFragment dialog) {
         dialog.show(getFragmentManager(),"tag");
     }

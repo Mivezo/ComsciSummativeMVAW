@@ -15,9 +15,9 @@ import java.util.ArrayList;
 
 public class ItemAdapter extends BaseAdapter{
 
-    ArrayList<String> testResults = new ArrayList<>();
+    private ArrayList<String> testResults = new ArrayList<>();//arraylist for past test results
     Context context;
-    TestResult testResult;
+    private TestResult testResult;//object for calling the test results
 
     public ItemAdapter(Context c){
         this.context = c;
@@ -46,6 +46,7 @@ public class ItemAdapter extends BaseAdapter{
     public View getView(int i, View view, ViewGroup viewGroup) {
         TextView txtView = new TextView(context);
 
+        //depending on whether the result is above or below 80%, the text is displayed green or red
         if(Integer.parseInt(testResults.get(i))>=80){
             txtView.setTextColor(Color.GREEN);
         }

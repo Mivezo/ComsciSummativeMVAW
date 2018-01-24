@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * This Class deals with the quiz portion of the app
+ * This Class deals with the quiz portion of the app. It plays background music, text to speech etc
  * Authors:Austin Wu, Michel Vezarov
  * Created November 2017
  */
@@ -44,7 +44,6 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Button option3;
     private Button option4;
     private ImageButton nextArrowButton;//next arrow button to switch question to next one
-    /*private String mAnswer;*/
     private int questionNumber=0;
     private int amountCorrect;//integer needed if there are multiple answers
     private int amountCorrectComparison=0;//integer to compare
@@ -65,8 +64,8 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
 
     private float userVolume;
     PowerManager pm;
-    int marker;
-    int marker2;
+    private int marker;//markers used in onpause/onstop
+    private int marker2;
 
     private ProgressBar testProgress;//progressbar for the test
 
@@ -81,8 +80,10 @@ public class QuizMenuActivity extends AppCompatActivity implements TextToSpeech.
     private Dialog dialog;//dialog for explanation popup
 
 
+    //Array for the correct answers
     private ArrayList answerArray = new ArrayList();
 
+    //test arrays for passing into copmletion screen
     private ArrayList<String> testCorrectAnswerArray = new ArrayList<>();
     private ArrayList<String> testQuestionArray = new ArrayList<>();
     private ArrayList<String> testResult = new ArrayList<>();

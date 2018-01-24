@@ -7,13 +7,14 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 
 /**
+ * This class handles the test results when
  * Created by Austin on 2018-01-14.
  */
 
 public class TestResult {
 
     private Context appcontext;
-    private ArrayList<String> testResults = new ArrayList();
+    private ArrayList<String> testResults = new ArrayList();//arraylist of results
 
     public TestResult(Context c){
         appcontext = c;
@@ -22,7 +23,7 @@ public class TestResult {
 
     public void buildTestResult() {
 
-        testResults.add("arbitrary valule");
+        testResults.add("arbitrary valule");//arbitrary value to be cleared to avoid null pointer
         testResults.clear();
 
         String strLine = FileIO.readFromFile(appcontext, "testScores.txt");
@@ -30,9 +31,8 @@ public class TestResult {
         int count = StringUtils.countMatches(strLine, ";");
 
 
-        for(int i=0; i<count; i++){
+        for(int i=0; i<count; i++){//based on the amount of colons in the line, grabs each substring and stores it into array
             int colon = strLine.indexOf(";");
-
 
             String temp = strLine.substring(0,colon);
 
@@ -43,17 +43,19 @@ public class TestResult {
 
     }
 
+    //Returns amount of past test scores
     public int getArraySize(){
         return testResults.size();
     }
 
+    //returns the previous test result
     public int getlastResult(){
 
-        int tempint = Integer.parseInt(testResults.get(testResults.size()-1));
+        return Integer.parseInt(testResults.get(testResults.size()-1));
 
-        return tempint;
     }
 
+    //returns the test results array
     public ArrayList getTestResults(){
         return testResults;
     }
